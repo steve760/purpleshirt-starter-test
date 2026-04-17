@@ -8,61 +8,26 @@
     {
       "name": "Lorem Primus",
       "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur non nulla sit amet nisl tempus.",
-      "image": "/assets/IMG_1960.JPG",
-      "imageAlt": "Lorem Primus persona",
-      "struggles": [
-        { "text": "Lorem ipsum dolor sit amet consectetur." },
-        { "text": "Adipiscing elit sed do eiusmod tempor incididunt." },
-        { "text": "Ut labore et dolore magna aliqua." }
-      ],
-      "opportunities": [
-        { "text": "Curabitur non nulla sit amet nisl." },
-        { "text": "Tempus convallis quis ac lectus." }
-      ]
+      "image": "public/assets/P1.png",
+      "imageAlt": "Lorem Primus persona"
     },
     {
       "name": "Ipsum Secundus",
       "description": "Vivamus suscipit tortor eget felis porttitor volutpat. Quisque velit nisi, pretium ut lacinia.",
-      "image": "/assets/IMG_1960.JPG",
-      "imageAlt": "Ipsum Secundus persona",
-      "struggles": [
-        { "text": "Vivamus suscipit tortor eget felis porttitor." },
-        { "text": "Quisque velit nisi, pretium ut lacinia." }
-      ],
-      "opportunities": [
-        { "text": "Elementum id enim — pellentesque in ipsum." },
-        { "text": "Donec rutrum congue leo eget malesuada." },
-        { "text": "Nulla quis lorem ut libero feugiat." }
-      ]
+      "image": "public/assets/P2.png",
+      "imageAlt": "Ipsum Secundus persona"
     },
     {
       "name": "Dolor Tertius",
       "description": "Quisque velit nisi, pretium ut lacinia in, elementum id enim. Donec rutrum congue leo eget malesuada.",
-      "image": "/assets/IMG_1960.JPG",
-      "imageAlt": "Dolor Tertius persona",
-      "struggles": [
-        { "text": "Donec rutrum congue leo eget malesuada." },
-        { "text": "Nulla porttitor accumsan tincidunt." }
-      ],
-      "opportunities": [
-        { "text": "Quisque velit nisi pretium ut lacinia." },
-        { "text": "Cras ultricies ligula sed magna dictum." }
-      ]
+      "image": "public/assets/P3.png",
+      "imageAlt": "Dolor Tertius persona"
     },
     {
       "name": "Amet Quartus",
       "description": "Donec rutrum congue leo eget malesuada. Nulla porttitor accumsan tincidunt. Curabitur non nulla.",
-      "image": "/assets/IMG_1960.JPG",
-      "imageAlt": "Amet Quartus persona",
-      "struggles": [
-        { "text": "Vestibulum ante ipsum primis in faucibus." },
-        { "text": "Orci luctus et ultrices posuere cubilia." },
-        { "text": "Curae nullam quis ante." }
-      ],
-      "opportunities": [
-        { "text": "Etiam sit amet orci eget eros." },
-        { "text": "Faucibus tincidunt — duis leo." }
-      ]
+      "image": "public/assets/P4.png",
+      "imageAlt": "Amet Quartus persona"
     }
   ]
 }
