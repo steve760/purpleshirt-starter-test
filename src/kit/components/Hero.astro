@@ -1,0 +1,56 @@
+---
+import type { HeroProps } from '../schemas/hero';
+
+interface Props extends HeroProps {}
+
+const { eyebrow, headline, lede, stats, ctas = [] } = Astro.props;
+
+/**
+ * Parse headline: text wrapped in **double asterisks** renders
+ * in the accent colour. E.g. "The movement has spoken.\n**Clubs want a hybrid.**"
+ */
+function parseHeadline(raw: string): string {
+  return raw
+    .replace(/\*\*(.+?)\*\*/g, '<span class="ps-accent">$1</span>')
+    .replace(/\n/g, '<br/>');
+}
+---
+
+<section class="ps-hero">
+  <div class="ps-hero-bg" aria-hidden="true"></div>
+  <div class="ps-hero-inner">
+    <div class="ps-eyebrow">{eyebrow}</div>
+    <h1 set:html={parseHeadline(headline)} />
+    <p class="ps-lede">{lede}</p>
+
+    <div class="ps-hero-stats">
+      {stats.map((s) => (
+        <div class="ps-stat">
+          <div class="ps-stat-head">
+            <div class="ps-stat-num" data-count={s.value}>0</div>
+            {s.unit && <div class="ps-stat-unit">{s.unit}</div>}
+          </div>
+          <div class="ps-stat-label">{s.label}</div>
+        </div>
+      ))}
+    </div>
+
+    {ctas.length > 0 && (
+      <div class="ps-hero-cta">
+        {ctas.map((c) => (
+          <a
+            class={`ps-btn ${c.variant === 'ghost' ? 'ps-btn-ghost' : 'ps-btn-primary'}`}
+            href={c.href}
+          >
+            {c.label}
+          </a>
+        ))}
+      </div>
+    )}
+  </div>
+</section>
+
+<script>
+  import { initCounters } from '../lib/counter';
+  initCounters();
+</script>

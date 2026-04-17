@@ -1,0 +1,35 @@
+{
+  "type": "bar-chart",
+  "variant": "auto",
+  "sectionNumber": "",
+  "heading": "Analisis Responsorum",
+  "description": "<p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident sunt in culpa qui officia deserunt mollit anim id est laborum sed ut perspiciatis unde omnis iste natus error.</p>",
+  "unit": "%",
+  "bars": [
+    {
+      "label": "Classis Prima",
+      "value": 85,
+      "color": "#e63946"
+    },
+    {
+      "label": "Classis Secunda",
+      "value": 72,
+      "color": "#f4a261"
+    },
+    {
+      "label": "Classis Tertia",
+      "value": 58,
+      "color": "#2a9d8f"
+    },
+    {
+      "label": "Classis Quarta",
+      "value": 41,
+      "color": "#457b9d"
+    },
+    {
+      "label": "Classis Quinta",
+      "value": 12,
+      "color": "#e63946"
+    }
+  ]
+}

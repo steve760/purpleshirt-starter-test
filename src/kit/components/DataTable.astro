@@ -1,0 +1,41 @@
+---
+interface Props {
+  sectionNumber?: string;
+  heading?: string;
+  subtitle?: string;
+  headers: string[];
+  rows: string[][];
+  dark?: boolean;
+}
+
+const { sectionNumber, heading, subtitle, headers, rows, dark = false } = Astro.props;
+---
+
+<section class:list={['ps-section', 'ps-table-section', { 'ps-table-dark': dark }]}>
+  {(heading || sectionNumber) && (
+    <div class="ps-table-header">
+      {sectionNumber && <div class="ps-table-section-num">{sectionNumber}</div>}
+      {heading && <h2>{heading}</h2>}
+    </div>
+  )}
+  {subtitle && <p class="ps-table-subtitle">{subtitle}</p>}
+
+  <div class="ps-table-wrap">
+    <table class="ps-table">
+      <thead>
+        <tr>
+          {headers.map((h) => <th>{h}</th>)}
+        </tr>
+      </thead>
+      <tbody>
+        {rows.map((row) => (
+          <tr>
+            {row.map((cell, i) => (
+              <td set:html={cell} />
+            ))}
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+</section>

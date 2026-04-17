@@ -1,0 +1,36 @@
+---
+interface ListItem {
+  title: string;
+  description: string;
+}
+
+interface Props {
+  sectionNumber?: string;
+  heading: string;
+  subtitle?: string;
+  items: ListItem[];
+  dark?: boolean;
+}
+
+const { sectionNumber, heading, subtitle, items, dark = false } = Astro.props;
+---
+
+<section class:list={['ps-section', 'ps-numlist-section', { 'ps-numlist-dark': dark }]}>
+  <div class="ps-numlist-header">
+    {sectionNumber && <div class="ps-numlist-section-num">{sectionNumber}</div>}
+    <h2>{heading}</h2>
+  </div>
+  {subtitle && <p class="ps-numlist-subtitle">{subtitle}</p>}
+
+  <ol class="ps-numlist">
+    {items.map((item, i) => (
+      <li class="ps-numlist-item">
+        <div class="ps-numlist-num">{String(i + 1).padStart(2, '0')}</div>
+        <div class="ps-numlist-content">
+          <h3>{item.title}</h3>
+          <p>{item.description}</p>
+        </div>
+      </li>
+    ))}
+  </ol>
+</section>

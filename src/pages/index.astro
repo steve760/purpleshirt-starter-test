@@ -1,0 +1,93 @@
+---
+/**
+ * Main deliverable page.
+ * Reads section JSON files from src/content/sections/ in filename order
+ * and renders each through SectionRenderer.
+ *
+ * In dev mode, includes the editor overlay for in-page editing.
+ */
+import '../kit/styles/tokens.css';
+import '../kit/styles/base.css';
+import '../kit/styles/components/hero.css';
+import '../kit/styles/components/voice-grid.css';
+import '../kit/styles/components/key-insights.css';
+import '../kit/styles/components/text-block.css';
+import '../kit/styles/components/numbered-list.css';
+import '../kit/styles/components/faq.css';
+import '../kit/styles/components/pie-chart.css';
+import '../kit/styles/components/data-table.css';
+import '../kit/styles/components/feature-image.css';
+import '../kit/styles/components/carousel.css';
+import '../kit/styles/components/image-carousel.css';
+import '../kit/styles/components/bar-chart.css';
+import '../kit/styles/components/quote-carousel.css';
+import '../kit/styles/components/header.css';
+import '../kit/styles/components/flip-cards.css';
+import '../kit/styles/components/quote-block.css';
+import '../kit/styles/components/customer-journey.css';
+import '../kit/styles/components/customer-type.css';
+import '../kit/styles/components/footer.css';
+import '../kit/styles/components/floating-nav.css';
+import '../themes/theme.css';
+import SectionRenderer from '../layouts/SectionRenderer.astro';
+import DevEditor from '../components/DevEditor.astro';
+import FloatingNav from '../components/FloatingNav.astro';
+
+// Import all section JSON files, sorted by filename
+const sectionFiles = import.meta.glob('../content/sections/*.json', { eager: true });
+const selfStyled = ['header', 'hero', 'hero-simple', 'footer'];
+let altIndex = 0;
+const sections = Object.entries(sectionFiles)
+  .sort(([a], [b]) => a.localeCompare(b))
+  .map(([path, mod]: [string, any]) => {
+    const content = mod.default;
+    const ai = selfStyled.includes(content.type) ? -1 : altIndex++;
+    return { file: path.split('/').pop()!, content, altIndex: ai };
+  });
+
+const isDev = import.meta.env.DEV;
+
+function labelFor(content: any): string {
+  if (content.heading && String(content.heading).trim()) return String(content.heading);
+  if (content.eyebrow && String(content.eyebrow).trim()) return String(content.eyebrow);
+  const type: string = content.type ?? 'section';
+  return type
+    .split('-')
+    .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+    .join(' ');
+}
+
+const navItems = sections
+  .filter(({ content }) => content.type !== 'footer')
+  .map(({ file, content }) => ({
+    id: `ps-${file.replace('.json', '')}`,
+    label: labelFor(content),
+  }));
+---
+
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Deliverable</title>
+</head>
+<body>
+  <script>
+    import '../kit/lib/animations.ts';
+  </script>
+  <DevEditor />
+  <FloatingNav items={navItems} />
+
+  {sections.map(({ file, content, altIndex: ai }) => (
+    <SectionRenderer section={content} file={file} altIndex={ai} />
+  ))}
+
+  {isDev && (
+    <div class="ps-editor-add-bar">
+      <button class="ps-editor-add-btn">+ Add section</button>
+      <button class="ps-editor-theme-btn">Brand colours</button>
+    </div>
+  )}
+
+</body>
+</html>

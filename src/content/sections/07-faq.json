@@ -1,0 +1,19 @@
+{
+  "type": "faq",
+  "variant": "auto",
+  "heading": "Quaestiones Frequenter Propositae",
+  "items": [
+    {
+      "question": "Quid est lorem ipsum dolor sit?",
+      "answer": "<p>Feugiat in ante metus dictum at tempor commodo ullamcorper a lacus vestibulum sed arcu non odio.</p>"
+    },
+    {
+      "question": "Quomodo adipiscing elit pellentesque?",
+      "answer": "<p>Morbi tincidunt ornare massa eget egestas purus viverra accumsan in nisl nisi scelerisque eu.</p>"
+    },
+    {
+      "question": "Ubi consequat interdum varius sit?",
+      "answer": "<p>Risus commodo viverra maecenas accumsan lacus vel facilisis volutpat est velit egestas dui id ornare.</p>"
+    }
+  ]
+}

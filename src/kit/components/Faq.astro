@@ -1,0 +1,33 @@
+---
+interface FaqItem {
+  question: string;
+  answer: string;
+}
+
+interface Props {
+  sectionNumber?: string;
+  heading: string;
+  subtitle?: string;
+  items: FaqItem[];
+  dark?: boolean;
+}
+
+const { sectionNumber, heading, subtitle, items, dark = false } = Astro.props;
+---
+
+<section class:list={['ps-section', 'ps-faq-section', { 'ps-faq-dark': dark }]}>
+  <div class="ps-faq-header">
+    {sectionNumber && <div class="ps-faq-section-num">{sectionNumber}</div>}
+    <h2>{heading}</h2>
+  </div>
+  {subtitle && <p class="ps-faq-subtitle">{subtitle}</p>}
+
+  <div class="ps-faq-list">
+    {items.map((item) => (
+      <details class="ps-faq-item">
+        <summary class="ps-faq-question">{item.question}</summary>
+        <div class="ps-faq-answer" set:html={item.answer} />
+      </details>
+    ))}
+  </div>
+</section>

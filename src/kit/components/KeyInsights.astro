@@ -1,0 +1,34 @@
+---
+interface Insight {
+  title: string;
+  text: string;
+}
+
+interface Props {
+  sectionNumber?: string;
+  heading: string;
+  subtitle?: string;
+  insights: Insight[];
+  dark?: boolean;
+}
+
+const { sectionNumber, heading, subtitle, insights, dark = false } = Astro.props;
+---
+
+<section class:list={['ps-section', 'ps-insights-section', { 'ps-insights-dark': dark }]}>
+  <div class="ps-insights-header">
+    {sectionNumber && <div class="ps-insights-num">{sectionNumber}</div>}
+    <h2>{heading}</h2>
+  </div>
+  {subtitle && <p class="ps-insights-subtitle">{subtitle}</p>}
+
+  <div class="ps-insights-grid">
+    {insights.map((insight, i) => (
+      <article class="ps-insights-card">
+        <div class="ps-insights-card-num">{i + 1}</div>
+        <h3>{insight.title}</h3>
+        <p>{insight.text}</p>
+      </article>
+    ))}
+  </div>
+</section>

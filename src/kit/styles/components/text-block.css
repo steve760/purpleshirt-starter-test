@@ -1,0 +1,92 @@
+/* ==========================================================
+   TextBlock component — title + two-column text
+   ========================================================== */
+
+.ps-textblock-section {
+  padding: 96px max(28px, calc((100% - var(--maxw)) / 2));
+  background: var(--surface);
+}
+
+.ps-textblock-header {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-bottom: 12px;
+}
+
+.ps-textblock-num {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: clamp(28px, 3.2vw, 44px);
+  line-height: 1;
+  letter-spacing: 0.02em;
+  color: var(--text-on-dark);
+  background: var(--brand-primary);
+  padding: 10px 14px 8px;
+  border-radius: 10px;
+}
+
+.ps-textblock-header h2 {
+  font-size: clamp(32px, 4vw, 56px);
+  color: var(--brand-primary);
+  margin: 0;
+}
+
+.ps-textblock-lead {
+  font-size: 22px;
+  line-height: 1.4;
+  color: var(--brand-primary);
+  font-weight: 500;
+  margin: 0 0 28px;
+  max-width: 80ch;
+}
+
+.ps-textblock-columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+}
+
+.ps-textblock-col {
+  font-size: 16px;
+  color: var(--text);
+  line-height: 1.6;
+}
+
+.ps-textblock-col p {
+  margin: 0 0 16px;
+}
+
+.ps-textblock-col p:last-child {
+  margin-bottom: 0;
+}
+
+/* ---- Dark variant ---- */
+.ps-textblock-dark {
+  background: linear-gradient(180deg, var(--brand-primary-deep) 0%, var(--brand-primary) 100%);
+}
+
+.ps-textblock-dark .ps-textblock-header h2 {
+  color: var(--text-on-dark);
+}
+
+.ps-textblock-dark .ps-textblock-num {
+  background: var(--brand-accent-secondary);
+  color: var(--brand-primary-deep);
+}
+
+.ps-textblock-dark .ps-textblock-lead {
+  color: var(--text-on-dark);
+}
+
+.ps-textblock-dark .ps-textblock-col {
+  color: var(--text-on-dark-muted);
+}
+
+@media (max-width: 600px) {
+  .ps-textblock-section { padding: 64px 18px; }
+  .ps-textblock-header { flex-wrap: wrap; gap: 8px; }
+  .ps-textblock-header h2 { font-size: 32px; width: 100%; }
+  .ps-textblock-lead { font-size: 18px; }
+  .ps-textblock-columns { grid-template-columns: 1fr; gap: 24px; }
+}

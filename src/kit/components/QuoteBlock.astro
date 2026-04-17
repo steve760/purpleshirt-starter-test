@@ -1,0 +1,39 @@
+---
+interface Props {
+  sectionNumber?: string;
+  eyebrow?: string;
+  heading?: string;
+  quote: string;
+  title?: string;
+  subtitle?: string;
+  dark?: boolean;
+}
+
+const { sectionNumber, eyebrow, heading, quote, title, subtitle, dark = false } = Astro.props;
+---
+
+<section class:list={['ps-section', 'ps-qblock-section', { 'ps-qblock-dark': dark }]}>
+  <div class="ps-qblock-inner">
+    {heading && (
+      <div class="ps-qblock-header">
+        {sectionNumber && <div class="ps-qblock-section-num">{sectionNumber}</div>}
+        <h2>{heading}</h2>
+      </div>
+    )}
+
+    <figure class="ps-qblock-figure">
+      {eyebrow && <div class="ps-qblock-eyebrow">{eyebrow}</div>}
+      <blockquote class="ps-qblock-quote">
+        <span class="ps-qblock-mark ps-qblock-mark-open" aria-hidden="true">&ldquo;</span>
+        <span class="ps-qblock-text">{quote}</span>
+        <span class="ps-qblock-mark ps-qblock-mark-close" aria-hidden="true">&rdquo;</span>
+      </blockquote>
+      {(title || subtitle) && (
+        <figcaption class="ps-qblock-attribution">
+          {title && <span class="ps-qblock-title">{title}</span>}
+          {subtitle && <span class="ps-qblock-subtitle">{subtitle}</span>}
+        </figcaption>
+      )}
+    </figure>
+  </div>
+</section>

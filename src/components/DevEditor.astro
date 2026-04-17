@@ -1,0 +1,16 @@
+---
+/**
+ * Dev-mode editor wrapper.
+ * Only renders editor UI when running `astro dev`.
+ * In production builds, this component is a no-op.
+ */
+const isDev = import.meta.env.DEV;
+---
+
+{isDev && (
+  <Fragment>
+    <script>
+      import '../components/editor.ts';
+    </script>
+  </Fragment>
+)}

@@ -1,0 +1,80 @@
+---
+interface CarouselItem {
+  title: string;
+  description: string;
+}
+
+interface Props {
+  sectionNumber?: string;
+  heading: string;
+  subtitle?: string;
+  items: CarouselItem[];
+  dark?: boolean;
+}
+
+const { sectionNumber, heading, subtitle, items, dark = false } = Astro.props;
+const id = `carousel-${Math.random().toString(36).substring(2, 8)}`;
+---
+
+<section class:list={['ps-section', 'ps-carousel-section', { 'ps-carousel-dark': dark }]} data-carousel-id={id}>
+  <div class="ps-carousel-header">
+    {sectionNumber && <div class="ps-carousel-section-num">{sectionNumber}</div>}
+    <h2>{heading}</h2>
+  </div>
+  {subtitle && <p class="ps-carousel-subtitle">{subtitle}</p>}
+
+  <div class="ps-carousel-container">
+    <div class="ps-carousel-track" id={id}>
+      {items.map((item, i) => (
+        <div class="ps-carousel-card" data-index={i}>
+          <div class="ps-carousel-card-num">{String(i + 1).padStart(2, '0')}</div>
+          <h3>{item.title}</h3>
+          <p set:html={item.description} />
+        </div>
+      ))}
+    </div>
+  </div>
+
+  <div class="ps-carousel-controls">
+    <button class="ps-carousel-btn ps-carousel-prev" data-target={id} aria-label="Previous">&larr;</button>
+    <span class="ps-carousel-counter">
+      <span class="ps-carousel-current">1</span> / {items.length}
+    </span>
+    <button class="ps-carousel-btn ps-carousel-next" data-target={id} aria-label="Next">&rarr;</button>
+  </div>
+</section>
+
+<script>
+  function initCarousels() {
+    document.querySelectorAll<HTMLElement>('[data-carousel-id]').forEach((section) => {
+      const id = section.dataset.carouselId!;
+      const track = document.getElementById(id) as HTMLElement;
+      if (!track) return;
+
+      const cards = track.querySelectorAll<HTMLElement>('.ps-carousel-card');
+      const prevBtn = section.querySelector('.ps-carousel-prev') as HTMLButtonElement;
+      const nextBtn = section.querySelector('.ps-carousel-next') as HTMLButtonElement;
+      const counter = section.querySelector('.ps-carousel-current') as HTMLElement;
+      let current = 0;
+
+      function goTo(index: number) {
+        current = Math.max(0, Math.min(index, cards.length - 1));
+        const card = cards[current];
+        track.scrollTo({ left: card.offsetLeft - track.offsetLeft, behavior: 'smooth' });
+        counter.textContent = String(current + 1);
+        prevBtn.disabled = current === 0;
+        nextBtn.disabled = current === cards.length - 1;
+      }
+
+      prevBtn.addEventListener('click', () => goTo(current - 1));
+      nextBtn.addEventListener('click', () => goTo(current + 1));
+      goTo(0);
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initCarousels);
+  } else {
+    initCarousels();
+  }
+</script>

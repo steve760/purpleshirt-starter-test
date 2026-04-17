@@ -1,0 +1,170 @@
+---
+interface Phase {
+  title: string;
+  description?: string;
+}
+
+interface Props {
+  sectionNumber?: string;
+  heading?: string;
+  subtitle?: string;
+  phases: Phase[];
+  dark?: boolean;
+}
+
+const { sectionNumber, heading, subtitle, phases, dark = false } = Astro.props;
+const clipped = phases.slice(0, 6);
+const n = clipped.length;
+const id = `journey-${Math.random().toString(36).substring(2, 8)}`;
+
+// Staircase rise per "unit" and dot size. Each step chooses a non-integer
+// multiplier so segments between dots have different slopes — no single straight line.
+const stepRisePx = 40;
+const dotDiameterPx = 64;
+// Non-linear offset multipliers — overall ascending, but each segment has a
+// different rise, creating a "walked" staircase rather than a ruler.
+const offsetLadders: Record<number, number[]> = {
+  1: [0],
+  2: [0, 1.2],
+  3: [0, 1.2, 2.1],
+  4: [0, 1.0, 2.2, 3.0],
+  5: [0, 0.9, 2.0, 2.7, 3.8],
+  6: [0, 0.9, 1.6, 2.6, 3.2, 4.2],
+};
+const offsets = offsetLadders[n] ?? Array.from({ length: n }, (_, i) => i);
+const maxOffset = offsets[offsets.length - 1];
+const trackHeightPx = Math.max(260, Math.ceil(maxOffset * stepRisePx) + dotDiameterPx + 80);
+---
+
+<section class:list={['ps-section', 'ps-journey-section', { 'ps-journey-dark': dark }]}>
+  {(heading || subtitle) && (
+    <div class="ps-journey-header">
+      {sectionNumber && <div class="ps-journey-section-num">{sectionNumber}</div>}
+      <div>
+        {heading && <h2>{heading}</h2>}
+        {subtitle && <p class="ps-journey-subtitle">{subtitle}</p>}
+      </div>
+    </div>
+  )}
+
+  <div class="ps-journey-track" data-journey-id={id} style={`--n:${n};--rise:${stepRisePx}px;--dot:${dotDiameterPx}px;min-height:${trackHeightPx}px;`}>
+    <svg class="ps-journey-line" aria-hidden="true" preserveAspectRatio="none">
+      <polyline points="" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-dasharray="6 6" />
+    </svg>
+
+    {clipped.map((phase, i) => (
+      <div class="ps-journey-step" style={`--i:${i};--offset:${offsets[i]};`}>
+        <div class="ps-journey-label">
+          <div class="ps-journey-phase-num">Phase {String(i + 1).padStart(2, '0')}</div>
+          <div class="ps-journey-title">{phase.title}</div>
+          {phase.description && <p class="ps-journey-desc">{phase.description}</p>}
+        </div>
+        <div class="ps-journey-dot">
+          <span class="ps-journey-dot-num">{i + 1}</span>
+        </div>
+      </div>
+    ))}
+  </div>
+</section>
+
+<script>
+  /**
+   * Compute polyline points using the dots' layout positions (offsetTop/offsetLeft)
+   * so the line is not affected by the reveal animation's CSS transform.
+   * The resulting line passes through the centre of each dot in its settled position.
+   */
+  function cumulativeOffset(el: HTMLElement, ancestor: HTMLElement) {
+    let top = 0;
+    let left = 0;
+    let cur: HTMLElement | null = el;
+    while (cur && cur !== ancestor) {
+      top += cur.offsetTop;
+      left += cur.offsetLeft;
+      const next = cur.offsetParent as HTMLElement | null;
+      if (!next || next === cur) break;
+      cur = next;
+    }
+    return { top, left };
+  }
+
+  function drawJourneyLines(track: HTMLElement) {
+    const dots = Array.from(track.querySelectorAll<HTMLElement>('.ps-journey-dot'));
+    const svg = track.querySelector<SVGSVGElement>('.ps-journey-line');
+    const poly = svg?.querySelector<SVGPolylineElement>('polyline');
+    if (!svg || !poly || dots.length < 2) return;
+
+    const width = track.clientWidth;
+    const height = track.clientHeight;
+    svg.setAttribute('viewBox', `0 0 ${width} ${height}`);
+    svg.setAttribute('width', String(width));
+    svg.setAttribute('height', String(height));
+
+    const points = dots
+      .map((dot) => {
+        const { top, left } = cumulativeOffset(dot, track);
+        const cx = left + dot.offsetWidth / 2;
+        const cy = top + dot.offsetHeight / 2;
+        return `${cx.toFixed(1)},${cy.toFixed(1)}`;
+      })
+      .join(' ');
+    poly.setAttribute('points', points);
+  }
+
+  /**
+   * Cascade the steps in as the track enters the viewport. The dashed line
+   * progresses from 0 to 1 in the same cadence via --progress on the track.
+   */
+  function observeJourney(track: HTMLElement) {
+    const steps = Array.from(track.querySelectorAll<HTMLElement>('.ps-journey-step'));
+    const stepDelayMs = 160;
+
+    const reveal = () => {
+      steps.forEach((step, i) => {
+        setTimeout(() => step.classList.add('ps-journey-step-in'), i * stepDelayMs);
+      });
+      // Mark the track as revealed for the dashed-line animation.
+      requestAnimationFrame(() => track.classList.add('ps-journey-revealed'));
+    };
+
+    if (typeof IntersectionObserver === 'undefined') {
+      reveal();
+      return;
+    }
+
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            reveal();
+            io.disconnect();
+          }
+        });
+      },
+      { threshold: 0.25 }
+    );
+    io.observe(track);
+  }
+
+  function initJourneys() {
+    document.querySelectorAll<HTMLElement>('[data-journey-id]').forEach((track) => {
+      drawJourneyLines(track);
+      observeJourney(track);
+    });
+  }
+
+  let raf = 0;
+  function scheduleRedraw() {
+    cancelAnimationFrame(raf);
+    raf = requestAnimationFrame(() => {
+      document.querySelectorAll<HTMLElement>('[data-journey-id]').forEach(drawJourneyLines);
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initJourneys);
+  } else {
+    initJourneys();
+  }
+  window.addEventListener('resize', scheduleRedraw);
+  window.addEventListener('load', scheduleRedraw);
+</script>

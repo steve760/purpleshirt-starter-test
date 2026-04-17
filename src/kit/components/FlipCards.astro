@@ -1,0 +1,137 @@
+---
+interface Card {
+  title: string;
+  description: string;
+  image: string;
+  imageAlt?: string;
+}
+
+interface Props {
+  sectionNumber?: string;
+  heading: string;
+  subtitle?: string;
+  cardsPerPage?: number;
+  cards: Card[];
+  dark?: boolean;
+}
+
+const {
+  sectionNumber,
+  heading,
+  subtitle,
+  cardsPerPage = 3,
+  cards,
+  dark = false,
+} = Astro.props;
+
+const id = `flipcards-${Math.random().toString(36).substring(2, 8)}`;
+const totalPages = Math.ceil(cards.length / cardsPerPage);
+
+// Deterministic per-card float params so server & client match
+function floatParams(i: number) {
+  const dur = 4 + ((i * 37) % 40) / 10; // 4.0s–8.0s
+  const delay = ((i * 53) % 40) / 10;   // 0s–4s
+  const amp = 18 + ((i * 71) % 16);     // 18px–33px
+  return { dur, delay, amp };
+}
+---
+
+<section class:list={['ps-section', 'ps-flipcards-section', { 'ps-flipcards-dark': dark }]} data-flipcards-id={id}>
+  <div class="ps-flipcards-header">
+    {sectionNumber && <div class="ps-flipcards-section-num">{sectionNumber}</div>}
+    <h2>{heading}</h2>
+  </div>
+  {subtitle && <p class="ps-flipcards-subtitle">{subtitle}</p>}
+
+  <div class="ps-flipcards-viewport">
+    <div class="ps-flipcards-track" style={`--cards-per-page: ${cardsPerPage};`}>
+      {cards.map((card, i) => {
+        const { dur, delay, amp } = floatParams(i);
+        const page = Math.floor(i / cardsPerPage);
+        return (
+          <div
+            class="ps-flipcards-card"
+            data-index={i}
+            data-page={page}
+            style={`--float-dur: ${dur}s; --float-delay: ${delay}s; --float-amp: ${amp}px;`}
+          >
+            <div class="ps-flipcards-inner">
+              <div class="ps-flipcards-face ps-flipcards-front">
+                <div
+                  class="ps-flipcards-image"
+                  style={`background-image: url(${card.image});`}
+                  role="img"
+                  aria-label={card.imageAlt || card.title}
+                ></div>
+                <div class="ps-flipcards-front-title">{card.title}</div>
+                <div class="ps-flipcards-hint" aria-hidden="true">Click to read more</div>
+              </div>
+              <div class="ps-flipcards-face ps-flipcards-back">
+                <h3>{card.title}</h3>
+                <div class="ps-flipcards-description" set:html={card.description} />
+                <div class="ps-flipcards-hint" aria-hidden="true">Click to flip back</div>
+              </div>
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  </div>
+
+  {totalPages > 1 && (
+    <div class="ps-flipcards-controls">
+      <button class="ps-flipcards-btn ps-flipcards-prev" aria-label="Previous page">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M12.5 15L7.5 10L12.5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <span class="ps-flipcards-counter">
+        <span class="ps-flipcards-current">1</span> / {totalPages}
+      </span>
+      <button class="ps-flipcards-btn ps-flipcards-next" aria-label="Next page">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 5L12.5 10L7.5 15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </div>
+  )}
+</section>
+
+<script>
+  function initFlipCards() {
+    document.querySelectorAll<HTMLElement>('[data-flipcards-id]').forEach((section) => {
+      const track = section.querySelector<HTMLElement>('.ps-flipcards-track');
+      const cards = Array.from(section.querySelectorAll<HTMLElement>('.ps-flipcards-card'));
+      const prev = section.querySelector<HTMLButtonElement>('.ps-flipcards-prev');
+      const next = section.querySelector<HTMLButtonElement>('.ps-flipcards-next');
+      const counter = section.querySelector<HTMLElement>('.ps-flipcards-current');
+      if (!track || !cards.length) return;
+
+      // Click to flip
+      cards.forEach((card) => {
+        card.addEventListener('click', () => {
+          card.classList.toggle('flipped');
+        });
+      });
+
+      // Pagination
+      const pages = new Set(cards.map(c => Number(c.dataset.page)));
+      const totalPages = pages.size;
+      let current = 0;
+
+      function goTo(p: number) {
+        current = ((p % totalPages) + totalPages) % totalPages;
+        track!.style.setProperty('--current-page', String(current));
+        if (counter) counter.textContent = String(current + 1);
+        if (prev) prev.disabled = current === 0;
+        if (next) next.disabled = current === totalPages - 1;
+      }
+
+      prev?.addEventListener('click', () => goTo(current - 1));
+      next?.addEventListener('click', () => goTo(current + 1));
+      goTo(0);
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initFlipCards);
+  } else {
+    initFlipCards();
+  }
+</script>

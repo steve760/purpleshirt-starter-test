@@ -1,0 +1,22 @@
+---
+import type { HeroSimpleProps } from '../schemas/hero-simple';
+
+interface Props extends HeroSimpleProps {}
+
+const { eyebrow, headline, lede } = Astro.props;
+
+function parseHeadline(raw: string): string {
+  return raw
+    .replace(/\*\*(.+?)\*\*/g, '<span class="ps-accent">$1</span>')
+    .replace(/\n/g, '<br/>');
+}
+---
+
+<section class="ps-hero">
+  <div class="ps-hero-bg" aria-hidden="true"></div>
+  <div class="ps-hero-inner">
+    <div class="ps-eyebrow">{eyebrow}</div>
+    <h1 set:html={parseHeadline(headline)} />
+    <p class="ps-lede">{lede}</p>
+  </div>
+</section>

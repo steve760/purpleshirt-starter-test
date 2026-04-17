@@ -1,0 +1,42 @@
+---
+interface Voice {
+  percent: number;
+  title: string;
+  meta: string;
+  description: string;
+  color?: string;
+}
+
+interface Props {
+  sectionNumber?: string;
+  heading?: string;
+  subtitle?: string;
+  voices: Voice[];
+  dark?: boolean;
+}
+
+const { sectionNumber, heading, subtitle, voices, dark = true } = Astro.props;
+---
+
+<section class:list={['ps-section', 'ps-voice-section', { 'ps-voice-dark': dark }]}>
+  {(heading || sectionNumber) && (
+    <div class="ps-voice-header">
+      {sectionNumber && <div class="ps-voice-section-num">{sectionNumber}</div>}
+      {heading && <h2>{heading}</h2>}
+    </div>
+  )}
+  {subtitle && <p class="ps-voice-subtitle">{subtitle}</p>}
+
+  <div class="ps-voice-grid">
+    {voices.map((v) => (
+      <article class="ps-voice-card" style={v.color ? `--voice: ${v.color}` : undefined}>
+        <div class="ps-voice-share">
+          {v.percent}<span>%</span>
+        </div>
+        <h3>{v.title}</h3>
+        <div class="ps-voice-meta">{v.meta}</div>
+        <p>{v.description}</p>
+      </article>
+    ))}
+  </div>
+</section>

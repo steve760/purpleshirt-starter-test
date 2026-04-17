@@ -1,0 +1,113 @@
+/* ==========================================================
+   Base reset + typography.
+   Loaded after tokens.css in every page.
+   ========================================================== */
+
+*, *::before, *::after { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font-body);
+  color: var(--text);
+  background: var(--surface);
+  line-height: 1.55;
+  font-size: 16px;
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3 {
+  font-family: var(--font-display);
+  letter-spacing: 0.005em;
+  margin: 0;
+}
+h1 { font-weight: 800; line-height: 1.02; }
+h2 { font-weight: 800; line-height: 1.05; }
+h3 { font-weight: 700; }
+
+a { color: var(--brand-primary); text-decoration: none; }
+
+/* Utility: section padding */
+.ps-section {
+  padding: 96px max(28px, calc((100% - var(--maxw)) / 2));
+}
+
+.ps-section-dark {
+  background: linear-gradient(180deg, var(--brand-primary-deep) 0%, var(--brand-primary) 100%);
+  color: var(--text-on-dark);
+}
+
+/* Button primitives */
+.ps-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 22px;
+  border-radius: 100px;
+  font-weight: 600;
+  font-size: 14px;
+  letter-spacing: 0.04em;
+  transition: transform 0.15s ease, background 0.2s ease;
+  cursor: pointer;
+  border: 0;
+  text-decoration: none;
+}
+.ps-btn-primary {
+  background: var(--brand-accent);
+  color: var(--text-on-dark);
+}
+.ps-btn-primary:hover {
+  background: var(--brand-accent-deep);
+  transform: translateY(-1px);
+}
+.ps-btn-ghost {
+  background: transparent;
+  color: var(--text-on-dark);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+}
+.ps-btn-ghost:hover {
+  border-color: var(--brand-accent-secondary);
+  color: var(--brand-accent-secondary);
+}
+
+/* Reveal-on-scroll animation — subtle fade + slight lift */
+.ps-reveal {
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 0.7s cubic-bezier(0.25, 0.1, 0.25, 1), transform 0.7s cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+.ps-reveal.in {
+  opacity: 1;
+  transform: none;
+}
+
+/* Staggered children within a section */
+.ps-reveal-child {
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.5s cubic-bezier(0.25, 0.1, 0.25, 1), transform 0.5s cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+.ps-reveal.in .ps-reveal-child {
+  opacity: 1;
+  transform: none;
+}
+
+/* Pie chart animation */
+.ps-piechart-chart svg path {
+  transition: d 0.8s cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+.ps-piechart-chart[data-animate] svg path {
+  opacity: 0;
+  transform: scale(0.8);
+  transform-origin: center;
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+.ps-piechart-chart[data-animated] svg path {
+  opacity: 1;
+  transform: scale(1);
+}
+
+@media (max-width: 600px) {
+  .ps-section { padding: 64px 18px; }
+}

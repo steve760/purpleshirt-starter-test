@@ -1,0 +1,45 @@
+/* ==========================================================
+   Footer — simple brand-coloured strip, edited as a section
+   ========================================================== */
+
+.ps-footer-section {
+  background: var(--brand-primary-deep);
+  color: rgba(255, 255, 255, 0.75);
+  border-top: 3px solid var(--brand-accent-secondary);
+  padding: 32px max(28px, calc((100% - var(--maxw)) / 2));
+  font-size: 13px;
+  line-height: 1.5;
+  text-align: center;
+}
+
+.ps-footer-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.ps-footer-text {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.ps-footer-text a,
+.ps-footer-note a {
+  color: var(--brand-accent-secondary);
+  text-decoration: none;
+}
+
+.ps-footer-text a:hover,
+.ps-footer-note a:hover {
+  color: var(--text-on-dark);
+  text-decoration: underline;
+}
+
+.ps-footer-note {
+  color: rgba(255, 255, 255, 0.55);
+  font-size: 12px;
+}
+
+@media (max-width: 600px) {
+  .ps-footer-section { padding: 24px 18px; }
+}

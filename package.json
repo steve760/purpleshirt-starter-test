@@ -1,0 +1,21 @@
+{
+  "name": "purpleshirt-starter",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Starter template for Purple Shirt consulting deliverables",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "node scripts/build-prod.mjs",
+    "build:raw": "astro build",
+    "preview": "astro preview",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "astro": "^6.1.7",
+    "zod": "^4.3.6"
+  },
+  "devDependencies": {
+    "vitest": "^4.1.4"
+  }
+}

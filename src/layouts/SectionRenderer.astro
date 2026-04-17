@@ -1,0 +1,125 @@
+---
+/**
+ * SectionRenderer — takes a section JSON object and renders
+ * the matching kit component. In dev mode, wraps each section
+ * with editor controls (drag handle, edit, delete).
+ *
+ * Background alternation: odd-indexed sections get a dark background
+ * automatically. Hero and VoiceGrid handle their own backgrounds.
+ * Any section can override with "variant": "dark" | "light" in JSON.
+ */
+import Hero from '../kit/components/Hero.astro';
+import VoiceGrid from '../kit/components/VoiceGrid.astro';
+import KeyInsights from '../kit/components/KeyInsights.astro';
+import TextBlock from '../kit/components/TextBlock.astro';
+import NumberedList from '../kit/components/NumberedList.astro';
+import Faq from '../kit/components/Faq.astro';
+import PieChart from '../kit/components/PieChart.astro';
+import DataTable from '../kit/components/DataTable.astro';
+import FeatureImage from '../kit/components/FeatureImage.astro';
+import Carousel from '../kit/components/Carousel.astro';
+import ImageCarousel from '../kit/components/ImageCarousel.astro';
+import HeroSimple from '../kit/components/HeroSimple.astro';
+import BarChart from '../kit/components/BarChart.astro';
+import QuoteCarousel from '../kit/components/QuoteCarousel.astro';
+import Header from '../kit/components/Header.astro';
+import FlipCards from '../kit/components/FlipCards.astro';
+import QuoteBlock from '../kit/components/QuoteBlock.astro';
+import CustomerJourney from '../kit/components/CustomerJourney.astro';
+import CustomerType from '../kit/components/CustomerType.astro';
+import Footer from '../kit/components/Footer.astro';
+
+interface Props {
+  section: Record<string, any>;
+  file?: string;
+  altIndex?: number;
+}
+
+const { section, file, altIndex = -1 } = Astro.props;
+const { type, variant, ...props } = section;
+const isDev = import.meta.env.DEV;
+const knownTypes = ['header', 'hero', 'hero-simple', 'voice-grid', 'key-insights', 'text-block', 'numbered-list', 'faq', 'pie-chart', 'bar-chart', 'data-table', 'feature-image', 'carousel', 'image-carousel', 'quote-carousel', 'flip-cards', 'quote-block', 'customer-journey', 'customer-type', 'footer'];
+
+// altIndex = -1 for self-styled sections (hero, voice-grid) — they manage their own bg
+// altIndex >= 0 for sections that participate in auto-alternation
+const isSelfStyled = altIndex < 0;
+const autoDark = altIndex >= 0 && altIndex % 2 === 1;
+const isDark = isSelfStyled ? false : (variant === 'dark' ? true : variant === 'light' ? false : autoDark);
+const wrapperClass = isDark ? 'ps-section-dark-wrap' : '';
+const sectionId = file ? `ps-${file.replace('.json', '')}` : undefined;
+---
+
+{isDev && <div class="ps-editor-drop-indicator"></div>}
+
+{isDev ? (
+  <div
+    id={sectionId}
+    class:list={['ps-editor-section', wrapperClass]}
+    data-section-file={file}
+    data-section-type={type}
+    data-section-data={JSON.stringify(section)}
+  >
+    <div class="ps-editor-controls">
+      <div class="ps-editor-badge">{type}</div>
+      <div class="ps-editor-toolbar">
+        <button class="ps-editor-btn ps-editor-btn-drag" title="Drag to reorder">&#9776;</button>
+        <button class="ps-editor-btn ps-editor-btn-edit" title="Edit section">Edit</button>
+        <button class="ps-editor-btn ps-editor-btn-delete" title="Delete section">&times;</button>
+      </div>
+    </div>
+
+    {type === 'header' && <Header {...props} />}
+    {type === 'hero' && <Hero {...props} />}
+    {type === 'hero-simple' && <HeroSimple {...props} />}
+    {type === 'voice-grid' && <VoiceGrid {...props} dark={isDark} />}
+    {type === 'key-insights' && <KeyInsights {...props} dark={isDark} />}
+    {type === 'text-block' && <TextBlock {...props} dark={isDark} />}
+    {type === 'numbered-list' && <NumberedList {...props} dark={isDark} />}
+    {type === 'faq' && <Faq {...props} dark={isDark} />}
+    {type === 'pie-chart' && <PieChart {...props} dark={isDark} />}
+    {type === 'bar-chart' && <BarChart {...props} dark={isDark} />}
+    {type === 'data-table' && <DataTable {...props} dark={isDark} />}
+    {type === 'feature-image' && <FeatureImage {...props} dark={isDark} />}
+    {type === 'carousel' && <Carousel {...props} dark={isDark} />}
+    {type === 'image-carousel' && <ImageCarousel {...props} dark={isDark} />}
+    {type === 'quote-carousel' && <QuoteCarousel {...props} dark={isDark} />}
+    {type === 'flip-cards' && <FlipCards {...props} dark={isDark} />}
+    {type === 'quote-block' && <QuoteBlock {...props} dark={isDark} />}
+    {type === 'customer-journey' && <CustomerJourney {...props} dark={isDark} />}
+    {type === 'customer-type' && <CustomerType {...props} dark={isDark} />}
+    {type === 'footer' && <Footer {...props} />}
+    {!knownTypes.includes(type) && (
+      <div style="padding: 48px; background: #fff3cd; color: #856404; text-align: center; font-size: 14px;">
+        Unknown section type: <strong>{type}</strong>
+      </div>
+    )}
+  </div>
+) : (
+  <div id={sectionId} class:list={[wrapperClass]}>
+    {type === 'header' && <Header {...props} />}
+    {type === 'hero' && <Hero {...props} />}
+    {type === 'hero-simple' && <HeroSimple {...props} />}
+    {type === 'voice-grid' && <VoiceGrid {...props} dark={isDark} />}
+    {type === 'key-insights' && <KeyInsights {...props} dark={isDark} />}
+    {type === 'text-block' && <TextBlock {...props} dark={isDark} />}
+    {type === 'numbered-list' && <NumberedList {...props} dark={isDark} />}
+    {type === 'faq' && <Faq {...props} dark={isDark} />}
+    {type === 'pie-chart' && <PieChart {...props} dark={isDark} />}
+    {type === 'bar-chart' && <BarChart {...props} dark={isDark} />}
+    {type === 'data-table' && <DataTable {...props} dark={isDark} />}
+    {type === 'feature-image' && <FeatureImage {...props} dark={isDark} />}
+    {type === 'carousel' && <Carousel {...props} dark={isDark} />}
+    {type === 'image-carousel' && <ImageCarousel {...props} dark={isDark} />}
+    {type === 'quote-carousel' && <QuoteCarousel {...props} dark={isDark} />}
+    {type === 'flip-cards' && <FlipCards {...props} dark={isDark} />}
+    {type === 'quote-block' && <QuoteBlock {...props} dark={isDark} />}
+    {type === 'customer-journey' && <CustomerJourney {...props} dark={isDark} />}
+    {type === 'customer-type' && <CustomerType {...props} dark={isDark} />}
+    {type === 'footer' && <Footer {...props} />}
+    {!knownTypes.includes(type) && (
+      <div style="padding: 48px; background: #fff3cd; color: #856404; text-align: center; font-size: 14px;">
+        Unknown section type: <strong>{type}</strong>
+      </div>
+    )}
+  </div>
+)}

@@ -1,0 +1,332 @@
+/* ==========================================================
+   FlipCards component — paginated flip cards with floating motion
+   ========================================================== */
+
+.ps-flipcards-section {
+  padding: 96px max(28px, calc((100% - var(--maxw)) / 2));
+  background: var(--surface);
+}
+
+.ps-flipcards-header {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-bottom: 12px;
+}
+
+.ps-flipcards-section-num {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: clamp(28px, 3.2vw, 44px);
+  line-height: 1;
+  color: var(--text-on-dark);
+  background: var(--brand-primary);
+  padding: 10px 14px 8px;
+  border-radius: 10px;
+}
+
+.ps-flipcards-header h2 {
+  font-size: clamp(32px, 4vw, 56px);
+  color: var(--brand-primary);
+  margin: 0;
+}
+
+.ps-flipcards-subtitle {
+  font-size: 17px;
+  color: var(--text-muted);
+  margin: 0 0 44px;
+  max-width: 80ch;
+}
+
+/* Viewport clips the horizontal page slides — but allow vertical overflow
+   so the floating cards aren't cut off at the top. Vertical room of 50px
+   comfortably fits the max float amplitude (~33px). */
+.ps-flipcards-viewport {
+  position: relative;
+  overflow-x: clip;
+  overflow-y: visible;
+  padding: 50px 0;
+}
+
+/* Track is a horizontal flex strip of all cards.
+   Each card width = (100% - gaps) / cardsPerPage so exactly cardsPerPage
+   cards fit in one viewport. We translate by one viewport-width + 1 gap
+   per page to paginate. */
+.ps-flipcards-track {
+  display: flex;
+  gap: 24px;
+  transform: translateX(calc(var(--current-page, 0) * (-100% - 24px)));
+  transition: transform 0.45s cubic-bezier(0.25, 0.1, 0.25, 1);
+  will-change: transform;
+}
+
+/* Card container — handles the float animation. flex sizing so exactly
+   cardsPerPage cards fit per viewport-width of the track. */
+.ps-flipcards-card {
+  flex: 0 0 calc(
+    (100% - (var(--cards-per-page, 3) - 1) * 24px) / var(--cards-per-page, 3)
+  );
+  perspective: 1400px;
+  cursor: pointer;
+  aspect-ratio: 3 / 4;
+  animation: ps-flipcards-float var(--float-dur, 5s) ease-in-out infinite;
+  animation-delay: var(--float-delay, 0s);
+  transition: transform 0.4s cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+/* Pause ALL cards in the section while ANY card is showing its back —
+   keeps the area calm so the reader can focus on the back content. */
+.ps-flipcards-track:has(.ps-flipcards-card.flipped) .ps-flipcards-card {
+  animation-play-state: paused;
+  transform: translateY(0) !important;
+}
+
+@keyframes ps-flipcards-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(calc(var(--float-amp, 10px) * -1)); }
+}
+
+/* Inner wrapper — handles the flip transform */
+.ps-flipcards-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.6s cubic-bezier(0.3, 0.1, 0.3, 1);
+}
+
+.ps-flipcards-card.flipped .ps-flipcards-inner {
+  transform: rotateY(180deg);
+}
+
+/* Both faces fill the card and hide when facing away */
+.ps-flipcards-face {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.10), 0 2px 8px rgba(0, 0, 0, 0.06);
+  background: var(--surface-card);
+}
+
+/* Front: image + title overlay */
+.ps-flipcards-front {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.ps-flipcards-image {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  background-color: var(--brand-primary);
+}
+
+.ps-flipcards-front::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    transparent 40%,
+    rgba(0, 0, 0, 0.25) 65%,
+    rgba(0, 0, 0, 0.85) 100%
+  );
+  pointer-events: none;
+}
+
+.ps-flipcards-front-title {
+  position: relative;
+  z-index: 1;
+  font-family: var(--font-display);
+  font-size: clamp(20px, 2vw, 26px);
+  font-weight: 800;
+  color: #fff;
+  padding: 24px 24px 12px;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+}
+
+.ps-flipcards-hint {
+  position: relative;
+  z-index: 1;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0 24px 22px;
+  opacity: 0.75;
+}
+
+.ps-flipcards-front .ps-flipcards-hint {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+/* Back: title + description */
+.ps-flipcards-back {
+  transform: rotateY(180deg);
+  padding: 28px 26px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  background: var(--surface-card);
+  border: 1px solid var(--line);
+}
+
+.ps-flipcards-back h3 {
+  font-family: var(--font-display);
+  font-size: clamp(18px, 1.6vw, 22px);
+  font-weight: 800;
+  color: var(--brand-primary);
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+
+.ps-flipcards-description {
+  flex: 1;
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--text);
+  overflow-y: auto;
+}
+
+.ps-flipcards-description p {
+  margin: 0 0 10px;
+}
+
+.ps-flipcards-description p:last-child {
+  margin-bottom: 0;
+}
+
+.ps-flipcards-back .ps-flipcards-hint {
+  color: var(--text-muted);
+  padding: 0;
+  margin-top: auto;
+}
+
+/* Pagination controls */
+.ps-flipcards-controls {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: 32px;
+}
+
+.ps-flipcards-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 2px solid var(--brand-primary);
+  background: transparent;
+  color: var(--brand-primary);
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, transform 0.15s;
+  font-family: var(--font-body);
+}
+
+.ps-flipcards-btn:hover:not(:disabled) {
+  background: var(--brand-primary);
+  color: var(--text-on-dark);
+  transform: scale(1.05);
+}
+
+.ps-flipcards-btn:disabled {
+  opacity: 0.25;
+  cursor: default;
+}
+
+.ps-flipcards-counter {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-muted);
+  letter-spacing: 0.04em;
+}
+
+.ps-flipcards-current {
+  color: var(--brand-primary);
+  font-size: 18px;
+}
+
+/* ---- Dark variant ---- */
+.ps-flipcards-dark {
+  background: linear-gradient(180deg, var(--brand-primary-deep) 0%, var(--brand-primary) 100%);
+}
+
+.ps-flipcards-dark .ps-flipcards-header h2 {
+  color: var(--text-on-dark);
+}
+
+.ps-flipcards-dark .ps-flipcards-section-num {
+  background: var(--brand-accent-secondary);
+  color: var(--brand-primary-deep);
+}
+
+.ps-flipcards-dark .ps-flipcards-subtitle {
+  color: var(--text-on-dark-muted);
+}
+
+.ps-flipcards-dark .ps-flipcards-face {
+  box-shadow: none;
+}
+
+.ps-flipcards-dark .ps-flipcards-back {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: var(--line-dark);
+}
+
+.ps-flipcards-dark .ps-flipcards-back h3 {
+  color: var(--text-on-dark);
+}
+
+.ps-flipcards-dark .ps-flipcards-description {
+  color: var(--text-on-dark-muted);
+}
+
+.ps-flipcards-dark .ps-flipcards-back .ps-flipcards-hint {
+  color: var(--text-on-dark-muted);
+}
+
+.ps-flipcards-dark .ps-flipcards-btn {
+  border-color: var(--text-on-dark);
+  color: var(--text-on-dark);
+}
+
+.ps-flipcards-dark .ps-flipcards-btn:hover:not(:disabled) {
+  background: var(--text-on-dark);
+  color: var(--brand-primary);
+}
+
+.ps-flipcards-dark .ps-flipcards-counter {
+  color: var(--text-on-dark-muted);
+}
+
+.ps-flipcards-dark .ps-flipcards-current {
+  color: var(--text-on-dark);
+}
+
+/* ---- Mobile ---- */
+@media (max-width: 768px) {
+  .ps-flipcards-section { padding: 64px 18px; }
+  .ps-flipcards-header { flex-wrap: wrap; gap: 8px; }
+  .ps-flipcards-header h2 { font-size: 32px; width: 100%; }
+  /* Override to one card per viewport on small screens */
+  .ps-flipcards-card {
+    flex: 0 0 100%;
+    aspect-ratio: 4 / 5;
+  }
+  .ps-flipcards-btn { width: 38px; height: 38px; }
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .ps-flipcards-card { animation: none; }
+  .ps-flipcards-inner { transition-duration: 0.01ms; }
+  .ps-flipcards-track { transition-duration: 0.01ms; }
+}

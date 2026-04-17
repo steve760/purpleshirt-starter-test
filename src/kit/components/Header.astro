@@ -1,0 +1,40 @@
+---
+interface Props {
+  logo: string;
+  logoAlt?: string;
+  title: string;
+}
+
+const { logo, logoAlt = 'Client logo', title } = Astro.props;
+---
+
+<header class="ps-header">
+  <div class="ps-header-inner">
+    <div class="ps-header-left">
+      <img class="ps-header-logo" src={logo} alt={logoAlt} />
+    </div>
+    <div class="ps-header-title">{title}</div>
+  </div>
+</header>
+
+<script>
+  function initHeaderScroll() {
+    const header = document.querySelector<HTMLElement>('.ps-header');
+    if (!header) return;
+    const update = () => {
+      if (window.scrollY > 40) {
+        header.classList.add('ps-header-scrolled');
+      } else {
+        header.classList.remove('ps-header-scrolled');
+      }
+    };
+    update();
+    window.addEventListener('scroll', update, { passive: true });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initHeaderScroll);
+  } else {
+    initHeaderScroll();
+  }
+</script>

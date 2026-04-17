@@ -1,0 +1,51 @@
+---
+interface Bar {
+  label: string;
+  value: number;
+  color?: string;
+}
+
+interface Props {
+  sectionNumber?: string;
+  heading: string;
+  description?: string;
+  bars: Bar[];
+  unit?: string;
+  dark?: boolean;
+}
+
+const { sectionNumber, heading, description, bars, unit = '%', dark = false } = Astro.props;
+
+const defaultColors = ['#e63946', '#f4a261', '#2a9d8f', '#457b9d', '#264653', '#e9c46a', '#6a4c93', '#1982c4'];
+const maxValue = Math.max(...bars.map(b => b.value));
+---
+
+<section class:list={['ps-section', 'ps-barchart-section', { 'ps-barchart-dark': dark }]}>
+  <div class="ps-barchart-layout">
+    <div class="ps-barchart-text">
+      <div class="ps-barchart-header">
+        {sectionNumber && <div class="ps-barchart-section-num">{sectionNumber}</div>}
+        <h2>{heading}</h2>
+      </div>
+      {description && <div class="ps-barchart-description" set:html={description} />}
+    </div>
+    <div class="ps-barchart-chart">
+      {bars.map((bar, i) => {
+        const color = bar.color || defaultColors[i % defaultColors.length];
+        const widthPct = maxValue > 0 ? (bar.value / maxValue) * 100 : 0;
+        return (
+          <div class="ps-barchart-bar-row">
+            <div class="ps-barchart-bar-label">{bar.label}</div>
+            <div class="ps-barchart-bar-track">
+              <div
+                class="ps-barchart-bar-fill"
+                style={`--bar-width: ${widthPct}%; background: ${color};`}
+                data-value={`${bar.value}${unit}`}
+              />
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  </div>
+</section>

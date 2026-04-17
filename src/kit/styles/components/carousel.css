@@ -1,0 +1,217 @@
+/* ==========================================================
+   Carousel component — paginated title + description cards
+   ========================================================== */
+
+.ps-carousel-section {
+  padding: 96px max(28px, calc((100% - var(--maxw)) / 2));
+  background: var(--surface);
+}
+
+.ps-carousel-header {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-bottom: 12px;
+}
+
+.ps-carousel-section-num {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: clamp(28px, 3.2vw, 44px);
+  line-height: 1;
+  color: var(--text-on-dark);
+  background: var(--brand-primary);
+  padding: 10px 14px 8px;
+  border-radius: 10px;
+}
+
+.ps-carousel-header h2 {
+  font-size: clamp(32px, 4vw, 56px);
+  color: var(--brand-primary);
+  margin: 0;
+}
+
+.ps-carousel-subtitle {
+  font-size: 17px;
+  font-weight: 400;
+  line-height: 1.55;
+  color: var(--text-muted);
+  margin: 0 0 44px;
+}
+
+/* Track — horizontal scroll, snap to cards */
+.ps-carousel-container {
+  overflow: hidden;
+}
+
+.ps-carousel-track {
+  display: flex;
+  gap: 24px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  scroll-behavior: smooth;
+}
+
+.ps-carousel-track::-webkit-scrollbar {
+  display: none;
+}
+
+/* Cards */
+.ps-carousel-card {
+  flex: 0 0 100%;
+  max-width: 100%;
+  scroll-snap-align: start;
+  background: var(--surface-card);
+  border-radius: var(--radius);
+  padding: 40px;
+  box-shadow: var(--shadow);
+  position: relative;
+  overflow: hidden;
+}
+
+.ps-carousel-card::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: var(--brand-primary);
+}
+
+.ps-carousel-card-num {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 28px;
+  color: var(--brand-accent);
+  margin-bottom: 16px;
+}
+
+.ps-carousel-card h3 {
+  font-size: 24px;
+  color: var(--brand-primary);
+  margin: 0 0 12px;
+}
+
+.ps-carousel-card p {
+  font-size: 16px;
+  color: var(--text-muted);
+  line-height: 1.65;
+  margin: 0;
+  max-width: 72ch;
+}
+
+/* Controls */
+.ps-carousel-controls {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-top: 28px;
+}
+
+.ps-carousel-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 2px solid var(--brand-primary);
+  background: transparent;
+  color: var(--brand-primary);
+  font-size: 20px;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+  font-family: var(--font-body);
+}
+
+.ps-carousel-btn:hover:not(:disabled) {
+  background: var(--brand-primary);
+  color: var(--text-on-dark);
+}
+
+.ps-carousel-btn:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+
+.ps-carousel-counter {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-muted);
+  letter-spacing: 0.04em;
+}
+
+.ps-carousel-current {
+  color: var(--brand-primary);
+  font-size: 18px;
+}
+
+/* ---- Dark variant ---- */
+.ps-carousel-dark {
+  background: linear-gradient(180deg, var(--brand-primary-deep) 0%, var(--brand-primary) 100%);
+}
+
+.ps-carousel-dark .ps-carousel-header h2 {
+  color: var(--text-on-dark);
+}
+
+.ps-carousel-dark .ps-carousel-section-num {
+  background: var(--brand-accent-secondary);
+  color: var(--brand-primary-deep);
+}
+
+.ps-carousel-dark .ps-carousel-subtitle {
+  color: var(--text-on-dark-muted);
+}
+
+.ps-carousel-dark .ps-carousel-card {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--line-dark);
+  box-shadow: none;
+}
+
+.ps-carousel-dark .ps-carousel-card::before {
+  background: var(--brand-accent-secondary);
+}
+
+.ps-carousel-dark .ps-carousel-card-num {
+  color: var(--brand-accent-secondary);
+}
+
+.ps-carousel-dark .ps-carousel-card h3 {
+  color: var(--text-on-dark);
+}
+
+.ps-carousel-dark .ps-carousel-card p {
+  color: var(--text-on-dark-muted);
+}
+
+.ps-carousel-dark .ps-carousel-btn {
+  border-color: var(--text-on-dark);
+  color: var(--text-on-dark);
+}
+
+.ps-carousel-dark .ps-carousel-btn:hover:not(:disabled) {
+  background: var(--text-on-dark);
+  color: var(--brand-primary);
+}
+
+.ps-carousel-dark .ps-carousel-counter {
+  color: var(--text-on-dark-muted);
+}
+
+.ps-carousel-dark .ps-carousel-current {
+  color: var(--text-on-dark);
+}
+
+@media (max-width: 600px) {
+  .ps-carousel-section { padding: 64px 18px; }
+  .ps-carousel-header { flex-wrap: wrap; gap: 8px; }
+  .ps-carousel-header h2 { font-size: 32px; width: 100%; }
+  .ps-carousel-card { padding: 28px; }
+  .ps-carousel-card h3 { font-size: 20px; }
+  .ps-carousel-btn { width: 40px; height: 40px; font-size: 16px; }
+}

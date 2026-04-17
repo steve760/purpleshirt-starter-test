@@ -1,0 +1,10 @@
+/* Client brand theme — updated via editor */
+
+:root {
+  --brand-primary: #1a1a2e;
+  --brand-primary-deep: #0f0f1e;
+  --brand-primary-mid: #2a2a4e;
+  --brand-accent: #e63946;
+  --brand-accent-deep: #c1121f;
+  --brand-accent-secondary: #f4a261;
+}

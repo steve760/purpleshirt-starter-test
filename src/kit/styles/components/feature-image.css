@@ -1,0 +1,114 @@
+/* ==========================================================
+   FeatureImage component — contained card with text + image
+   ========================================================== */
+
+.ps-feature-section {
+  padding: 96px max(28px, calc((100% - var(--maxw)) / 2));
+  background: var(--surface);
+}
+
+.ps-feature-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 420px;
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: var(--brand-primary);
+  box-shadow: var(--shadow);
+}
+
+.ps-feature-text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 56px 48px;
+}
+
+.ps-feature-eyebrow {
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--text-on-dark-muted);
+  margin-bottom: 16px;
+  font-weight: 600;
+}
+
+.ps-feature-section h2 {
+  font-family: var(--font-display);
+  font-size: clamp(32px, 4vw, 52px);
+  font-weight: 800;
+  line-height: 1.05;
+  color: var(--text-on-dark);
+  margin: 0 0 20px;
+}
+
+.ps-feature-section p {
+  font-size: 16px;
+  line-height: 1.65;
+  color: var(--text-on-dark-muted);
+  margin: 0;
+  max-width: 48ch;
+}
+
+.ps-feature-image {
+  position: relative;
+  overflow: hidden; /* mask to the pane so the oversized image never shows edges */
+  background: #e5e7eb;
+}
+
+.ps-feature-image img {
+  /* 20% larger than the container by default so zoom-out never reveals a gap */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 120%;
+  height: 120%;
+  object-fit: cover;
+  display: block;
+  transform: translate(-50%, -50%) scale(1);
+  animation: ps-feature-zoom 9s ease-in-out infinite;
+  transform-origin: center;
+  will-change: transform;
+}
+
+@keyframes ps-feature-zoom {
+  0%, 100% { transform: translate(-50%, -50%) scale(1);    }
+  50%      { transform: translate(-50%, -50%) scale(1.08); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ps-feature-image img {
+    animation: none;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+/* ---- Dark variant (section bg becomes dark, card stays as-is) ---- */
+.ps-feature-dark {
+  background: linear-gradient(180deg, var(--brand-primary-deep) 0%, var(--brand-primary) 100%);
+}
+
+.ps-feature-dark .ps-feature-layout {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--line-dark);
+  box-shadow: none;
+}
+
+/* Light section variant — card stays dark for contrast with image */
+.ps-feature-section:not(.ps-feature-dark) .ps-feature-layout {
+  background: var(--brand-primary);
+}
+
+@media (max-width: 768px) {
+  .ps-feature-section { padding: 64px 18px; }
+  .ps-feature-layout {
+    grid-template-columns: 1fr;
+    min-height: auto;
+  }
+  .ps-feature-text {
+    padding: 40px 28px;
+  }
+  .ps-feature-image {
+    height: 280px;
+  }
+}

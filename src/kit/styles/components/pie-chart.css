@@ -1,0 +1,162 @@
+/* ==========================================================
+   PieChart component — donut chart with legend
+   ========================================================== */
+
+.ps-piechart-section {
+  padding: 96px max(28px, calc((100% - var(--maxw)) / 2));
+  background: var(--surface);
+}
+
+/* Two-column outer layout: text left, chart+legend right */
+.ps-piechart-outer {
+  display: grid;
+  grid-template-columns: 1fr 1.4fr;
+  gap: 64px;
+  align-items: start;
+}
+
+.ps-piechart-header {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-bottom: 12px;
+}
+
+.ps-piechart-section-num {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: clamp(28px, 3.2vw, 44px);
+  line-height: 1;
+  color: var(--text-on-dark);
+  background: var(--brand-primary);
+  padding: 10px 14px 8px;
+  border-radius: 10px;
+}
+
+.ps-piechart-header h2 {
+  font-size: clamp(32px, 4vw, 56px);
+  color: var(--brand-primary);
+  margin: 0;
+}
+
+.ps-piechart-subtitle {
+  font-size: 17px;
+  font-weight: 400;
+  line-height: 1.55;
+  color: var(--text-muted);
+  margin: 0 0 16px;
+}
+
+.ps-piechart-description {
+  font-size: 16px;
+  line-height: 1.65;
+  color: var(--text);
+  margin-top: 8px;
+}
+
+.ps-piechart-description p {
+  margin: 0 0 12px;
+}
+
+.ps-piechart-description p:last-child {
+  margin-bottom: 0;
+}
+
+/* Chart + legend stacked on the right */
+.ps-piechart-layout {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  gap: 32px;
+  align-items: center;
+}
+
+.ps-piechart-chart svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.ps-piechart-legend {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.ps-piechart-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.ps-piechart-legend-swatch {
+  width: 16px;
+  height: 16px;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+
+.ps-piechart-legend-text {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  width: 100%;
+  gap: 12px;
+}
+
+.ps-piechart-legend-label {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--brand-primary);
+}
+
+.ps-piechart-legend-value {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 18px;
+  color: var(--text);
+}
+
+/* ---- Dark variant ---- */
+.ps-piechart-dark {
+  background: linear-gradient(180deg, var(--brand-primary-deep) 0%, var(--brand-primary) 100%);
+}
+
+.ps-piechart-dark .ps-piechart-header h2 {
+  color: var(--text-on-dark);
+}
+
+.ps-piechart-dark .ps-piechart-section-num {
+  background: var(--brand-accent-secondary);
+  color: var(--brand-primary-deep);
+}
+
+.ps-piechart-dark .ps-piechart-subtitle {
+  color: var(--text-on-dark-muted);
+}
+
+.ps-piechart-dark .ps-piechart-description {
+  color: var(--text-on-dark-muted);
+}
+
+.ps-piechart-dark .ps-piechart-legend-label {
+  color: var(--text-on-dark);
+}
+
+.ps-piechart-dark .ps-piechart-legend-value {
+  color: var(--text-on-dark-muted);
+}
+
+@media (max-width: 600px) {
+  .ps-piechart-section { padding: 64px 18px; }
+  .ps-piechart-outer {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+  .ps-piechart-header { flex-wrap: wrap; gap: 8px; }
+  .ps-piechart-header h2 { font-size: 32px; width: 100%; }
+  .ps-piechart-layout {
+    grid-template-columns: 1fr;
+    gap: 28px;
+    max-width: 400px;
+  }
+}

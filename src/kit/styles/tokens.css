@@ -1,0 +1,42 @@
+/* ==========================================================
+   Semantic design tokens — the white-label contract.
+   Override these in a per-client theme.css.
+   Components reference ONLY these variables, never raw hex.
+   ========================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap');
+
+:root {
+  /* ---- Brand colours (override per client) ---- */
+  --brand-primary: #1a1a2e;
+  --brand-primary-deep: #0f0f1e;
+  --brand-primary-mid: #2a2a4e;
+  --brand-accent: #e63946;
+  --brand-accent-deep: #c1121f;
+  --brand-accent-secondary: #f4a261;
+
+  /* ---- Surfaces ---- */
+  --surface: #f7f5ef;
+  --surface-alt: #efead8;
+  --surface-card: #ffffff;
+  --surface-dark: var(--brand-primary);
+
+  /* ---- Text ---- */
+  --text: #1a2236;
+  --text-muted: #556077;
+  --text-on-dark: #ffffff;
+  --text-on-dark-muted: rgba(255, 255, 255, 0.68);
+
+  /* ---- Borders & shadows ---- */
+  --line: rgba(0, 0, 0, 0.12);
+  --line-dark: rgba(255, 255, 255, 0.12);
+  --shadow: 0 8px 30px rgba(0, 0, 0, 0.10);
+  --radius: 14px;
+
+  /* ---- Layout ---- */
+  --maxw: 1260px;
+
+  /* ---- Typography ---- */
+  --font-body: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', sans-serif;
+  --font-display: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+}

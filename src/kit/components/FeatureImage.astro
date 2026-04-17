@@ -1,0 +1,44 @@
+---
+interface Props {
+  sectionNumber?: string;
+  eyebrow?: string;
+  heading: string;
+  description: string;
+  image: string;
+  imageAlt?: string;
+  dark?: boolean;
+}
+
+const { sectionNumber, eyebrow, heading, description, image, imageAlt = '', dark = false } = Astro.props;
+
+// Build a map of assets bundled from src/assets so content JSON can reference
+// them with "/assets/filename.ext". Vite returns processed/hashed URLs.
+const assetModules = import.meta.glob(
+  '../../assets/**/*.{svg,SVG,png,PNG,jpg,JPG,jpeg,JPEG,webp,WEBP,gif,GIF,avif,AVIF}',
+  { eager: true, query: '?url', import: 'default' }
+) as Record<string, string>;
+
+function resolveImage(path: string): string {
+  if (path.startsWith('/assets/')) {
+    const name = path.slice('/assets/'.length);
+    const matchKey = Object.keys(assetModules).find((k) => k.endsWith('/assets/' + name));
+    if (matchKey) return assetModules[matchKey];
+  }
+  return path;
+}
+
+const resolvedImage = resolveImage(image);
+---
+
+<section class:list={['ps-feature-section', { 'ps-feature-dark': dark }]}>
+  <div class="ps-feature-layout">
+    <div class="ps-feature-text">
+      {eyebrow && <div class="ps-feature-eyebrow">{eyebrow}</div>}
+      <h2>{heading}</h2>
+      <p set:html={description} />
+    </div>
+    <div class="ps-feature-image">
+      <img src={resolvedImage} alt={imageAlt} loading="lazy" />
+    </div>
+  </div>
+</section>

@@ -1,0 +1,164 @@
+/* ==========================================================
+   VoiceGrid component
+   Renders on a dark section background.
+   ========================================================== */
+
+.ps-voice-header {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-bottom: 12px;
+}
+
+.ps-voice-section-num {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: clamp(28px, 3.2vw, 44px);
+  line-height: 1;
+  color: var(--brand-primary-deep);
+  background: var(--brand-accent-secondary);
+  padding: 10px 14px 8px;
+  border-radius: 10px;
+}
+
+.ps-voice-header h2 {
+  font-size: clamp(32px, 4vw, 56px);
+  color: var(--brand-primary);
+  margin: 0;
+}
+
+.ps-voice-subtitle {
+  font-size: 17px;
+  font-weight: 400;
+  line-height: 1.55;
+  color: var(--text-muted);
+  margin: 0 0 44px;
+}
+
+.ps-voice-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 18px;
+}
+
+.ps-voice-card {
+  --voice: var(--brand-accent-secondary);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--line-dark);
+  border-radius: var(--radius);
+  padding: 24px;
+  position: relative;
+  transition: transform 0.25s ease, border-color 0.25s ease;
+}
+
+.ps-voice-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--voice);
+}
+
+.ps-voice-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 4px;
+  background: var(--voice);
+  border-radius: 0;
+}
+
+.ps-voice-share {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 64px;
+  line-height: 1;
+  color: var(--voice);
+  margin-bottom: 8px;
+}
+
+.ps-voice-share span {
+  font-size: 28px;
+  margin-left: 2px;
+  opacity: 0.8;
+}
+
+.ps-voice-card h3 {
+  font-size: 22px;
+  color: var(--text-on-dark);
+  margin-bottom: 6px;
+}
+
+.ps-voice-meta {
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-on-dark-muted);
+  margin-bottom: 12px;
+}
+
+.ps-voice-card p {
+  margin: 0;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.82);
+  line-height: 1.55;
+}
+
+/* ---- Section wrapper ---- */
+.ps-voice-section {
+  padding: 96px max(28px, calc((100% - var(--maxw)) / 2));
+  background: var(--surface);
+}
+
+/* ---- Dark variant ---- */
+.ps-voice-dark {
+  background: linear-gradient(180deg, var(--brand-primary-deep) 0%, var(--brand-primary) 100%);
+  color: var(--text-on-dark);
+}
+
+.ps-voice-dark .ps-voice-header h2 {
+  color: var(--text-on-dark);
+}
+
+.ps-voice-dark .ps-voice-subtitle {
+  color: var(--text-on-dark-muted);
+}
+
+/* ---- Light variant overrides (cards need different styling on light bg) ---- */
+.ps-voice-section:not(.ps-voice-dark) .ps-voice-card {
+  background: var(--surface-card);
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow);
+}
+
+.ps-voice-section:not(.ps-voice-dark) .ps-voice-card h3 {
+  color: var(--brand-primary);
+}
+
+.ps-voice-section:not(.ps-voice-dark) .ps-voice-meta {
+  color: var(--text-muted);
+}
+
+.ps-voice-section:not(.ps-voice-dark) .ps-voice-card p {
+  color: var(--text);
+}
+
+.ps-voice-section:not(.ps-voice-dark) .ps-voice-subtitle {
+  color: var(--text-muted);
+}
+
+/* ---- Responsive ---- */
+@media (max-width: 900px) {
+  .ps-voice-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .ps-voice-section { padding: 64px 18px; }
+}
+
+@media (max-width: 520px) {
+  .ps-voice-grid {
+    grid-template-columns: 1fr;
+  }
+}

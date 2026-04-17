@@ -1,0 +1,127 @@
+/* ==========================================================
+   DataTable component
+   ========================================================== */
+
+.ps-table-section {
+  padding: 96px max(28px, calc((100% - var(--maxw)) / 2));
+  background: var(--surface);
+}
+
+.ps-table-header {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-bottom: 12px;
+}
+
+.ps-table-section-num {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: clamp(28px, 3.2vw, 44px);
+  line-height: 1;
+  color: var(--text-on-dark);
+  background: var(--brand-primary);
+  padding: 10px 14px 8px;
+  border-radius: 10px;
+}
+
+.ps-table-header h2 {
+  font-size: clamp(32px, 4vw, 56px);
+  color: var(--brand-primary);
+  margin: 0;
+}
+
+.ps-table-subtitle {
+  font-size: 17px;
+  font-weight: 400;
+  line-height: 1.55;
+  color: var(--text-muted);
+  margin: 0 0 44px;
+}
+
+.ps-table-wrap {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.ps-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--surface-card);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  font-size: 14px;
+}
+
+.ps-table thead th {
+  text-align: left;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-on-dark);
+  background: var(--brand-primary);
+  padding: 16px 20px;
+}
+
+.ps-table tbody td {
+  padding: 16px 20px;
+  border-top: 1px solid var(--line);
+  vertical-align: top;
+  line-height: 1.5;
+  color: var(--text);
+}
+
+.ps-table tbody tr:first-child td {
+  border-top: 0;
+}
+
+.ps-table tbody tr:hover {
+  background: rgba(0, 0, 0, 0.02);
+}
+
+/* ---- Dark variant ---- */
+.ps-table-dark {
+  background: linear-gradient(180deg, var(--brand-primary-deep) 0%, var(--brand-primary) 100%);
+}
+
+.ps-table-dark .ps-table-header h2 {
+  color: var(--text-on-dark);
+}
+
+.ps-table-dark .ps-table-section-num {
+  background: var(--brand-accent-secondary);
+  color: var(--brand-primary-deep);
+}
+
+.ps-table-dark .ps-table-subtitle {
+  color: var(--text-on-dark-muted);
+}
+
+.ps-table-dark .ps-table {
+  background: rgba(255, 255, 255, 0.04);
+  box-shadow: none;
+  border: 1px solid var(--line-dark);
+}
+
+.ps-table-dark .ps-table thead th {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.ps-table-dark .ps-table tbody td {
+  color: var(--text-on-dark-muted);
+  border-color: var(--line-dark);
+}
+
+.ps-table-dark .ps-table tbody tr:hover {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+@media (max-width: 600px) {
+  .ps-table-section { padding: 64px 18px; }
+  .ps-table-header { flex-wrap: wrap; gap: 8px; }
+  .ps-table-header h2 { font-size: 32px; width: 100%; }
+  .ps-table thead th,
+  .ps-table tbody td { padding: 12px 14px; min-width: 120px; }
+}

@@ -1,0 +1,24 @@
+---
+interface Props {
+  sectionNumber?: string;
+  heading: string;
+  leadText?: string;
+  columnOne: string;
+  columnTwo: string;
+  dark?: boolean;
+}
+
+const { sectionNumber, heading, leadText, columnOne, columnTwo, dark = false } = Astro.props;
+---
+
+<section class:list={['ps-section', 'ps-textblock-section', { 'ps-textblock-dark': dark }]}>
+  <div class="ps-textblock-header">
+    {sectionNumber && <div class="ps-textblock-num">{sectionNumber}</div>}
+    <h2>{heading}</h2>
+  </div>
+  {leadText && <p class="ps-textblock-lead">{leadText}</p>}
+  <div class="ps-textblock-columns">
+    <div class="ps-textblock-col" set:html={columnOne} />
+    <div class="ps-textblock-col" set:html={columnTwo} />
+  </div>
+</section>

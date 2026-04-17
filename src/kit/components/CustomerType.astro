@@ -1,0 +1,119 @@
+---
+interface Item {
+  text: string;
+}
+
+interface Persona {
+  name: string;
+  description?: string;
+  image: string;
+  imageAlt?: string;
+  struggles?: Item[];
+  opportunities?: Item[];
+}
+
+interface Props {
+  sectionNumber?: string;
+  heading?: string;
+  subtitle?: string;
+  personas: Persona[];
+  dark?: boolean;
+}
+
+const { sectionNumber, heading, subtitle, personas, dark = false } = Astro.props;
+const clipped = personas.slice(0, 4);
+
+// Deterministic per-card float params so server & client match
+function floatParams(i: number) {
+  const dur = 4 + ((i * 37) % 40) / 10; // 4.0s–8.0s
+  const delay = ((i * 53) % 40) / 10;   // 0s–4s
+  const amp = 14 + ((i * 71) % 12);     // 14px–25px
+  return { dur, delay, amp };
+}
+---
+
+<section class:list={['ps-section', 'ps-persona-section', { 'ps-persona-dark': dark }]}>
+  {(heading || subtitle) && (
+    <div class="ps-persona-header">
+      {sectionNumber && <div class="ps-persona-section-num">{sectionNumber}</div>}
+      <div>
+        {heading && <h2>{heading}</h2>}
+        {subtitle && <p class="ps-persona-subtitle">{subtitle}</p>}
+      </div>
+    </div>
+  )}
+
+  <div class="ps-persona-grid">
+    {clipped.map((p, i) => {
+      const { dur, delay, amp } = floatParams(i);
+      return (
+        <article
+          class="ps-persona-card"
+          style={`--float-dur: ${dur}s; --float-delay: ${delay}s; --float-amp: ${amp}px;`}
+        >
+          <div class="ps-persona-inner">
+            {/* Front: image background + name + description */}
+            <div class="ps-persona-face ps-persona-front">
+              <div
+                class="ps-persona-image"
+                style={`background-image: url(${p.image});`}
+                role="img"
+                aria-label={p.imageAlt || p.name}
+              ></div>
+              <div class="ps-persona-front-body">
+                <h3 class="ps-persona-name">{p.name}</h3>
+                {p.description && <p class="ps-persona-desc">{p.description}</p>}
+                <div class="ps-persona-hint" aria-hidden="true">Click to flip</div>
+              </div>
+            </div>
+
+            {/* Back: struggles + opportunities */}
+            <div class="ps-persona-face ps-persona-back">
+              <h3 class="ps-persona-back-name">{p.name}</h3>
+
+              <div class="ps-persona-block ps-persona-struggles">
+                <div class="ps-persona-block-label">Struggles</div>
+                {p.struggles && p.struggles.length > 0 ? (
+                  <ul>
+                    {p.struggles.map((s) => <li>{s.text}</li>)}
+                  </ul>
+                ) : (
+                  <p class="ps-persona-empty">&mdash;</p>
+                )}
+              </div>
+
+              <div class="ps-persona-block ps-persona-opportunities">
+                <div class="ps-persona-block-label">Opportunities</div>
+                {p.opportunities && p.opportunities.length > 0 ? (
+                  <ul>
+                    {p.opportunities.map((s) => <li>{s.text}</li>)}
+                  </ul>
+                ) : (
+                  <p class="ps-persona-empty">&mdash;</p>
+                )}
+              </div>
+
+              <div class="ps-persona-hint" aria-hidden="true">Click to flip back</div>
+            </div>
+          </div>
+        </article>
+      );
+    })}
+  </div>
+</section>
+
+<script>
+  function initPersonaFlip() {
+    document.querySelectorAll<HTMLElement>('.ps-persona-card').forEach((card) => {
+      card.addEventListener('click', () => {
+        card.classList.toggle('flipped');
+      });
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initPersonaFlip);
+  } else {
+    initPersonaFlip();
+  }
+</script>

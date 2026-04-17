@@ -1,0 +1,100 @@
+---
+interface Slice {
+  label: string;
+  value: number;
+  color?: string;
+}
+
+interface Props {
+  sectionNumber?: string;
+  heading: string;
+  subtitle?: string;
+  description?: string;
+  slices: Slice[];
+  dark?: boolean;
+}
+
+const { sectionNumber, heading, subtitle, description, slices, dark = false } = Astro.props;
+
+// Calculate percentages and SVG arc data
+const total = slices.reduce((sum, s) => sum + s.value, 0);
+const defaultColors = ['#e63946', '#f4a261', '#2a9d8f', '#457b9d', '#264653', '#e9c46a', '#6a4c93', '#1982c4'];
+
+interface ArcData {
+  label: string;
+  value: number;
+  percent: number;
+  color: string;
+  startAngle: number;
+  endAngle: number;
+}
+
+let currentAngle = -90; // start from top
+const arcs: ArcData[] = slices.map((s, i) => {
+  const percent = total > 0 ? (s.value / total) * 100 : 0;
+  const sweep = (percent / 100) * 360;
+  const arc: ArcData = {
+    label: s.label,
+    value: s.value,
+    percent,
+    color: s.color || defaultColors[i % defaultColors.length],
+    startAngle: currentAngle,
+    endAngle: currentAngle + sweep,
+  };
+  currentAngle += sweep;
+  return arc;
+});
+
+function polarToCartesian(cx: number, cy: number, r: number, angleDeg: number) {
+  const rad = (angleDeg * Math.PI) / 180;
+  return { x: cx + r * Math.cos(rad), y: cy + r * Math.sin(rad) };
+}
+
+function describeArc(cx: number, cy: number, r: number, startAngle: number, endAngle: number) {
+  const start = polarToCartesian(cx, cy, r, endAngle);
+  const end = polarToCartesian(cx, cy, r, startAngle);
+  const largeArc = endAngle - startAngle > 180 ? 1 : 0;
+  return `M ${cx} ${cy} L ${start.x} ${start.y} A ${r} ${r} 0 ${largeArc} 0 ${end.x} ${end.y} Z`;
+}
+---
+
+<section class:list={['ps-section', 'ps-piechart-section', { 'ps-piechart-dark': dark }]}>
+  <div class="ps-piechart-outer">
+    <div class="ps-piechart-text">
+      <div class="ps-piechart-header">
+        {sectionNumber && <div class="ps-piechart-section-num">{sectionNumber}</div>}
+        <h2>{heading}</h2>
+      </div>
+      {subtitle && <p class="ps-piechart-subtitle">{subtitle}</p>}
+      {description && <div class="ps-piechart-description" set:html={description} />}
+    </div>
+    <div class="ps-piechart-right">
+      <div class="ps-piechart-layout">
+        <div class="ps-piechart-chart">
+          <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+            {arcs.map((arc) => (
+              <path
+                d={describeArc(100, 100, 90, arc.startAngle, arc.endAngle)}
+                fill={arc.color}
+                stroke={dark ? 'rgba(0,0,0,0.3)' : '#fff'}
+                stroke-width="2"
+              />
+            ))}
+            <circle cx="100" cy="100" r="45" fill={dark ? 'var(--brand-primary)' : 'var(--surface)'} />
+          </svg>
+        </div>
+        <div class="ps-piechart-legend">
+          {arcs.map((arc) => (
+            <div class="ps-piechart-legend-item">
+              <div class="ps-piechart-legend-swatch" style={`background: ${arc.color}`}></div>
+              <div class="ps-piechart-legend-text">
+                <span class="ps-piechart-legend-label">{arc.label}</span>
+                <span class="ps-piechart-legend-value">{Math.round(arc.percent)}%</span>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

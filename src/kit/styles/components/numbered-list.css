@@ -1,0 +1,127 @@
+/* ==========================================================
+   NumberedList component — vertical numbered items
+   ========================================================== */
+
+.ps-numlist-section {
+  padding: 96px max(28px, calc((100% - var(--maxw)) / 2));
+  background: var(--surface);
+}
+
+.ps-numlist-header {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-bottom: 12px;
+}
+
+.ps-numlist-section-num {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: clamp(28px, 3.2vw, 44px);
+  line-height: 1;
+  letter-spacing: 0.02em;
+  color: var(--text-on-dark);
+  background: var(--brand-primary);
+  padding: 10px 14px 8px;
+  border-radius: 10px;
+}
+
+.ps-numlist-header h2 {
+  font-size: clamp(32px, 4vw, 56px);
+  color: var(--brand-primary);
+  margin: 0;
+}
+
+.ps-numlist-subtitle {
+  font-size: 17px;
+  font-weight: 400;
+  line-height: 1.55;
+  color: var(--text-muted);
+  margin: 0 0 44px;
+}
+
+.ps-numlist {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  max-width: 860px;
+}
+
+.ps-numlist-item {
+  display: flex;
+  gap: 24px;
+  align-items: flex-start;
+  padding: 28px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.ps-numlist-item:first-child {
+  border-top: 1px solid var(--line);
+}
+
+.ps-numlist-num {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 32px;
+  line-height: 1;
+  color: var(--brand-accent);
+  flex-shrink: 0;
+  width: 48px;
+  padding-top: 4px;
+}
+
+.ps-numlist-content h3 {
+  font-size: 20px;
+  color: var(--brand-primary);
+  margin: 0 0 6px;
+}
+
+.ps-numlist-content p {
+  font-size: 15px;
+  color: var(--text-muted);
+  margin: 0;
+  line-height: 1.6;
+}
+
+/* ---- Dark variant ---- */
+.ps-numlist-dark {
+  background: linear-gradient(180deg, var(--brand-primary-deep) 0%, var(--brand-primary) 100%);
+}
+
+.ps-numlist-dark .ps-numlist-header h2 {
+  color: var(--text-on-dark);
+}
+
+.ps-numlist-dark .ps-numlist-section-num {
+  background: var(--brand-accent-secondary);
+  color: var(--brand-primary-deep);
+}
+
+.ps-numlist-dark .ps-numlist-subtitle {
+  color: var(--text-on-dark-muted);
+}
+
+.ps-numlist-dark .ps-numlist-item {
+  border-color: var(--line-dark);
+}
+
+.ps-numlist-dark .ps-numlist-num {
+  color: var(--brand-accent-secondary);
+}
+
+.ps-numlist-dark .ps-numlist-content h3 {
+  color: var(--text-on-dark);
+}
+
+.ps-numlist-dark .ps-numlist-content p {
+  color: var(--text-on-dark-muted);
+}
+
+@media (max-width: 600px) {
+  .ps-numlist-section { padding: 64px 18px; }
+  .ps-numlist-header { flex-wrap: wrap; gap: 8px; }
+  .ps-numlist-header h2 { font-size: 32px; width: 100%; }
+  .ps-numlist-item { gap: 16px; padding: 20px 0; }
+  .ps-numlist-num { font-size: 24px; width: 36px; }
+  .ps-numlist-content h3 { font-size: 17px; }
+}

@@ -1,0 +1,23 @@
+{
+  "type": "quote-carousel",
+  "variant": "dark",
+  "sectionNumber": "",
+  "heading": "Testimonia Collecta",
+  "quotes": [
+    {
+      "quote": "Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.",
+      "title": "Marcus Aurelius",
+      "subtitle": "Praefectus Consilii"
+    },
+    {
+      "quote": "Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae.",
+      "title": "Livia Drusilla",
+      "subtitle": "Curator Regionalis"
+    },
+    {
+      "quote": "Nunc sed blandit libero volutpat sed cras ornare arcu dui vivamus arcu felis.",
+      "title": "Gaius Plinius",
+      "subtitle": "Membrum Comitatus"
+    }
+  ]
+}

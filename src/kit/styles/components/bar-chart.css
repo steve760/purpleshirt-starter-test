@@ -1,0 +1,174 @@
+/* ==========================================================
+   BarChart component — horizontal bar graph with hover tooltips
+   ========================================================== */
+
+.ps-barchart-section {
+  padding: 96px max(28px, calc((100% - var(--maxw)) / 2));
+  background: var(--surface);
+}
+
+.ps-barchart-layout {
+  display: grid;
+  grid-template-columns: 1fr 1.4fr;
+  gap: 64px;
+  align-items: start;
+}
+
+.ps-barchart-header {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-bottom: 12px;
+}
+
+.ps-barchart-section-num {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: clamp(28px, 3.2vw, 44px);
+  line-height: 1;
+  color: var(--text-on-dark);
+  background: var(--brand-primary);
+  padding: 10px 14px 8px;
+  border-radius: 10px;
+}
+
+.ps-barchart-header h2 {
+  font-size: clamp(32px, 4vw, 56px);
+  color: var(--brand-primary);
+  margin: 0;
+}
+
+.ps-barchart-description {
+  font-size: 16px;
+  line-height: 1.65;
+  color: var(--text);
+  margin-top: 8px;
+}
+
+.ps-barchart-description p {
+  margin: 0 0 12px;
+}
+
+.ps-barchart-description p:last-child {
+  margin-bottom: 0;
+}
+
+/* Chart bars */
+.ps-barchart-chart {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding-top: 8px;
+}
+
+.ps-barchart-bar-row {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.ps-barchart-bar-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--brand-primary);
+}
+
+.ps-barchart-bar-track {
+  width: 100%;
+  height: 36px;
+  background: rgba(0, 0, 0, 0.06);
+  border-radius: 4px;
+  position: relative;
+  overflow: hidden;
+}
+
+.ps-barchart-bar-fill {
+  height: 100%;
+  width: var(--bar-width);
+  border-radius: 4px;
+  position: relative;
+  transition: filter 0.2s ease;
+  cursor: pointer;
+}
+
+.ps-barchart-bar-fill:hover {
+  filter: brightness(1.15);
+}
+
+/* Tooltip on hover */
+.ps-barchart-bar-fill::after {
+  content: attr(data-value);
+  position: absolute;
+  right: -8px;
+  top: 50%;
+  transform: translate(100%, -50%);
+  background: var(--brand-primary);
+  color: var(--text-on-dark);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 13px;
+  padding: 4px 10px;
+  border-radius: 4px;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s ease;
+}
+
+.ps-barchart-bar-fill:hover::after {
+  opacity: 1;
+}
+
+/* When bar is near 100% width, flip tooltip to left side */
+.ps-barchart-bar-track:has(.ps-barchart-bar-fill[style*="--bar-width: 100%"])
+  .ps-barchart-bar-fill::after,
+.ps-barchart-bar-track:has(.ps-barchart-bar-fill[style*="--bar-width: 9"])
+  .ps-barchart-bar-fill::after {
+  right: auto;
+  left: 12px;
+  transform: translateY(-50%);
+}
+
+/* ---- Dark variant ---- */
+.ps-barchart-dark {
+  background: linear-gradient(180deg, var(--brand-primary-deep) 0%, var(--brand-primary) 100%);
+}
+
+.ps-barchart-dark .ps-barchart-header h2 {
+  color: var(--text-on-dark);
+}
+
+.ps-barchart-dark .ps-barchart-section-num {
+  background: var(--brand-accent-secondary);
+  color: var(--brand-primary-deep);
+}
+
+.ps-barchart-dark .ps-barchart-description {
+  color: var(--text-on-dark-muted);
+}
+
+.ps-barchart-dark .ps-barchart-bar-label {
+  color: var(--text-on-dark);
+}
+
+.ps-barchart-dark .ps-barchart-bar-track {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.ps-barchart-dark .ps-barchart-bar-fill::after {
+  background: rgba(255, 255, 255, 0.95);
+  color: var(--brand-primary-deep);
+}
+
+/* ---- Mobile ---- */
+@media (max-width: 600px) {
+  .ps-barchart-section { padding: 64px 18px; }
+  .ps-barchart-layout {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+  .ps-barchart-header { flex-wrap: wrap; gap: 8px; }
+  .ps-barchart-header h2 { font-size: 32px; width: 100%; }
+  .ps-barchart-bar-track { height: 30px; }
+  .ps-barchart-bar-label { font-size: 13px; }
+}

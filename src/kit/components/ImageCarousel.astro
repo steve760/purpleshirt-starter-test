@@ -1,0 +1,94 @@
+---
+interface Slide {
+  eyebrow?: string;
+  heading: string;
+  description: string;
+  image: string;
+  imageAlt?: string;
+}
+
+interface Props {
+  sectionNumber?: string;
+  heading?: string;
+  subtitle?: string;
+  slides: Slide[];
+  dark?: boolean;
+}
+
+const { sectionNumber, heading, subtitle, slides, dark = false } = Astro.props;
+const id = `imgcarousel-${Math.random().toString(36).substring(2, 8)}`;
+---
+
+<section class:list={['ps-section', 'ps-imgcarousel-section', { 'ps-imgcarousel-dark': dark }]} data-imgcarousel-id={id}>
+  {(heading || sectionNumber) && (
+    <div class="ps-imgcarousel-header">
+      {sectionNumber && <div class="ps-imgcarousel-section-num">{sectionNumber}</div>}
+      {heading && <h2>{heading}</h2>}
+    </div>
+  )}
+  {subtitle && <p class="ps-imgcarousel-subtitle">{subtitle}</p>}
+
+  <div class="ps-imgcarousel-viewport">
+    <div class="ps-imgcarousel-track" id={id}>
+      {slides.map((slide) => (
+        <div class="ps-imgcarousel-slide">
+          <div class="ps-imgcarousel-text">
+            {slide.eyebrow && <div class="ps-imgcarousel-eyebrow">{slide.eyebrow}</div>}
+            <h3>{slide.heading}</h3>
+            <p set:html={slide.description} />
+          </div>
+          <div class="ps-imgcarousel-image">
+            <img src={slide.image} alt={slide.imageAlt || ''} loading="lazy" />
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+
+  {slides.length > 1 && (
+    <div class="ps-imgcarousel-controls">
+      <button class="ps-imgcarousel-btn ps-imgcarousel-prev" data-target={id} aria-label="Previous">&larr;</button>
+      <span class="ps-imgcarousel-counter">
+        <span class="ps-imgcarousel-current">1</span> / {slides.length}
+      </span>
+      <button class="ps-imgcarousel-btn ps-imgcarousel-next" data-target={id} aria-label="Next">&rarr;</button>
+    </div>
+  )}
+</section>
+
+<script>
+  function initImageCarousels() {
+    document.querySelectorAll<HTMLElement>('[data-imgcarousel-id]').forEach((section) => {
+      const id = section.dataset.imgcarouselId!;
+      const track = document.getElementById(id) as HTMLElement;
+      if (!track) return;
+
+      const slides = track.querySelectorAll<HTMLElement>('.ps-imgcarousel-slide');
+      const prevBtn = section.querySelector('.ps-imgcarousel-prev') as HTMLButtonElement;
+      const nextBtn = section.querySelector('.ps-imgcarousel-next') as HTMLButtonElement;
+      const counter = section.querySelector('.ps-imgcarousel-current') as HTMLElement;
+      if (!prevBtn || !nextBtn || !counter) return;
+
+      let current = 0;
+
+      function goTo(index: number) {
+        current = Math.max(0, Math.min(index, slides.length - 1));
+        const slide = slides[current];
+        track.scrollTo({ left: slide.offsetLeft - track.offsetLeft, behavior: 'smooth' });
+        counter.textContent = String(current + 1);
+        prevBtn.disabled = current === 0;
+        nextBtn.disabled = current === slides.length - 1;
+      }
+
+      prevBtn.addEventListener('click', () => goTo(current - 1));
+      nextBtn.addEventListener('click', () => goTo(current + 1));
+      goTo(0);
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initImageCarousels);
+  } else {
+    initImageCarousels();
+  }
+</script>

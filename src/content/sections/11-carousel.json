@@ -1,0 +1,21 @@
+{
+  "type": "carousel",
+  "variant": "auto",
+  "sectionNumber": "",
+  "heading": "Munera et Officia",
+  "subtitle": "",
+  "items": [
+    {
+      "title": "Coordinator Auxilii",
+      "description": "<p>Pellentesque eu tincidunt tortor aliquam nulla facilisi cras fermentum odio eu feugiat pretium nibh ipsum.</p>"
+    },
+    {
+      "title": "Consiliarius Regionalis",
+      "description": "<p>Volutpat blandit aliquam etiam erat velit scelerisque in dictum non consectetur a erat nam at lectus.</p>"
+    },
+    {
+      "title": "Praefectus Programmatis",
+      "description": "<p>Adipiscing commodo elit at imperdiet dui accumsan sit amet nulla facilisi morbi tempus iaculis urna id.</p>"
+    }
+  ]
+}

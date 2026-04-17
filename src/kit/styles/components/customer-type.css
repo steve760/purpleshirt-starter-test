@@ -1,0 +1,327 @@
+/* ==========================================================
+   CustomerType — flip cards: image+name on front, struggles+
+   opportunities on back. Up to 4 cards in a 2×2 grid (no carousel).
+   ========================================================== */
+
+.ps-persona-section {
+  padding: 96px max(28px, calc((100% - var(--maxw)) / 2));
+  background: var(--surface);
+}
+
+/* ── Header ───────────────────────────────────────────────── */
+
+.ps-persona-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 18px;
+  margin-bottom: 44px;
+}
+
+.ps-persona-section-num {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: clamp(28px, 3.2vw, 44px);
+  line-height: 1;
+  color: var(--text-on-dark);
+  background: var(--brand-primary);
+  padding: 10px 14px 8px;
+  border-radius: 10px;
+  flex-shrink: 0;
+}
+
+.ps-persona-header h2 {
+  font-size: clamp(32px, 4vw, 56px);
+  color: var(--brand-primary);
+  margin: 0 0 8px;
+  letter-spacing: -0.01em;
+}
+
+.ps-persona-subtitle {
+  font-size: 17px;
+  color: var(--text-muted);
+  margin: 0;
+  max-width: 80ch;
+}
+
+/* ── 2×2 grid (or 1×N on mobile) ──────────────────────────── */
+
+.ps-persona-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 28px;
+  padding: 30px 0;
+}
+
+/* ── Card container (handles float animation) ─────────────── */
+
+.ps-persona-card {
+  perspective: 1400px;
+  cursor: pointer;
+  aspect-ratio: 4 / 3;
+  animation: ps-persona-float var(--float-dur, 5s) ease-in-out infinite;
+  animation-delay: var(--float-delay, 0s);
+  /* Smooth landing back to base when float pauses */
+  transition: transform 0.4s cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+/* Pause ALL cards in the grid while ANY card is showing its back —
+   keeps the section calm so the reader can focus. Cards smoothly
+   settle back to their base position via the transform transition. */
+.ps-persona-grid:has(.ps-persona-card.flipped) .ps-persona-card {
+  animation-play-state: paused;
+  transform: translateY(0) !important;
+}
+
+@keyframes ps-persona-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(calc(var(--float-amp, 18px) * -1)); }
+}
+
+/* Inner wrapper handles the flip transform */
+.ps-persona-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.6s cubic-bezier(0.3, 0.1, 0.3, 1);
+}
+
+.ps-persona-card.flipped .ps-persona-inner {
+  transform: rotateY(180deg);
+}
+
+/* Both faces fill the card and hide when facing away */
+.ps-persona-face {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.10), 0 2px 8px rgba(0, 0, 0, 0.05);
+  background: var(--surface-card);
+}
+
+/* ── Front: image background + name + description ────────── */
+
+.ps-persona-front {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  color: #fff;
+}
+
+.ps-persona-image {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  background-color: var(--brand-primary);
+  z-index: 0;
+}
+
+.ps-persona-front::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0) 30%,
+    rgba(0, 0, 0, 0.55) 70%,
+    rgba(0, 0, 0, 0.92) 100%
+  );
+  pointer-events: none;
+  z-index: 1;
+}
+
+.ps-persona-front-body {
+  position: relative;
+  z-index: 2;
+  padding: 28px 28px 22px;
+}
+
+.ps-persona-name {
+  font-family: var(--font-display);
+  font-size: clamp(22px, 2vw, 28px);
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  color: #fff;
+  margin: 0 0 10px;
+}
+
+.ps-persona-desc {
+  font-size: 14.5px;
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.92);
+  margin: 0 0 14px;
+}
+
+.ps-persona-hint {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  opacity: 0.7;
+}
+
+.ps-persona-front .ps-persona-hint {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+/* ── Back: struggles + opportunities ─────────────────────── */
+
+.ps-persona-back {
+  transform: rotateY(180deg);
+  padding: 26px 26px 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  background: var(--surface-card);
+  border: 1px solid var(--line);
+}
+
+.ps-persona-back-name {
+  font-family: var(--font-display);
+  font-size: clamp(18px, 1.6vw, 22px);
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  color: var(--brand-primary);
+  margin: 0;
+  padding-bottom: 12px;
+  border-bottom: 2px solid var(--line);
+}
+
+.ps-persona-block {
+  min-width: 0;
+}
+
+.ps-persona-block-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--brand-accent);
+  margin-bottom: 6px;
+}
+
+.ps-persona-opportunities .ps-persona-block-label {
+  color: var(--brand-primary);
+}
+
+.ps-persona-block ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: var(--text);
+}
+
+.ps-persona-block li {
+  position: relative;
+  padding-left: 16px;
+  margin-bottom: 4px;
+}
+
+.ps-persona-block li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 8px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  opacity: 0.4;
+}
+
+.ps-persona-empty {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+.ps-persona-back .ps-persona-hint {
+  color: var(--text-muted);
+  margin-top: auto;
+}
+
+/* ── Dark variant ─────────────────────────────────────────── */
+
+.ps-persona-dark {
+  background: linear-gradient(180deg, var(--brand-primary-deep) 0%, var(--brand-primary) 100%);
+}
+
+.ps-persona-dark .ps-persona-header h2 {
+  color: var(--text-on-dark);
+}
+
+.ps-persona-dark .ps-persona-section-num {
+  background: var(--brand-accent-secondary);
+  color: var(--brand-primary-deep);
+}
+
+.ps-persona-dark .ps-persona-subtitle {
+  color: var(--text-on-dark-muted);
+}
+
+.ps-persona-dark .ps-persona-face {
+  box-shadow: none;
+}
+
+.ps-persona-dark .ps-persona-back {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: var(--line-dark);
+}
+
+.ps-persona-dark .ps-persona-back-name {
+  color: var(--text-on-dark);
+  border-bottom-color: var(--line-dark);
+}
+
+.ps-persona-dark .ps-persona-struggles .ps-persona-block-label {
+  color: var(--brand-accent-secondary);
+}
+
+.ps-persona-dark .ps-persona-opportunities .ps-persona-block-label {
+  color: var(--text-on-dark);
+}
+
+.ps-persona-dark .ps-persona-block ul {
+  color: var(--text-on-dark-muted);
+}
+
+.ps-persona-dark .ps-persona-empty {
+  color: var(--text-on-dark-muted);
+}
+
+.ps-persona-dark .ps-persona-back .ps-persona-hint {
+  color: var(--text-on-dark-muted);
+}
+
+/* ── Responsive ──────────────────────────────────────────── */
+
+@media (max-width: 900px) {
+  .ps-persona-grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+  .ps-persona-card {
+    aspect-ratio: 4 / 3;
+  }
+}
+
+@media (max-width: 600px) {
+  .ps-persona-section { padding: 64px 18px; }
+  .ps-persona-header { flex-wrap: wrap; gap: 8px; }
+  .ps-persona-header h2 { font-size: 32px; width: 100%; }
+  .ps-persona-front-body { padding: 22px 22px 18px; }
+  .ps-persona-back { padding: 22px 20px; }
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .ps-persona-card { animation: none; }
+  .ps-persona-inner { transition-duration: 0.01ms; }
+}

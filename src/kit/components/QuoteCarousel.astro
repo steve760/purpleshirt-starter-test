@@ -1,0 +1,138 @@
+---
+interface Quote {
+  quote: string;
+  title: string;
+  subtitle?: string;
+}
+
+interface Props {
+  sectionNumber?: string;
+  heading?: string;
+  quotes: Quote[];
+  dark?: boolean;
+}
+
+const { sectionNumber, heading, quotes, dark = false } = Astro.props;
+const id = `qcarousel-${Math.random().toString(36).substring(2, 8)}`;
+const barCount = 80;
+---
+
+<section class:list={['ps-section', 'ps-qcarousel-section', { 'ps-qcarousel-dark': dark }]} data-qcarousel-id={id}>
+
+  {/* Animated soundwave background */}
+  <div class="ps-qcarousel-wave" aria-hidden="true">
+    {Array.from({ length: barCount }).map((_, i) => (
+      <div class="ps-qcarousel-wave-bar" style={`--i: ${i}; --bars: ${barCount};`} />
+    ))}
+  </div>
+
+  <div class="ps-qcarousel-inner">
+    {heading && (
+      <div class="ps-qcarousel-header">
+        {sectionNumber && <div class="ps-qcarousel-section-num">{sectionNumber}</div>}
+        <h2>{heading}</h2>
+      </div>
+    )}
+
+    <div class="ps-qcarousel-stage" id={id}>
+      {quotes.map((q, i) => (
+        <div class:list={['ps-qcarousel-slide', { 'ps-qcarousel-slide-active': i === 0 }]} data-slide={i}>
+          <blockquote class="ps-qcarousel-quote">{q.quote}</blockquote>
+          <div class="ps-qcarousel-attribution">
+            <div class="ps-qcarousel-avatar" aria-hidden="true">
+              {q.title.charAt(0)}
+            </div>
+            <div class="ps-qcarousel-meta">
+              <div class="ps-qcarousel-title">{q.title}</div>
+              {q.subtitle && <div class="ps-qcarousel-subtitle">{q.subtitle}</div>}
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+
+    {quotes.length > 1 && (
+      <div class="ps-qcarousel-controls">
+        <button class="ps-qcarousel-btn ps-qcarousel-prev" data-target={id} aria-label="Previous">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M12.5 15L7.5 10L12.5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="ps-qcarousel-dots">
+          {quotes.map((_, i) => (
+            <button class:list={['ps-qcarousel-dot', { active: i === 0 }]} data-dot={i} aria-label={`Quote ${i + 1}`} />
+          ))}
+        </div>
+        <button class="ps-qcarousel-btn ps-qcarousel-next" data-target={id} aria-label="Next">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 5L12.5 10L7.5 15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+    )}
+
+  </div>
+</section>
+
+<script>
+  function initQuoteCarousels() {
+    document.querySelectorAll<HTMLElement>('[data-qcarousel-id]').forEach((section) => {
+      const id = section.dataset.qcarouselId!;
+      const stage = document.getElementById(id) as HTMLElement;
+      if (!stage) return;
+
+      const slides = stage.querySelectorAll<HTMLElement>('.ps-qcarousel-slide');
+      const dots = section.querySelectorAll<HTMLElement>('.ps-qcarousel-dot');
+      const prevBtn = section.querySelector('.ps-qcarousel-prev') as HTMLButtonElement;
+      const nextBtn = section.querySelector('.ps-qcarousel-next') as HTMLButtonElement;
+      const waveBars = section.querySelectorAll<HTMLElement>('.ps-qcarousel-wave-bar');
+      if (!prevBtn || !nextBtn || slides.length === 0) return;
+
+      let current = 0;
+      let transitioning = false;
+
+      function goTo(index: number) {
+        if (transitioning || index === current) return;
+        transitioning = true;
+
+        const oldSlide = slides[current];
+        const newIndex = ((index % slides.length) + slides.length) % slides.length;
+        const newSlide = slides[newIndex];
+
+        // Animate wave bars on transition
+        waveBars.forEach(bar => {
+          bar.classList.add('ps-qcarousel-wave-burst');
+        });
+
+        // Crossfade
+        oldSlide.classList.remove('ps-qcarousel-slide-active');
+        oldSlide.classList.add('ps-qcarousel-slide-out');
+
+        newSlide.classList.add('ps-qcarousel-slide-active');
+
+        // Update dots
+        dots.forEach((d, i) => d.classList.toggle('active', i === newIndex));
+
+        setTimeout(() => {
+          oldSlide.classList.remove('ps-qcarousel-slide-out');
+          transitioning = false;
+          waveBars.forEach(bar => bar.classList.remove('ps-qcarousel-wave-burst'));
+        }, 500);
+
+        current = newIndex;
+        prevBtn.disabled = current === 0;
+        nextBtn.disabled = current === slides.length - 1;
+      }
+
+      prevBtn.addEventListener('click', () => goTo(current - 1));
+      nextBtn.addEventListener('click', () => goTo(current + 1));
+      dots.forEach((dot, i) => dot.addEventListener('click', () => goTo(i)));
+
+      // Initial state
+      prevBtn.disabled = true;
+      nextBtn.disabled = slides.length <= 1;
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initQuoteCarousels);
+  } else {
+    initQuoteCarousels();
+  }
+</script>

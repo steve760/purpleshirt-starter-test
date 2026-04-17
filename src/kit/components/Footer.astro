@@ -1,0 +1,15 @@
+---
+interface Props {
+  text?: string;
+  note?: string;
+}
+
+const { text = 'Prepared by Purple Shirt', note } = Astro.props;
+---
+
+<footer class="ps-footer-section">
+  <div class="ps-footer-inner">
+    <div class="ps-footer-text" set:html={text}></div>
+    {note && <div class="ps-footer-note" set:html={note}></div>}
+  </div>
+</footer>
