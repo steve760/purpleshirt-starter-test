@@ -1,0 +1,280 @@
+---
+/**
+ * Skyline — heading + 2 cards over a full-bleed scrolling line-drawing backdrop.
+ *
+ * The backdrop is a single continuous <path> that draws itself in slowly
+ * while the scroller translates horizontally in a seamless loop.
+ *
+ * Three backdrops are available via the `backdrop` prop:
+ *   - 'city'  (default) — corporate city skyline
+ *   - 'waves'           — undulating beach wave line
+ *   - 'train'           — locomotive + cars rolling past
+ */
+interface Card {
+  title: string;
+  description: string;
+}
+
+type Backdrop = 'city' | 'waves' | 'train';
+
+interface Props {
+  sectionNumber?: string;
+  heading: string;
+  subtitle?: string;
+  cards: Card[];
+  dark?: boolean;
+  backdrop?: Backdrop;
+}
+
+const {
+  sectionNumber,
+  heading,
+  subtitle,
+  cards,
+  dark = false,
+  backdrop = 'city',
+} = Astro.props;
+
+const sceneW = 1600;
+const baseY = 400;
+
+// ─── City skyline ──────────────────────────────────────────
+
+type CityKind = 'flat' | 'antenna' | 'setback' | 'spire' | 'dome';
+interface Building { x: number; w: number; h: number; t: CityKind; }
+
+const buildings: Building[] = [
+  { x: 10,   w: 55, h: 200, t: 'flat'    },
+  { x: 150,  w: 40, h: 260, t: 'antenna' },
+  { x: 330,  w: 75, h: 320, t: 'spire'   },
+  { x: 480,  w: 45, h: 170, t: 'dome'    },
+  { x: 580,  w: 85, h: 290, t: 'setback' },
+  { x: 770,  w: 50, h: 220, t: 'flat'    },
+  { x: 860,  w: 60, h: 250, t: 'antenna' },
+  { x: 1020, w: 45, h: 180, t: 'flat'    },
+  { x: 1140, w: 80, h: 310, t: 'spire'   },
+  { x: 1290, w: 50, h: 200, t: 'dome'    },
+  { x: 1400, w: 55, h: 240, t: 'setback' },
+  { x: 1520, w: 45, h: 220, t: 'antenna' },
+];
+
+function buildCityPath(): string {
+  const parts: string[] = [`M 0 ${baseY}`];
+  for (const b of buildings) {
+    const topY = baseY - b.h;
+    const cx = b.x + b.w / 2;
+    parts.push(`L ${b.x} ${baseY}`);
+    parts.push(`L ${b.x} ${topY}`);
+    switch (b.t) {
+      case 'flat':
+        parts.push(`L ${b.x + b.w} ${topY}`);
+        break;
+      case 'antenna': {
+        const antH = 44;
+        parts.push(`L ${cx} ${topY}`);
+        parts.push(`L ${cx} ${topY - antH}`);
+        parts.push(`L ${cx} ${topY}`);
+        parts.push(`L ${b.x + b.w} ${topY}`);
+        break;
+      }
+      case 'spire':
+        parts.push(`L ${cx} ${topY - 48}`);
+        parts.push(`L ${b.x + b.w} ${topY}`);
+        break;
+      case 'setback': {
+        const inset = b.w * 0.2;
+        const step = 30;
+        parts.push(`L ${b.x + inset} ${topY}`);
+        parts.push(`L ${b.x + inset} ${topY - step}`);
+        parts.push(`L ${b.x + b.w - inset} ${topY - step}`);
+        parts.push(`L ${b.x + b.w - inset} ${topY}`);
+        parts.push(`L ${b.x + b.w} ${topY}`);
+        break;
+      }
+      case 'dome':
+        parts.push(`Q ${cx} ${topY - b.w * 0.5} ${b.x + b.w} ${topY}`);
+        break;
+    }
+    parts.push(`L ${b.x + b.w} ${baseY}`);
+  }
+  parts.push(`L ${sceneW} ${baseY}`);
+  return parts.join(' ');
+}
+
+// ─── Waves (surf) — single continuous line drawing of many curling waves ──
+//
+// A single path traces a series of waves, each with the classic side-on
+// silhouette: long gentle rising face, a tight curl loop at the crest, then
+// a steep breaking back to the trough. Heights/widths vary so the sea feels
+// natural. Widths sum to sceneW (1600) so the scroll loop is seamless.
+
+function wavePath(x0: number, w: number, h: number, y0: number): string {
+  const peakX = x0 + w * 0.52;
+  const peakY = y0 - h;
+  const curl  = Math.max(10, h * 0.14); // curl loop radius at the crest
+
+  return [
+    // 1) Long gentle rising face (baseline → near-peak)
+    `C ${x0 + w * 0.22} ${y0 - h * 0.04}`,
+    `${x0 + w * 0.38} ${y0 - h * 0.4}`,
+    `${x0 + w * 0.48} ${y0 - h * 0.88}`,
+
+    // 2) Approach to crest
+    `C ${peakX - 4} ${peakY + h * 0.02}`,
+    `${peakX + 4} ${peakY - 4}`,
+    `${peakX + curl * 0.55} ${peakY + curl * 0.1}`,
+
+    // 3) Curl — small inward loop over the crest
+    `C ${peakX + curl * 1.35} ${peakY + curl * 0.55}`,
+    `${peakX + curl * 0.9}  ${peakY + curl * 1.55}`,
+    `${peakX - curl * 0.05} ${peakY + curl * 1.1}`,
+
+    // 4) Re-emerge from the curl going right-downwards
+    `C ${peakX - curl * 0.35} ${peakY + curl * 0.65}`,
+    `${peakX + curl * 0.35} ${peakY + curl * 0.4}`,
+    `${peakX + curl * 0.95} ${peakY + curl * 1.1}`,
+
+    // 5) Breaking back face — steep drop to the trough
+    `C ${peakX + curl * 2}   ${peakY + h * 0.45}`,
+    `${x0 + w * 0.78} ${y0 - h * 0.06}`,
+    `${x0 + w}        ${y0}`,
+  ].join(' ');
+}
+
+function buildWavesPath(): string {
+  // Baseline sits high in the viewBox so the whole wave band lives in the
+  // top portion of the SVG (kept above the cards by the YMin alignment).
+  const y0 = 130;
+  const waves: Array<{ w: number; h: number }> = [
+    { w: 320, h: 90  },
+    { w: 220, h: 55  },
+    { w: 360, h: 110 },
+    { w: 200, h: 65  },
+    { w: 300, h: 85  },
+    { w: 200, h: 48  },
+  ];
+  // total = 320 + 220 + 360 + 200 + 300 + 200 = 1600 ✓
+
+  const parts: string[] = [`M 0 ${y0}`];
+  let x = 0;
+  for (const { w, h } of waves) {
+    parts.push(wavePath(x, w, h, y0));
+    x += w;
+  }
+  return parts.join(' ');
+}
+
+// ─── Train ─────────────────────────────────────────────────
+
+function buildTrainPath(): string {
+  // Track at baseY. Train occupies roughly x=120..840 so there's whitespace
+  // before and after, and two scenes tile with a believable gap between trains.
+  const track = baseY;
+  const bodyTop = track - 78;      // top of locomotive boiler / carriage roofs
+  const cabTop  = track - 120;     // top of cab + chimney
+  const chimneyW = 18;
+  const startX = 120;
+
+  const p: string[] = [`M 0 ${track}`];
+
+  // Ground to nose of locomotive
+  p.push(`L ${startX} ${track}`);
+
+  // Front buffer / cow-catcher angle
+  p.push(`L ${startX + 10} ${track - 18}`);
+  p.push(`L ${startX + 22} ${track - 18}`);      // flat buffer plate
+  p.push(`L ${startX + 22} ${track - 42}`);      // up to boiler front
+  p.push(`L ${startX + 40} ${track - 60}`);      // chamfered front corner
+
+  // Boiler top → chimney
+  p.push(`L ${startX + 90} ${track - 60}`);      // along boiler
+  p.push(`L ${startX + 90} ${bodyTop}`);         // up to boiler top
+  p.push(`L ${startX + 140} ${bodyTop}`);        // across to chimney base
+  p.push(`L ${startX + 140} ${cabTop + 10}`);    // up chimney
+  p.push(`L ${startX + 140 + chimneyW} ${cabTop + 10}`); // chimney top
+  p.push(`L ${startX + 140 + chimneyW} ${bodyTop}`);     // down chimney back
+  p.push(`L ${startX + 210} ${bodyTop}`);        // boiler top to cab
+  p.push(`L ${startX + 210} ${cabTop}`);         // up to cab roof
+  p.push(`L ${startX + 290} ${cabTop}`);         // across cab roof
+  p.push(`L ${startX + 290} ${track}`);          // down cab back to ground
+
+  // Coupler gap + first carriage
+  p.push(`L ${startX + 310} ${track}`);
+  p.push(`L ${startX + 310} ${bodyTop + 16}`);   // up first car
+  p.push(`L ${startX + 470} ${bodyTop + 16}`);   // across first car roof
+  p.push(`L ${startX + 470} ${track}`);
+
+  // Coupler gap + second carriage
+  p.push(`L ${startX + 490} ${track}`);
+  p.push(`L ${startX + 490} ${bodyTop + 16}`);
+  p.push(`L ${startX + 650} ${bodyTop + 16}`);
+  p.push(`L ${startX + 650} ${track}`);
+
+  // Coupler gap + third carriage (shorter)
+  p.push(`L ${startX + 670} ${track}`);
+  p.push(`L ${startX + 670} ${bodyTop + 22}`);
+  p.push(`L ${startX + 770} ${bodyTop + 22}`);
+  p.push(`L ${startX + 770} ${track}`);
+
+  // Trailing ground to scene right edge
+  p.push(`L ${sceneW} ${track}`);
+
+  return p.join(' ');
+}
+
+// ─── Resolve the chosen line-drawing path ──────────────────
+
+function buildPath(b: Backdrop): string {
+  switch (b) {
+    case 'waves': return buildWavesPath();
+    case 'train': return buildTrainPath();
+    case 'city':
+    default:      return buildCityPath();
+  }
+}
+
+const pathD = buildPath(backdrop);
+
+// Waves sit in the upper portion of the viewBox so they render as a top
+// banner, always above the card content below. City/train continue to
+// anchor to the bottom of the section.
+const preserveAspect = backdrop === 'waves' ? 'xMidYMin meet' : 'xMidYEnd meet';
+---
+
+<section class:list={['ps-section', 'ps-skyline-section', { 'ps-skyline-dark': dark }]} data-backdrop={backdrop}>
+  <div class="ps-skyline-bg" aria-hidden="true">
+    <div class="ps-skyline-scroller">
+      {[0, 1].map(() => (
+        <svg class="ps-skyline-svg" viewBox={`0 0 ${sceneW} ${baseY}`} preserveAspectRatio={preserveAspect}>
+          <path
+            class="ps-skyline-path"
+            d={pathD}
+            pathLength="1"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      ))}
+    </div>
+  </div>
+
+  <div class="ps-skyline-inner">
+    <div class="ps-skyline-header">
+      {sectionNumber && <div class="ps-skyline-section-num">{sectionNumber}</div>}
+      <h2>{heading}</h2>
+    </div>
+    {subtitle && <p class="ps-skyline-subtitle">{subtitle}</p>}
+
+    <div class="ps-skyline-cards">
+      {cards.map((card) => (
+        <article class="ps-skyline-card">
+          <h3>{card.title}</h3>
+          <div class="ps-skyline-card-desc" set:html={card.description} />
+        </article>
+      ))}
+    </div>
+  </div>
+</section>

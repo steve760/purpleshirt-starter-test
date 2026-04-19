@@ -166,6 +166,35 @@
   color: rgba(255, 255, 255, 0.85);
 }
 
+/* Flip icon — top-right affordance, same on both faces */
+.ps-flipcards-flipicon {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  z-index: 2;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  pointer-events: none;
+  transition: transform 0.25s ease, background 0.25s ease;
+}
+.ps-flipcards-card:hover .ps-flipcards-flipicon {
+  transform: rotate(180deg);
+}
+.ps-flipcards-front .ps-flipcards-flipicon {
+  background: rgba(255, 255, 255, 0.18);
+  color: #fff;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+.ps-flipcards-back .ps-flipcards-flipicon {
+  background: color-mix(in srgb, var(--brand-primary) 10%, transparent);
+  color: var(--brand-primary);
+}
+
 /* Back: title + description */
 .ps-flipcards-back {
   transform: rotateY(180deg);

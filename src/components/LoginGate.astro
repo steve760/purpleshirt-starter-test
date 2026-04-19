@@ -1,0 +1,98 @@
+---
+/**
+ * LoginGate — full-screen password overlay.
+ *
+ * At build time, the Astro frontmatter hashes the password with SHA-256.
+ * Only the hash is emitted to the client bundle; the plaintext password
+ * never leaves the server. Client-side, the entered password is hashed
+ * via Web Crypto API and compared.
+ *
+ * On success, sessionStorage.ps_gate_ok is set so the gate doesn't
+ * re-prompt during the same tab session.
+ */
+import { createHash } from 'node:crypto';
+
+interface Props {
+  logo: string;
+  logoAlt?: string;
+  welcomeText?: string;
+  password: string;
+}
+
+const { logo, logoAlt = '', welcomeText, password } = Astro.props;
+const passwordHash = createHash('sha256').update(password).digest('hex');
+---
+
+<div class="ps-login-gate" data-hash={passwordHash} aria-hidden="false">
+  <div class="ps-login-card">
+    <img class="ps-login-logo" src={logo} alt={logoAlt} />
+    {welcomeText && <div class="ps-login-welcome" set:html={welcomeText} />}
+    <form class="ps-login-form" autocomplete="off">
+      <input
+        class="ps-login-input"
+        type="password"
+        name="password"
+        placeholder="Password"
+        autocomplete="current-password"
+        required
+      />
+      <button class="ps-login-submit" type="submit">Unlock</button>
+    </form>
+    <div class="ps-login-error" aria-live="polite"></div>
+  </div>
+</div>
+
+<script>
+  async function sha256(str: string): Promise<string> {
+    const data = new TextEncoder().encode(str);
+    const buf = await crypto.subtle.digest('SHA-256', data);
+    return Array.from(new Uint8Array(buf))
+      .map((b) => b.toString(16).padStart(2, '0'))
+      .join('');
+  }
+
+  function initLoginGate() {
+    const gate = document.querySelector<HTMLElement>('.ps-login-gate');
+    if (!gate) return;
+    const expected = gate.dataset.hash ?? '';
+
+    // Already authenticated this session — unlock immediately.
+    if (sessionStorage.getItem('ps_gate_ok') === expected) {
+      gate.remove();
+      document.body.classList.remove('ps-gate-locked');
+      return;
+    }
+
+    document.body.classList.add('ps-gate-locked');
+
+    const form = gate.querySelector<HTMLFormElement>('.ps-login-form')!;
+    const input = gate.querySelector<HTMLInputElement>('.ps-login-input')!;
+    const error = gate.querySelector<HTMLElement>('.ps-login-error')!;
+    const card = gate.querySelector<HTMLElement>('.ps-login-card')!;
+
+    input.focus();
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const hash = await sha256(input.value);
+      if (hash === expected) {
+        sessionStorage.setItem('ps_gate_ok', expected);
+        gate.classList.add('ps-login-unlocked');
+        document.body.classList.remove('ps-gate-locked');
+        setTimeout(() => gate.remove(), 400);
+      } else {
+        error.textContent = 'Incorrect password';
+        card.classList.remove('ps-login-shake');
+        void card.offsetWidth;
+        card.classList.add('ps-login-shake');
+        input.select();
+      }
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initLoginGate);
+  } else {
+    initLoginGate();
+  }
+</script>

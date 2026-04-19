@@ -1,7 +1,8 @@
 {
   "type": "customer-journey",
   "variant": "dark",
-  "sectionNumber": "19",
+  "sectionNumber": "",
+  "menuLabel": "Customer Journey",
   "heading": "Customer journey",
   "subtitle": "Six phases from first contact to advocacy.",
   "phases": [

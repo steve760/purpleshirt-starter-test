@@ -385,41 +385,59 @@
 /* Type picker */
 .ps-editor-type-picker {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(3, 1fr);
   gap: 10px;
   margin-bottom: 20px;
 }
 
 .ps-editor-type-option {
-  padding: 20px;
+  padding: 0;
   border: 2px solid var(--line, rgba(0,0,0,0.1));
-  border-radius: 12px;
+  border-radius: 10px;
   background: var(--surface-card, #fff);
   cursor: pointer;
   text-align: left;
   font-family: var(--font-body, 'Plus Jakarta Sans', sans-serif);
   transition: border-color 0.2s, background 0.2s, transform 0.15s;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
 }
 
 .ps-editor-type-option:hover {
   border-color: var(--brand-accent, #e63946);
-  background: rgba(230,57,70,0.03);
   transform: translateY(-2px);
+}
+
+.ps-editor-type-thumb {
+  width: 100%;
+  background: #f0f2f5;
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+  line-height: 0;
+  flex-shrink: 0;
+}
+
+.ps-editor-type-thumb svg {
+  width: 100%;
+  height: auto;
+  display: block;
 }
 
 .ps-editor-type-option strong {
   display: block;
   font-family: var(--font-display, 'Plus Jakarta Sans', sans-serif);
-  font-size: 15px;
+  font-size: 13px;
   font-weight: 800;
   color: var(--brand-primary, #1a2236);
-  margin-bottom: 4px;
+  margin-bottom: 2px;
+  padding: 10px 12px 0;
 }
 
 .ps-editor-type-option span {
-  font-size: 12px;
+  font-size: 11px;
   color: var(--text-muted, #556077);
   line-height: 1.4;
+  padding: 0 12px 10px;
 }
 
 /* Inline row for small fields */
@@ -444,4 +462,58 @@
   .ps-editor-type-picker {
     grid-template-columns: 1fr;
   }
+}
+
+/* ── Asset picker ── */
+
+.ps-editor-asset-picker {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  border: 1px solid var(--ps-editor-line, #e0e0e0);
+  border-radius: 8px;
+  background: var(--ps-editor-surface, #f7f7f7);
+  margin-bottom: 2px;
+}
+
+.ps-editor-asset-preview {
+  flex: 1;
+  min-width: 0;
+  font-size: 12px;
+  color: #666;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ps-editor-asset-preview img {
+  display: block;
+  height: 48px;
+  width: auto;
+  max-width: 100%;
+  border-radius: 4px;
+  object-fit: cover;
+}
+
+.ps-editor-asset-btn {
+  flex-shrink: 0;
+  padding: 6px 14px;
+  font-size: 12px;
+  font-weight: 600;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s;
+}
+
+.ps-editor-asset-btn:hover {
+  background: #f0f0f0;
+}
+
+.ps-editor-asset-btn:disabled {
+  opacity: 0.5;
+  cursor: wait;
 }

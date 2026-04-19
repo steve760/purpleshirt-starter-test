@@ -1,0 +1,44 @@
+---
+interface Props {
+  heading: string;
+  description?: string;
+  image?: string;
+  imageAlt?: string;
+  file: string;
+  fileNote?: string;
+  buttonLabel?: string;
+  dark?: boolean;
+}
+
+const {
+  heading,
+  description,
+  image,
+  imageAlt = '',
+  file,
+  fileNote,
+  buttonLabel = 'Download',
+  dark = false,
+} = Astro.props;
+---
+
+<section class:list={['ps-section', 'ps-download-section', { 'ps-download-dark': dark }]}>
+  <div class="ps-download-inner">
+    {image && (
+      <div class="ps-download-image-wrap">
+        <img class="ps-download-image" src={image} alt={imageAlt} loading="lazy" />
+      </div>
+    )}
+    <div class="ps-download-body">
+      <h2 class="ps-download-heading">{heading}</h2>
+      {description && <div class="ps-download-desc" set:html={description} />}
+      <a class="ps-download-btn" href={file} download>
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+          <path d="M9 2v10M5 8l4 4 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M2 15h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+        </svg>
+        {buttonLabel}
+      </a>
+    </div>
+  </div>
+</section>

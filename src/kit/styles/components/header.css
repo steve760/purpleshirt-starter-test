@@ -1,10 +1,10 @@
 /* ==========================================================
-   Header component — client logo + project title
+   Header component — client logo + download CTA
    ========================================================== */
 
 .ps-header {
   background: var(--brand-primary-deep);
-  padding: 18px max(28px, calc((100% - var(--maxw)) / 2));
+  padding: 14px max(28px, calc((100% - var(--maxw)) / 2));
   border-bottom: 1px solid var(--line-dark);
   transition: background 0.25s ease, backdrop-filter 0.25s ease;
 }
@@ -29,6 +29,7 @@ body > :has(> .ps-header) {
   max-width: var(--maxw);
   margin: 0 auto;
   width: 100%;
+  min-height: 52px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -43,42 +44,51 @@ body > :has(> .ps-header) {
 }
 
 .ps-header-logo {
-  /* Cap by both axes — width constrains for wide logos, max-height
-     for tall/square ones. Removing object-fit: contain means no internal
-     padding, so the rendered box exactly equals the visible artwork.
-     The flex parent then centers the actual artwork (not a padded box). */
   width: auto;
   height: auto;
-  max-width: 160px;
-  max-height: 36px;
+  max-width: 180px;
+  max-height: 44px;
   display: block;
   flex-shrink: 0;
 }
 
-.ps-header-title {
+.ps-header-download {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 11px 22px;
+  background: var(--brand-accent-secondary);
+  color: var(--brand-primary-deep);
   font-family: var(--font-display);
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 700;
-  line-height: 1;
-  color: var(--text-on-dark);
   letter-spacing: 0.02em;
-  text-align: right;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  border-radius: 999px;
+  text-decoration: none;
   white-space: nowrap;
-  min-width: 0;
+  transition: filter 0.18s ease, transform 0.15s ease;
+}
+
+.ps-header-download:hover {
+  filter: brightness(1.08);
+  transform: translateY(-1px);
 }
 
 /* ---- Mobile ---- */
 @media (max-width: 600px) {
   .ps-header {
-    padding: 12px 18px;
+    padding: 10px 18px;
+  }
+  .ps-header-inner {
+    min-height: 44px;
+    gap: 12px;
   }
   .ps-header-logo {
-    max-height: 28px;
-    max-width: 120px;
+    max-height: 32px;
+    max-width: 130px;
   }
-  .ps-header-title {
-    font-size: 13px;
+  .ps-header-download {
+    padding: 8px 14px;
+    font-size: 12.5px;
   }
 }

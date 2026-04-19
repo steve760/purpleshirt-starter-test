@@ -28,6 +28,8 @@ import QuoteBlock from '../kit/components/QuoteBlock.astro';
 import CustomerJourney from '../kit/components/CustomerJourney.astro';
 import CustomerType from '../kit/components/CustomerType.astro';
 import Footer from '../kit/components/Footer.astro';
+import Skyline from '../kit/components/Skyline.astro';
+import DownloadBlock from '../kit/components/DownloadBlock.astro';
 
 interface Props {
   section: Record<string, any>;
@@ -38,7 +40,7 @@ interface Props {
 const { section, file, altIndex = -1 } = Astro.props;
 const { type, variant, ...props } = section;
 const isDev = import.meta.env.DEV;
-const knownTypes = ['header', 'hero', 'hero-simple', 'voice-grid', 'key-insights', 'text-block', 'numbered-list', 'faq', 'pie-chart', 'bar-chart', 'data-table', 'feature-image', 'carousel', 'image-carousel', 'quote-carousel', 'flip-cards', 'quote-block', 'customer-journey', 'customer-type', 'footer'];
+const knownTypes = ['header', 'hero', 'hero-simple', 'voice-grid', 'key-insights', 'text-block', 'numbered-list', 'faq', 'pie-chart', 'bar-chart', 'data-table', 'feature-image', 'carousel', 'image-carousel', 'quote-carousel', 'flip-cards', 'quote-block', 'customer-journey', 'customer-type', 'skyline', 'download', 'footer'];
 
 // altIndex = -1 for self-styled sections (hero, voice-grid) — they manage their own bg
 // altIndex >= 0 for sections that participate in auto-alternation
@@ -62,9 +64,13 @@ const sectionId = file ? `ps-${file.replace('.json', '')}` : undefined;
     <div class="ps-editor-controls">
       <div class="ps-editor-badge">{type}</div>
       <div class="ps-editor-toolbar">
-        <button class="ps-editor-btn ps-editor-btn-drag" title="Drag to reorder">&#9776;</button>
+        {type !== 'footer' && (
+          <button class="ps-editor-btn ps-editor-btn-drag" title="Drag to reorder">&#9776;</button>
+        )}
         <button class="ps-editor-btn ps-editor-btn-edit" title="Edit section">Edit</button>
-        <button class="ps-editor-btn ps-editor-btn-delete" title="Delete section">&times;</button>
+        {type !== 'footer' && (
+          <button class="ps-editor-btn ps-editor-btn-delete" title="Delete section">&times;</button>
+        )}
       </div>
     </div>
 
@@ -87,6 +93,8 @@ const sectionId = file ? `ps-${file.replace('.json', '')}` : undefined;
     {type === 'quote-block' && <QuoteBlock {...props} dark={isDark} />}
     {type === 'customer-journey' && <CustomerJourney {...props} dark={isDark} />}
     {type === 'customer-type' && <CustomerType {...props} dark={isDark} />}
+    {type === 'skyline' && <Skyline {...props} dark={isDark} />}
+    {type === 'download' && <DownloadBlock {...props} dark={isDark} />}
     {type === 'footer' && <Footer {...props} />}
     {!knownTypes.includes(type) && (
       <div style="padding: 48px; background: #fff3cd; color: #856404; text-align: center; font-size: 14px;">
@@ -115,6 +123,8 @@ const sectionId = file ? `ps-${file.replace('.json', '')}` : undefined;
     {type === 'quote-block' && <QuoteBlock {...props} dark={isDark} />}
     {type === 'customer-journey' && <CustomerJourney {...props} dark={isDark} />}
     {type === 'customer-type' && <CustomerType {...props} dark={isDark} />}
+    {type === 'skyline' && <Skyline {...props} dark={isDark} />}
+    {type === 'download' && <DownloadBlock {...props} dark={isDark} />}
     {type === 'footer' && <Footer {...props} />}
     {!knownTypes.includes(type) && (
       <div style="padding: 48px; background: #fff3cd; color: #856404; text-align: center; font-size: 14px;">

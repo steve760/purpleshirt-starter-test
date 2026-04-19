@@ -43,12 +43,12 @@
   max-width: 80ch;
 }
 
-/* ── 2×2 grid (or 1×N on mobile) ──────────────────────────── */
+/* ── 4-up single row (wraps on smaller screens) ───────────── */
 
 .ps-persona-grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 28px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 20px;
   padding: 30px 0;
 }
 
@@ -57,7 +57,7 @@
 .ps-persona-card {
   perspective: 1400px;
   cursor: pointer;
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 3 / 4;
   animation: ps-persona-float var(--float-dur, 5s) ease-in-out infinite;
   animation-delay: var(--float-delay, 0s);
   /* Smooth landing back to base when float pauses */
@@ -100,6 +100,35 @@
   overflow: hidden;
   box-shadow: 0 14px 36px rgba(0, 0, 0, 0.10), 0 2px 8px rgba(0, 0, 0, 0.05);
   background: var(--surface-card);
+}
+
+/* Flip icon — top-right affordance, same on both faces */
+.ps-persona-flipicon {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  z-index: 2;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  pointer-events: none;
+  transition: transform 0.25s ease, background 0.25s ease;
+}
+.ps-persona-card:hover .ps-persona-flipicon {
+  transform: rotate(180deg);
+}
+.ps-persona-front .ps-persona-flipicon {
+  background: rgba(255, 255, 255, 0.18);
+  color: #fff;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+.ps-persona-back .ps-persona-flipicon {
+  background: color-mix(in srgb, var(--brand-primary) 10%, transparent);
+  color: var(--brand-primary);
 }
 
 /* ── Front: image background + name + description ────────── */
@@ -302,13 +331,19 @@
 
 /* ── Responsive ──────────────────────────────────────────── */
 
-@media (max-width: 900px) {
+@media (max-width: 1100px) {
   .ps-persona-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 24px;
   }
   .ps-persona-card {
     aspect-ratio: 4 / 3;
+  }
+}
+
+@media (max-width: 600px) {
+  .ps-persona-grid {
+    grid-template-columns: 1fr;
   }
 }
 

@@ -22,6 +22,8 @@ src/
 
 Each file in `src/content/sections/` is a JSON object with a `type` field. Files render in filename sort order — prefix with `01-`, `02-`, etc. All sections support an optional `variant` field: `"auto"` (default — alternates light/dark by position), `"light"`, or `"dark"`.
 
+Every section (except `header` and `footer`, which are excluded from the floating nav) also supports an optional `menuLabel` — a short label used only in the floating nav. It is never rendered on the component itself. If omitted, the nav falls back to `heading`, then `eyebrow`, then the section type.
+
 ## Available section types (16)
 
 ### header

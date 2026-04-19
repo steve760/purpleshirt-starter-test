@@ -27,11 +27,16 @@ import '../kit/styles/components/quote-block.css';
 import '../kit/styles/components/customer-journey.css';
 import '../kit/styles/components/customer-type.css';
 import '../kit/styles/components/footer.css';
+import '../kit/styles/components/skyline.css';
+import '../kit/styles/components/download-block.css';
+import '../kit/styles/components/login-gate.css';
 import '../kit/styles/components/floating-nav.css';
 import '../themes/theme.css';
 import SectionRenderer from '../layouts/SectionRenderer.astro';
 import DevEditor from '../components/DevEditor.astro';
 import FloatingNav from '../components/FloatingNav.astro';
+import LoginGate from '../components/LoginGate.astro';
+import loginConfig from '../content/login.json';
 
 // Import all section JSON files, sorted by filename
 const sectionFiles = import.meta.glob('../content/sections/*.json', { eager: true });
@@ -48,6 +53,7 @@ const sections = Object.entries(sectionFiles)
 const isDev = import.meta.env.DEV;
 
 function labelFor(content: any): string {
+  if (content.menuLabel && String(content.menuLabel).trim()) return String(content.menuLabel);
   if (content.heading && String(content.heading).trim()) return String(content.heading);
   if (content.eyebrow && String(content.eyebrow).trim()) return String(content.eyebrow);
   const type: string = content.type ?? 'section';
@@ -58,7 +64,7 @@ function labelFor(content: any): string {
 }
 
 const navItems = sections
-  .filter(({ content }) => content.type !== 'footer')
+  .filter(({ content }) => content.type !== 'footer' && content.type !== 'header')
   .map(({ file, content }) => ({
     id: `ps-${file.replace('.json', '')}`,
     label: labelFor(content),
@@ -75,6 +81,7 @@ const navItems = sections
   <script>
     import '../kit/lib/animations.ts';
   </script>
+  <LoginGate {...loginConfig} />
   <DevEditor />
   <FloatingNav items={navItems} />
 
@@ -86,6 +93,7 @@ const navItems = sections
     <div class="ps-editor-add-bar">
       <button class="ps-editor-add-btn">+ Add section</button>
       <button class="ps-editor-theme-btn">Brand colours</button>
+      <button class="ps-editor-login-btn">Login settings</button>
     </div>
   )}
 

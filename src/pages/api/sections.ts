@@ -29,14 +29,41 @@ async function listSections() {
   return sections;
 }
 
-function nextPrefix(files: string[]): string {
-  const nums = files.map(f => parseInt(f.split('-')[0], 10)).filter(n => !isNaN(n));
-  const next = nums.length ? Math.max(...nums) + 1 : 1;
-  return String(next).padStart(2, '0');
-}
-
 function slugify(str: string): string {
   return str.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+}
+
+function stripPrefix(filename: string): string {
+  return filename.replace(/^\d+-/, '');
+}
+
+function isFooter(filename: string): boolean {
+  return /(^|-)footer\.json$/.test(filename);
+}
+
+function pinFooterLast(files: string[]): string[] {
+  const footer = files.find(isFooter);
+  if (!footer) return files.slice();
+  return [...files.filter(f => f !== footer), footer];
+}
+
+/**
+ * Rename a list of files to have sequential 2-digit prefixes in the given order.
+ * Uses a two-pass rename (temp names first) to avoid collisions.
+ * Each entry is `{ file, suffix }` — `suffix` is the part after the prefix in the final name.
+ */
+async function renumber(order: { file: string; suffix: string }[]): Promise<string[]> {
+  for (let i = 0; i < order.length; i++) {
+    await rename(join(SECTIONS_DIR, order[i].file), join(SECTIONS_DIR, `__tmp_${i}.json`));
+  }
+  const finalNames: string[] = [];
+  for (let i = 0; i < order.length; i++) {
+    const prefix = String(i + 1).padStart(2, '0');
+    const finalName = `${prefix}-${order[i].suffix}`;
+    await rename(join(SECTIONS_DIR, `__tmp_${i}.json`), join(SECTIONS_DIR, finalName));
+    finalNames.push(finalName);
+  }
+  return finalNames;
 }
 
 /** GET — list all sections */
@@ -47,14 +74,38 @@ export const GET: APIRoute = devOnly(async () => {
   });
 });
 
-/** POST — create a new section */
+/** POST — create a new section (inserted before the footer, if one exists) */
 export const POST: APIRoute = devOnly(async ({ request }) => {
   const body = await request.json();
-  const { type, ...content } = body;
+  const { type } = body;
   const files = (await readdir(SECTIONS_DIR)).filter(f => f.endsWith('.json')).sort();
-  const prefix = nextPrefix(files);
-  const filename = `${prefix}-${slugify(type)}.json`;
-  await writeFile(join(SECTIONS_DIR, filename), JSON.stringify(body, null, 2) + '\n');
+  const slug = slugify(type);
+
+  // Write the new file under a non-colliding temp name, then renumber everything
+  // so the footer (if any) ends up last and prefixes are contiguous.
+  const tempName = `__new_${Date.now()}-${slug}.json`;
+  await writeFile(join(SECTIONS_DIR, tempName), JSON.stringify(body, null, 2) + '\n');
+
+  const footer = files.find(isFooter);
+  const nonFooter = files.filter(f => f !== footer);
+  const isNewFooter = type === 'footer';
+
+  const order: { file: string; suffix: string }[] = [
+    ...nonFooter.map(f => ({ file: f, suffix: stripPrefix(f) })),
+  ];
+  if (isNewFooter && footer) {
+    // Replacing/adding a second footer — keep the new one as the footer, drop the old one's footer role
+    order.push({ file: footer, suffix: stripPrefix(footer) });
+    order.push({ file: tempName, suffix: `${slug}.json` });
+  } else {
+    order.push({ file: tempName, suffix: `${slug}.json` });
+    if (footer) order.push({ file: footer, suffix: stripPrefix(footer) });
+  }
+
+  const newIdx = order.findIndex(o => o.file === tempName);
+  const finalNames = await renumber(order);
+  const filename = finalNames[newIdx];
+
   return new Response(JSON.stringify({ file: filename }), {
     status: 201,
     headers: { 'Content-Type': 'application/json' },
@@ -73,30 +124,15 @@ export const PUT: APIRoute = devOnly(async ({ request }) => {
   });
 });
 
-/** PATCH — reorder sections by renaming file prefixes */
+/** PATCH — reorder sections by renaming file prefixes. Footer is always pinned last. */
 export const PATCH: APIRoute = devOnly(async ({ request }) => {
   const { order } = await request.json() as { order: string[] };
   if (!Array.isArray(order)) {
     return new Response('order must be an array of filenames', { status: 400 });
   }
 
-  // Rename to temp names first to avoid collisions
-  const tempNames: [string, string][] = [];
-  for (let i = 0; i < order.length; i++) {
-    const oldName = order[i];
-    const tempName = `__tmp_${i}_${oldName}`;
-    await rename(join(SECTIONS_DIR, oldName), join(SECTIONS_DIR, tempName));
-    tempNames.push([tempName, oldName]);
-  }
-
-  // Now rename to final names with correct prefixes
-  for (let i = 0; i < tempNames.length; i++) {
-    const [tempName, oldName] = tempNames[i];
-    const prefix = String(i + 1).padStart(2, '0');
-    const suffix = oldName.replace(/^\d+-/, '');
-    const newName = `${prefix}-${suffix}`;
-    await rename(join(SECTIONS_DIR, tempName), join(SECTIONS_DIR, newName));
-  }
+  const pinned = pinFooterLast(order);
+  await renumber(pinned.map(f => ({ file: f, suffix: stripPrefix(f) })));
 
   return new Response(JSON.stringify({ ok: true }), {
     headers: { 'Content-Type': 'application/json' },

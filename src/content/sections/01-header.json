@@ -2,5 +2,6 @@
   "type": "header",
   "logo": "/assets/Logo.png",
   "logoAlt": "Purple Shirt",
-  "title": "Lorem ipusm cardashian"
+  "downloadFile": "/report.pdf",
+  "downloadLabel": "Download the report"
 }

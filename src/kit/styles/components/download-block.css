@@ -1,0 +1,141 @@
+/* ==========================================================
+   DownloadBlock — image + title + description + download CTA
+   ========================================================== */
+
+.ps-download-section {
+  background: var(--surface);
+}
+
+.ps-download-inner {
+  max-width: var(--maxw);
+  margin: 0 auto;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 56px;
+}
+
+/* ── Image ── */
+
+.ps-download-image-wrap {
+  flex: 0 0 auto;
+  width: clamp(200px, 28%, 340px);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.14), 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.ps-download-image {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* ── Body ── */
+
+.ps-download-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.ps-download-heading {
+  font-size: clamp(28px, 3.5vw, 48px);
+  color: var(--brand-primary);
+  margin: 0 0 16px;
+  letter-spacing: -0.01em;
+  line-height: 1.15;
+}
+
+.ps-download-desc {
+  font-size: 17px;
+  line-height: 1.65;
+  color: var(--text-muted);
+  margin: 0 0 36px;
+  max-width: 56ch;
+}
+
+.ps-download-desc p { margin: 0 0 10px; }
+.ps-download-desc p:last-child { margin-bottom: 0; }
+
+/* ── Button ── */
+
+.ps-download-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 28px;
+  background: var(--brand-primary);
+  color: var(--text-on-dark);
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  border-radius: 999px;
+  text-decoration: none;
+  transition: background 0.18s ease, transform 0.15s ease, box-shadow 0.18s ease;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.14);
+}
+
+.ps-download-btn:hover {
+  background: var(--brand-accent, var(--brand-primary));
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+}
+
+.ps-download-btn-note {
+  font-size: 12px;
+  font-weight: 500;
+  opacity: 0.7;
+  letter-spacing: 0.03em;
+  padding-left: 4px;
+  border-left: 1px solid rgba(255, 255, 255, 0.3);
+  margin-left: 2px;
+}
+
+/* ── Dark variant ── */
+
+.ps-download-dark {
+  background: linear-gradient(180deg, var(--brand-primary-deep) 0%, var(--brand-primary) 100%);
+}
+
+.ps-download-dark .ps-download-heading {
+  color: var(--text-on-dark);
+}
+
+.ps-download-dark .ps-download-desc {
+  color: var(--text-on-dark-muted);
+}
+
+.ps-download-dark .ps-download-btn {
+  background: var(--brand-accent-secondary);
+  color: var(--brand-primary-deep);
+  box-shadow: none;
+}
+
+.ps-download-dark .ps-download-btn:hover {
+  filter: brightness(1.08);
+  background: var(--brand-accent-secondary);
+}
+
+/* ── Mobile ── */
+
+@media (max-width: 768px) {
+  .ps-download-inner {
+    flex-direction: column;
+    gap: 32px;
+    align-items: flex-start;
+  }
+  .ps-download-image-wrap {
+    width: clamp(160px, 50%, 280px);
+  }
+}
+
+@media (max-width: 600px) {
+  .ps-download-section {
+    padding: 64px 18px;
+  }
+  .ps-download-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}

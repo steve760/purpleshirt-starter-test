@@ -1,0 +1,261 @@
+/* ==========================================================
+   Skyline — heading + 2 cards on a scrolling city backdrop
+   ========================================================== */
+
+.ps-skyline-section {
+  position: relative;
+  overflow: hidden;
+  background: var(--surface);
+}
+
+/* ── Background: full-bleed scrolling skyline ── */
+
+.ps-skyline-bg {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  color: var(--brand-primary);
+  opacity: 0.16;
+  z-index: 0;
+  mask-image: linear-gradient(
+    180deg,
+    transparent 0%,
+    #000 18%,
+    #000 82%,
+    transparent 100%
+  );
+  -webkit-mask-image: linear-gradient(
+    180deg,
+    transparent 0%,
+    #000 18%,
+    #000 82%,
+    transparent 100%
+  );
+}
+
+.ps-skyline-scroller {
+  display: flex;
+  width: 200%;
+  height: 100%;
+  animation: ps-skyline-scroll 120s linear infinite;
+  will-change: transform;
+}
+
+/* Surf moves — waves scroll briskly and draw over the scroll cycle. */
+.ps-skyline-section[data-backdrop="waves"] .ps-skyline-scroller {
+  animation-duration: 28s;
+}
+.ps-skyline-section[data-backdrop="waves"] .ps-skyline-path {
+  animation-duration: 24s;
+}
+
+/* Waves sit in the upper band: fade-mask the bottom of the bg instead of
+   the top, so the crests stay crisp. */
+.ps-skyline-section[data-backdrop="waves"] .ps-skyline-bg {
+  mask-image: linear-gradient(180deg, #000 0%, #000 70%, transparent 100%);
+  -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 70%, transparent 100%);
+  opacity: 0.28;
+}
+.ps-skyline-dark[data-backdrop="waves"] .ps-skyline-bg {
+  opacity: 0.38;
+}
+
+.ps-skyline-svg {
+  flex: 0 0 50%;
+  width: 50%;
+  height: 100%;
+  display: block;
+}
+
+.ps-skyline-path {
+  /* pathLength="1" normalises so a dasharray of 1 = the whole path,
+     regardless of whether it's a city skyline, wave surface, or train. */
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: ps-skyline-draw 90s linear 0.3s forwards;
+}
+
+@keyframes ps-skyline-scroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+@keyframes ps-skyline-draw {
+  to { stroke-dashoffset: 0; }
+}
+
+/* ── Content ── */
+
+.ps-skyline-inner {
+  position: relative;
+  z-index: 1;
+  max-width: var(--maxw);
+  margin: 0 auto;
+  width: 100%;
+}
+
+.ps-skyline-header {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-bottom: 12px;
+}
+
+.ps-skyline-section-num {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: clamp(28px, 3.2vw, 44px);
+  line-height: 1;
+  letter-spacing: 0.02em;
+  color: var(--text-on-dark);
+  background: var(--brand-primary);
+  padding: 10px 14px 8px;
+  border-radius: 10px;
+  flex-shrink: 0;
+}
+
+.ps-skyline-section h2 {
+  font-size: clamp(32px, 4vw, 56px);
+  color: var(--brand-primary);
+  margin: 0;
+}
+
+.ps-skyline-subtitle {
+  font-size: 17px;
+  font-weight: 400;
+  line-height: 1.55;
+  color: var(--text-muted);
+  margin: 0 0 44px;
+  max-width: 70ch;
+}
+
+.ps-skyline-cards {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+}
+
+.ps-skyline-card {
+  background: color-mix(in srgb, var(--surface-card, #fff) 92%, transparent);
+  backdrop-filter: saturate(1.2) blur(8px);
+  -webkit-backdrop-filter: saturate(1.2) blur(8px);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 32px 28px;
+  box-shadow: var(--shadow);
+  position: relative;
+  overflow: hidden;
+}
+
+.ps-skyline-card::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: var(--brand-primary);
+}
+
+.ps-skyline-card h3 {
+  font-family: var(--font-display);
+  font-size: clamp(20px, 1.8vw, 24px);
+  font-weight: 800;
+  color: var(--brand-primary);
+  margin: 0 0 12px;
+  letter-spacing: -0.01em;
+}
+
+.ps-skyline-card-desc {
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--text);
+}
+
+.ps-skyline-card-desc p { margin: 0 0 8px; }
+.ps-skyline-card-desc p:last-child { margin-bottom: 0; }
+
+/* ── Dark variant ── */
+
+.ps-skyline-dark {
+  background: linear-gradient(180deg, var(--brand-primary-deep) 0%, var(--brand-primary) 100%);
+}
+
+.ps-skyline-dark .ps-skyline-bg {
+  color: var(--text-on-dark);
+  opacity: 0.22;
+}
+
+.ps-skyline-dark h2 {
+  color: var(--text-on-dark);
+}
+
+.ps-skyline-dark .ps-skyline-section-num {
+  background: var(--brand-accent-secondary);
+  color: var(--brand-primary-deep);
+}
+
+.ps-skyline-dark .ps-skyline-subtitle {
+  color: var(--text-on-dark-muted);
+}
+
+.ps-skyline-dark .ps-skyline-card {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: var(--line-dark);
+  box-shadow: none;
+}
+
+.ps-skyline-dark .ps-skyline-card::before {
+  background: var(--brand-accent-secondary);
+}
+
+.ps-skyline-dark .ps-skyline-card h3 {
+  color: var(--text-on-dark);
+}
+
+.ps-skyline-dark .ps-skyline-card-desc {
+  color: var(--text-on-dark-muted);
+}
+
+/* ── Mobile ── */
+
+@media (max-width: 768px) {
+  .ps-skyline-cards {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  .ps-skyline-card {
+    padding: 26px 22px;
+  }
+}
+
+@media (max-width: 600px) {
+  .ps-skyline-section {
+    padding: 64px 18px;
+  }
+  .ps-skyline-header {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .ps-skyline-section h2 {
+    font-size: 32px;
+    width: 100%;
+  }
+  .ps-skyline-subtitle {
+    margin-bottom: 32px;
+  }
+}
+
+/* ── Reduced motion: stop the skyline scroll ── */
+
+@media (prefers-reduced-motion: reduce) {
+  .ps-skyline-scroller {
+    animation: none;
+  }
+  .ps-skyline-path {
+    stroke-dasharray: none;
+    stroke-dashoffset: 0;
+    animation: none;
+  }
+}

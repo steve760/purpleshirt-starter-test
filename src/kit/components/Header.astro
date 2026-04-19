@@ -2,10 +2,16 @@
 interface Props {
   logo: string;
   logoAlt?: string;
-  title: string;
+  downloadFile?: string;
+  downloadLabel?: string;
 }
 
-const { logo, logoAlt = 'Client logo', title } = Astro.props;
+const {
+  logo,
+  logoAlt = 'Client logo',
+  downloadFile,
+  downloadLabel = 'Download the report',
+} = Astro.props;
 ---
 
 <header class="ps-header">
@@ -13,7 +19,15 @@ const { logo, logoAlt = 'Client logo', title } = Astro.props;
     <div class="ps-header-left">
       <img class="ps-header-logo" src={logo} alt={logoAlt} />
     </div>
-    <div class="ps-header-title">{title}</div>
+    {downloadFile && (
+      <a class="ps-header-download" href={downloadFile} download>
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+          <path d="M8 2v8M5 7l3 3 3-3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M3 13h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+        </svg>
+        {downloadLabel}
+      </a>
+    )}
   </div>
 </header>
 
