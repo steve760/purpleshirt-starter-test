@@ -24,7 +24,7 @@ Each file in `src/content/sections/` is a JSON object with a `type` field. Files
 
 Every section (except `header` and `footer`, which are excluded from the floating nav) also supports an optional `menuLabel` — a short label used only in the floating nav. It is never rendered on the component itself. If omitted, the nav falls back to `heading`, then `eyebrow`, then the section type.
 
-## Available section types (16)
+## Available section types (17)
 
 ### header
 Client logo + project title bar. Sits at the top of the page (above the hero). Self-styled — not affected by light/dark alternation.
@@ -245,6 +245,26 @@ Click-to-flip cards with image + title on the front and title + description on t
     {
       "title": "Card title",
       "description": "<p>Back-side description.</p>",
+      "image": "/assets/photo.jpg",
+      "imageAlt": "Alt text"
+    }
+  ]
+}
+```
+
+### persona-text
+Same flip-card layout as `customer-type` (image + name on front) but with plain HTML text on the back instead of struggles/opportunities. Up to 4 cards, 2×2 on tablet, 1-up on mobile.
+```json
+{
+  "type": "persona-text",
+  "variant": "auto",
+  "heading": "Personas",
+  "subtitle": "Click a card to read more.",
+  "personas": [
+    {
+      "name": "Persona name",
+      "description": "Short intro shown on the front of the card.",
+      "back": "<p>Longer narrative shown on the back. HTML allowed.</p>",
       "image": "/assets/photo.jpg",
       "imageAlt": "Alt text"
     }

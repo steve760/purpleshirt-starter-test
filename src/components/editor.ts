@@ -266,6 +266,28 @@ const FORM_DEFS: Record<string, FormDef> = {
       },
     ],
   },
+  'persona-text': {
+    fields: [
+      { key: 'variant', label: 'Background (auto, light, dark)', type: 'select', options: ['auto', 'light', 'dark'] },
+      { key: 'sectionNumber', label: 'Badge number (e.g. 01 — shows beside heading)', type: 'text' },
+      { key: 'menuLabel', label: 'Menu label (optional — appears in floating nav)', type: 'text' },
+      { key: 'heading', label: 'Heading', type: 'text' },
+      { key: 'subtitle', label: 'Subtitle', type: 'text' },
+    ],
+    groups: [
+      {
+        key: 'personas',
+        label: 'Personas (max 4)',
+        fields: [
+          { key: 'name', label: 'Name', type: 'text' },
+          { key: 'description', label: 'Description (front of card)', type: 'textarea' },
+          { key: 'back', label: 'Back text (HTML allowed)', type: 'textarea' },
+          { key: 'image', label: 'Image', type: 'asset', accept: 'image/*' },
+          { key: 'imageAlt', label: 'Image alt text', type: 'text' },
+        ],
+      },
+    ],
+  },
   'skyline': {
     fields: [
       { key: 'variant', label: 'Background (auto, light, dark)', type: 'select', options: ['auto', 'light', 'dark'] },
@@ -877,6 +899,39 @@ const THUMBNAILS: Record<string, string> = {
     <rect x="163" y="76" width="18" height="3.5" rx="1.5" fill="#fff" opacity=".7"/>
   </svg>`,
 
+  'persona-text': `<svg viewBox="0 0 200 110" xmlns="http://www.w3.org/2000/svg">
+    <rect width="200" height="110" fill="#f0f2f5"/>
+    <rect x="12" y="10" width="60" height="7" rx="3" fill="#2a3a52" opacity=".8"/>
+    <rect x="8" y="28" width="42" height="72" rx="6" fill="#c0c8d4" opacity=".7"/>
+    <rect x="8" y="28" width="42" height="30" rx="6" fill="#a0b0c0"/>
+    <circle cx="29" cy="43" r="7" fill="#b0b8c4" opacity=".5"/>
+    <rect x="12" y="64" width="34" height="3" rx="1.5" fill="#8898aa" opacity=".7"/>
+    <rect x="12" y="71" width="28" height="2.5" rx="1.2" fill="#8898aa" opacity=".5"/>
+    <rect x="12" y="77" width="30" height="2.5" rx="1.2" fill="#8898aa" opacity=".5"/>
+    <rect x="12" y="83" width="22" height="2.5" rx="1.2" fill="#8898aa" opacity=".5"/>
+    <rect x="58" y="28" width="42" height="72" rx="6" fill="#c0c8d4" opacity=".7"/>
+    <rect x="58" y="28" width="42" height="30" rx="6" fill="#7ab8d9" opacity=".7"/>
+    <circle cx="79" cy="43" r="7" fill="#6aa8c9" opacity=".5"/>
+    <rect x="62" y="64" width="34" height="3" rx="1.5" fill="#8898aa" opacity=".7"/>
+    <rect x="62" y="71" width="28" height="2.5" rx="1.2" fill="#8898aa" opacity=".5"/>
+    <rect x="62" y="77" width="30" height="2.5" rx="1.2" fill="#8898aa" opacity=".5"/>
+    <rect x="62" y="83" width="22" height="2.5" rx="1.2" fill="#8898aa" opacity=".5"/>
+    <rect x="108" y="28" width="42" height="72" rx="6" fill="#c0c8d4" opacity=".7"/>
+    <rect x="108" y="28" width="42" height="30" rx="6" fill="#a8d8a8" opacity=".7"/>
+    <circle cx="129" cy="43" r="7" fill="#98c898" opacity=".5"/>
+    <rect x="112" y="64" width="34" height="3" rx="1.5" fill="#8898aa" opacity=".7"/>
+    <rect x="112" y="71" width="28" height="2.5" rx="1.2" fill="#8898aa" opacity=".5"/>
+    <rect x="112" y="77" width="30" height="2.5" rx="1.2" fill="#8898aa" opacity=".5"/>
+    <rect x="112" y="83" width="22" height="2.5" rx="1.2" fill="#8898aa" opacity=".5"/>
+    <rect x="158" y="28" width="42" height="72" rx="6" fill="#c0c8d4" opacity=".7"/>
+    <rect x="158" y="28" width="42" height="30" rx="6" fill="#f4a460" opacity=".7"/>
+    <circle cx="179" cy="43" r="7" fill="#e49450" opacity=".5"/>
+    <rect x="162" y="64" width="34" height="3" rx="1.5" fill="#8898aa" opacity=".7"/>
+    <rect x="162" y="71" width="28" height="2.5" rx="1.2" fill="#8898aa" opacity=".5"/>
+    <rect x="162" y="77" width="30" height="2.5" rx="1.2" fill="#8898aa" opacity=".5"/>
+    <rect x="162" y="83" width="22" height="2.5" rx="1.2" fill="#8898aa" opacity=".5"/>
+  </svg>`,
+
   'skyline': `<svg viewBox="0 0 200 110" xmlns="http://www.w3.org/2000/svg">
     <rect width="200" height="110" fill="#2a3a52"/>
     <polyline points="0,70 10,70 10,45 22,45 22,70 30,70 30,30 36,22 42,30 42,70 52,70 52,52 62,52 62,70 72,70 72,40 80,40 80,70 90,70 90,55 98,55 98,70 110,70 110,35 118,25 126,35 126,70 136,70 136,48 146,48 146,70 158,70 158,38 166,38 166,70 178,70 178,50 188,50 188,70 200,70" fill="none" stroke="#fff" stroke-width="1.2" opacity=".18"/>
@@ -938,6 +993,7 @@ const SECTION_TYPES = [
   { type: 'quote-block', label: 'Quote Block', description: 'Single pull-quote with animated line-art doodles' },
   { type: 'customer-journey', label: 'Customer Journey', description: 'Ascending staircase of up to 6 phases' },
   { type: 'customer-type', label: 'Customer Type', description: 'Up to 4 flip cards: image + name on front, struggles + opportunities on back' },
+  { type: 'persona-text', label: 'Persona (Text Back)', description: 'Up to 4 flip cards: image + name on front, plain-text description on back' },
   { type: 'skyline', label: 'Skyline', description: 'Two cards over an animated city-line-drawing backdrop' },
   { type: 'download', label: 'Download', description: 'Heading + description with a file download button' },
   { type: 'footer', label: 'Footer', description: 'Brand-coloured page footer with editable text' },
@@ -1129,6 +1185,21 @@ const DEFAULTS: Record<string, any> = {
     file: '/report.pdf',
     fileNote: 'PDF',
     buttonLabel: 'Download PDF',
+  },
+  'persona-text': {
+    type: 'persona-text',
+    variant: 'auto',
+    heading: 'Personas',
+    subtitle: 'Click a card to read more.',
+    personas: [
+      {
+        name: 'Persona name',
+        description: 'Short intro shown on the front of the card.',
+        back: '<p>Longer narrative shown on the back. HTML allowed.</p>',
+        image: '/assets/IMG_1960.JPG',
+        imageAlt: 'Persona',
+      },
+    ],
   },
   'customer-type': {
     type: 'customer-type',

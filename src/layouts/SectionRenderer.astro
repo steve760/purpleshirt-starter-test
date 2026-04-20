@@ -27,6 +27,7 @@ import FlipCards from '../kit/components/FlipCards.astro';
 import QuoteBlock from '../kit/components/QuoteBlock.astro';
 import CustomerJourney from '../kit/components/CustomerJourney.astro';
 import CustomerType from '../kit/components/CustomerType.astro';
+import PersonaText from '../kit/components/PersonaText.astro';
 import Footer from '../kit/components/Footer.astro';
 import Skyline from '../kit/components/Skyline.astro';
 import DownloadBlock from '../kit/components/DownloadBlock.astro';
@@ -49,7 +50,7 @@ interface Props {
 const { section, file, altIndex = -1, navItems = [] } = Astro.props;
 const { type, variant, ...props } = section;
 const isDev = import.meta.env.DEV;
-const knownTypes = ['header', 'hero', 'hero-simple', 'voice-grid', 'key-insights', 'text-block', 'text-stat', 'text-full', 'numbered-list', 'numbered-cards', 'faq', 'pie-chart', 'bar-chart', 'data-table', 'feature-image', 'carousel', 'image-carousel', 'quote-carousel', 'flip-cards', 'quote-block', 'customer-journey', 'customer-type', 'skyline', 'download', 'footer'];
+const knownTypes = ['header', 'hero', 'hero-simple', 'voice-grid', 'key-insights', 'text-block', 'text-stat', 'text-full', 'numbered-list', 'numbered-cards', 'faq', 'pie-chart', 'bar-chart', 'data-table', 'feature-image', 'carousel', 'image-carousel', 'quote-carousel', 'flip-cards', 'quote-block', 'customer-journey', 'customer-type', 'persona-text', 'skyline', 'download', 'footer'];
 
 // altIndex = -1 for self-styled sections (hero, voice-grid) — they manage their own bg
 // altIndex >= 0 for sections that participate in auto-alternation
@@ -105,6 +106,7 @@ const sectionId = file ? `ps-${file.replace('.json', '')}` : undefined;
     {type === 'quote-block' && <QuoteBlock {...props} dark={isDark} />}
     {type === 'customer-journey' && <CustomerJourney {...props} dark={isDark} />}
     {type === 'customer-type' && <CustomerType {...props} dark={isDark} />}
+    {type === 'persona-text' && <PersonaText {...props} dark={isDark} />}
     {type === 'skyline' && <Skyline {...props} dark={isDark} />}
     {type === 'download' && <DownloadBlock {...props} dark={isDark} />}
     {type === 'footer' && <Footer {...props} />}
@@ -138,6 +140,7 @@ const sectionId = file ? `ps-${file.replace('.json', '')}` : undefined;
     {type === 'quote-block' && <QuoteBlock {...props} dark={isDark} />}
     {type === 'customer-journey' && <CustomerJourney {...props} dark={isDark} />}
     {type === 'customer-type' && <CustomerType {...props} dark={isDark} />}
+    {type === 'persona-text' && <PersonaText {...props} dark={isDark} />}
     {type === 'skyline' && <Skyline {...props} dark={isDark} />}
     {type === 'download' && <DownloadBlock {...props} dark={isDark} />}
     {type === 'footer' && <Footer {...props} />}

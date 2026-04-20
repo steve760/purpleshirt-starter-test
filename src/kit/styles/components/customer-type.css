@@ -77,6 +77,43 @@
   50% { transform: translateY(calc(var(--float-amp, 18px) * -1)); }
 }
 
+.ps-persona-section-text .ps-persona-header {
+  margin-bottom: 24px;
+}
+
+.ps-persona-section-text .ps-persona-grid {
+  padding: 0;
+}
+
+.ps-persona-card-static {
+  animation: none;
+  transform: none;
+  aspect-ratio: auto;
+  height: auto;
+}
+
+.ps-persona-card-static .ps-persona-inner {
+  display: grid;
+  grid-template-areas: "face";
+  height: auto;
+  min-height: 100%;
+}
+
+.ps-persona-card-static .ps-persona-face {
+  position: relative;
+  inset: auto;
+  grid-area: face;
+  width: 100%;
+}
+
+.ps-persona-card-static .ps-persona-front {
+  min-height: 280px;
+}
+
+.ps-persona-card-static .ps-persona-back {
+  height: auto;
+}
+
 /* Inner wrapper handles the flip transform */
 .ps-persona-inner {
   position: relative;
@@ -276,6 +313,27 @@
   margin-top: auto;
 }
 
+/* ── Back (plain text variant) ────────────────────────────── */
+
+.ps-persona-back-text .ps-persona-back-body {
+  font-size: 14.5px;
+  line-height: 1.6;
+  color: var(--text);
+  overflow: auto;
+}
+
+.ps-persona-back-text .ps-persona-back-body p {
+  margin: 0 0 10px;
+}
+
+.ps-persona-back-text .ps-persona-back-body p:last-child {
+  margin-bottom: 0;
+}
+
+.ps-persona-back-text .ps-persona-back-body strong {
+  color: var(--brand-primary);
+}
+
 /* ── Dark variant ─────────────────────────────────────────── */
 
 .ps-persona-dark {
@@ -327,6 +385,14 @@
 
 .ps-persona-dark .ps-persona-back .ps-persona-hint {
   color: var(--text-on-dark-muted);
+}
+
+.ps-persona-dark .ps-persona-back-text .ps-persona-back-body {
+  color: var(--text-on-dark-muted);
+}
+
+.ps-persona-dark .ps-persona-back-text .ps-persona-back-body strong {
+  color: var(--text-on-dark);
 }
 
 /* ── Responsive ──────────────────────────────────────────── */
