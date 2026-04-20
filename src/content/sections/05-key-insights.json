@@ -2,25 +2,21 @@
   "type": "key-insights",
   "variant": "auto",
   "sectionNumber": "",
-  "menuLabel": "The options",
-  "heading": "The options",
-  "subtitle": "The consultation presented four Club Support Model options for feedback. Each option represented a different approach to how support is organised, where responsibility sits, and how much change from the current state is involved.",
+  "menuLabel": "Engagement",
+  "heading": "We had a high level of participation",
+  "subtitle": "We received 140 responses from across the movement including, clubs, staff, committees, and reference groups. Feedback was gathered through an online survey, supported by drop-in sessions at Nationals in Ōhope, and scheduled sessions both in-person and online with SLSNZ leadership.",
   "insights": [
     {
-      "title": "Option A: The optimised current state model ",
-      "text": "Option A: The optimised current state model \nProposed building on recent improvements and rising club satisfaction by retaining the existing regional structure while introducing targeted enhancements. The focus was on making support clearer, more consistent, and easier to access, without materially changing how responsibilities are shared between clubs and SLSNZ."
+      "title": "72 of 74 clubs",
+      "text": "Every region of the movement was represented."
     },
     {
-      "title": "Option B: The club-centric model",
-      "text": "Proposed a shift to a nationally coordinated approach built around a dedicated Club Partner network and aligned national service lines. An annual needs-based assessment would guide how support is directed to each club. Under this model, the regional delivery structure may be de-emphasised."
+      "title": "52 staff",
+      "text": "Feedback came from across the organisation - from the ELT through to individual contributors."
     },
     {
-      "title": "Option C: The centralised model ",
-      "text": "Proposed moving a range of functions currently managed by clubs into national shared services. This included areas such as membership registration and fees, awards and qualifications administration, training coordination, finance and reporting, health and safety systems, and core compliance processes. Clubs would retain responsibility for frontline delivery and local leadership, with the administrative burden significantly reduced."
-    },
-    {
-      "title": "Option D: The de-centralised model",
-      "text": "Proposed shifting greater responsibility and decision-making directly to clubs, with SLSNZ scaled back to a smaller national organisation focused on a limited set of nationally critical functions, such as SurfCom, training and education, and patrol support."
+      "title": "17,000 words",
+      "text": "Of feedback received."
     }
   ]
 }
