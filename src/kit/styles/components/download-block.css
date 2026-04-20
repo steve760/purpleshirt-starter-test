@@ -123,10 +123,15 @@
   .ps-download-inner {
     flex-direction: column;
     gap: 32px;
-    align-items: flex-start;
+    align-items: center;
+    text-align: center;
   }
   .ps-download-image-wrap {
     width: clamp(160px, 50%, 280px);
+  }
+  .ps-download-desc {
+    margin-left: auto;
+    margin-right: auto;
   }
 }
 
