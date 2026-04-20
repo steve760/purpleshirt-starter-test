@@ -125,13 +125,6 @@
   .ps-persona-section-text .ps-persona-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
-}
-
-@media (max-width: 600px) {
-  .ps-persona-section-text .ps-persona-grid {
-    grid-template-columns: minmax(0, 1fr);
-    row-gap: 32px;
-  }
 
   .ps-persona-card-static .ps-persona-back,
   .ps-persona-dark .ps-persona-card-static .ps-persona-back {
@@ -140,19 +133,12 @@
     border: 0;
   }
 
-  .ps-persona-card-static .ps-persona-front::after {
-    background: linear-gradient(
-      180deg,
-      transparent 30%,
-      color-mix(in srgb, var(--brand-primary) 55%, transparent) 70%,
-      color-mix(in srgb, var(--brand-primary) 88%, transparent) 100%
-    );
-  }
-
-  /* Mobile: swap faces via display instead of 3D flip. iOS Safari has
-     known bugs with backface-visibility inside grid + preserve-3d
+  /* Non-desktop: swap faces via display instead of 3D flip. iOS Safari
+     has known bugs with backface-visibility inside grid + preserve-3d
      contexts where the back face leaks through on top of the front,
-     which caused visible overlap and an apparent "lost" white background. */
+     causing visible overlap and an apparent "lost" white background.
+     This also catches phones in landscape, which fall into the 2-col
+     tablet breakpoint. */
   .ps-persona-card-static .ps-persona-inner {
     display: block;
     transform-style: flat;
@@ -178,6 +164,13 @@
 
   .ps-persona-card-static.flipped .ps-persona-back {
     display: flex;
+  }
+}
+
+@media (max-width: 600px) {
+  .ps-persona-section-text .ps-persona-grid {
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: 32px;
   }
 }
 
