@@ -29,7 +29,7 @@ const rows = Math.ceil(items.length / 2);
     style={twoCol ? `--ps-numlist-rows: ${rows};` : undefined}
   >
     {items.map((item, i) => (
-      <li class="ps-numlist-item">
+      <li class:list={['ps-numlist-item', { 'ps-numlist-col-end': twoCol && i === rows - 1 }]}>
         <div class="ps-numlist-num">{String(i + 1).padStart(2, '0')}</div>
         <div class="ps-numlist-content">
           <h3>{item.title}</h3>

@@ -112,13 +112,13 @@ body.ps-gate-locked {
 }
 
 .ps-login-welcome {
-  font-size: 15px;
-  line-height: 1.6;
-  color: rgba(255, 255, 255, 0.88);
-  margin-bottom: 28px;
+  font-size: 18px;
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 32px;
 }
 
-.ps-login-welcome p { margin: 0 0 8px; }
+.ps-login-welcome p { margin: 0 0 10px; }
 .ps-login-welcome p:last-child { margin-bottom: 0; }
 
 /* ── Form ── */

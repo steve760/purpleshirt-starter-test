@@ -55,6 +55,14 @@
   border-bottom: 1px solid var(--line);
 }
 
+/* Drop the divider beneath the final item in each column. In single-col
+   mode that's just :last-child; in twocol it's also the last item of
+   the left column (marked with ps-numlist-col-end). */
+.ps-numlist-item:last-child,
+.ps-numlist-item.ps-numlist-col-end {
+  border-bottom: none;
+}
+
 /* ---- Two-column layout (auto-enabled for 6+ items) ----
    Items flow down the first column, then into the second. With an
    odd count the left column holds the extra item (ceil(n/2)). */
