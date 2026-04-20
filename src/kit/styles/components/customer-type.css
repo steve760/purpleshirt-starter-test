@@ -130,18 +130,35 @@
 @media (max-width: 600px) {
   .ps-persona-section-text .ps-persona-grid {
     grid-template-columns: minmax(0, 1fr);
+    row-gap: 32px;
+  }
+
+  .ps-persona-card-static .ps-persona-back,
+  .ps-persona-dark .ps-persona-card-static .ps-persona-back {
+    background-color: #ffffff;
+    background-image: none;
+    border: 0;
+  }
+
+  .ps-persona-card-static .ps-persona-front::after {
+    background: linear-gradient(
+      180deg,
+      transparent 30%,
+      color-mix(in srgb, var(--brand-primary) 55%, transparent) 70%,
+      color-mix(in srgb, var(--brand-primary) 88%, transparent) 100%
+    );
   }
 }
 
 .ps-persona-card-static .ps-persona-back {
   height: auto;
   background: var(--surface-card);
-  border: 1px solid var(--line);
+  border: 0;
 }
 
 .ps-persona-dark .ps-persona-card-static .ps-persona-back {
   background: var(--surface-card);
-  border-color: var(--line);
+  border: 0;
 }
 
 .ps-persona-dark .ps-persona-card-static .ps-persona-back .ps-persona-back-name,
