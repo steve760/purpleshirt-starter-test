@@ -148,6 +148,37 @@
       color-mix(in srgb, var(--brand-primary) 88%, transparent) 100%
     );
   }
+
+  /* Mobile: swap faces via display instead of 3D flip. iOS Safari has
+     known bugs with backface-visibility inside grid + preserve-3d
+     contexts where the back face leaks through on top of the front,
+     which caused visible overlap and an apparent "lost" white background. */
+  .ps-persona-card-static .ps-persona-inner {
+    display: block;
+    transform-style: flat;
+    transform: none !important;
+    transition: none;
+  }
+
+  .ps-persona-card-static .ps-persona-face {
+    position: relative;
+    grid-area: auto;
+    transform: none !important;
+    backface-visibility: visible;
+    -webkit-backface-visibility: visible;
+  }
+
+  .ps-persona-card-static .ps-persona-back {
+    display: none;
+  }
+
+  .ps-persona-card-static.flipped .ps-persona-front {
+    display: none;
+  }
+
+  .ps-persona-card-static.flipped .ps-persona-back {
+    display: flex;
+  }
 }
 
 .ps-persona-card-static .ps-persona-back {
