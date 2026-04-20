@@ -208,40 +208,50 @@
 .ps-journey-dark .ps-journey-title { color: var(--text-on-dark); }
 .ps-journey-dark .ps-journey-desc { color: var(--text-on-dark-muted); }
 
-/* ── Mobile — collapse to vertical list ───────────────────── */
+/* ── Mobile — stacked vertically with centred dashed line ──── */
 
 @media (max-width: 820px) {
   .ps-journey-track {
-    grid-template-columns: auto 1fr;
-    align-items: start;
-    row-gap: 24px;
+    grid-template-columns: 1fr;
+    align-items: stretch;
+    row-gap: 28px;
     min-height: 0 !important;
+    position: relative;
+  }
+  .ps-journey-track::before {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 28px;
+    bottom: 28px;
+    border-left: 2px dashed var(--line, rgba(0, 0, 0, 0.2));
+    transform: translateX(-1px);
+    z-index: 0;
+    pointer-events: none;
   }
   .ps-journey-step {
-    display: contents;
+    flex-direction: column-reverse;
+    align-items: center;
+    justify-content: flex-start;
     padding-bottom: 0;
+    gap: 14px;
+    position: relative;
+    z-index: 2;
   }
   .ps-journey-step .ps-journey-dot {
-    grid-column: 1;
     width: 56px;
     height: 56px;
     font-size: 20px;
-    align-self: start;
-    margin-top: 4px;
   }
   .ps-journey-step .ps-journey-label {
-    grid-column: 2;
-    text-align: left;
-    padding: 0 0 12px 18px;
-    max-width: none;
-    border-left: 2px dashed var(--line, rgba(0, 0, 0, 0.18));
+    text-align: center;
+    padding: 0 12px;
+    max-width: 360px;
   }
   .ps-journey-line { display: none; }
   .ps-journey-header { flex-wrap: wrap; }
-}
 
-@media (max-width: 820px) {
-  .ps-journey-dark .ps-journey-step .ps-journey-label {
+  .ps-journey-dark .ps-journey-track::before {
     border-left-color: rgba(255, 255, 255, 0.25);
   }
 }
