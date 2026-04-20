@@ -12,6 +12,9 @@ import '../kit/styles/components/hero.css';
 import '../kit/styles/components/voice-grid.css';
 import '../kit/styles/components/key-insights.css';
 import '../kit/styles/components/text-block.css';
+import '../kit/styles/components/text-stat.css';
+import '../kit/styles/components/text-full.css';
+import '../kit/styles/components/numbered-cards.css';
 import '../kit/styles/components/numbered-list.css';
 import '../kit/styles/components/faq.css';
 import '../kit/styles/components/pie-chart.css';
@@ -31,10 +34,10 @@ import '../kit/styles/components/skyline.css';
 import '../kit/styles/components/download-block.css';
 import '../kit/styles/components/login-gate.css';
 import '../kit/styles/components/floating-nav.css';
+import '../themes/fonts.css';
 import '../themes/theme.css';
 import SectionRenderer from '../layouts/SectionRenderer.astro';
 import DevEditor from '../components/DevEditor.astro';
-import FloatingNav from '../components/FloatingNav.astro';
 import LoginGate from '../components/LoginGate.astro';
 import loginConfig from '../content/login.json';
 
@@ -64,7 +67,12 @@ function labelFor(content: any): string {
 }
 
 const navItems = sections
-  .filter(({ content }) => content.type !== 'footer' && content.type !== 'header')
+  .filter(({ content }) => {
+    if (content.type === 'footer' || content.type === 'header') return false;
+    // Explicit blank menuLabel ("" or whitespace) hides the section from the nav.
+    if ('menuLabel' in content && !String(content.menuLabel ?? '').trim()) return false;
+    return true;
+  })
   .map(({ file, content }) => ({
     id: `ps-${file.replace('.json', '')}`,
     label: labelFor(content),
@@ -81,18 +89,18 @@ const navItems = sections
   <script>
     import '../kit/lib/animations.ts';
   </script>
-  <LoginGate {...loginConfig} />
+  {!isDev && <LoginGate {...loginConfig} />}
   <DevEditor />
-  <FloatingNav items={navItems} />
 
   {sections.map(({ file, content, altIndex: ai }) => (
-    <SectionRenderer section={content} file={file} altIndex={ai} />
+    <SectionRenderer section={content} file={file} altIndex={ai} navItems={navItems} />
   ))}
 
   {isDev && (
     <div class="ps-editor-add-bar">
       <button class="ps-editor-add-btn">+ Add section</button>
       <button class="ps-editor-theme-btn">Brand colours</button>
+      <button class="ps-editor-fonts-btn">Typography</button>
       <button class="ps-editor-login-btn">Login settings</button>
     </div>
   )}

@@ -1,0 +1,34 @@
+{
+  "type": "customer-journey",
+  "variant": "auto",
+  "sectionNumber": "",
+  "menuLabel": "Next steps",
+  "heading": "Next steps",
+  "subtitle": "",
+  "phases": [
+    {
+      "title": "Work through the detail",
+      "description": "The project team is now focused on taking what you told us and working through how the model would function in practice. This includes assessing financial viability and addressing the questions and concerns you raised."
+    },
+    {
+      "title": "Return for Round 2 consultation",
+      "description": "Once that work is complete, we will come back to you for a second round of consultation."
+    },
+    {
+      "title": "Final Club Support Model endorsed by board",
+      "description": "The final model is confirmed, reflecting your feedback and outlining what will change and what will stay the same, before board endorsement."
+    },
+    {
+      "title": "Operational planing commences",
+      "description": "With the model endorsed, detailed operational planning begins. This includes defining processes, roles, timelines, and the resources required to deliver the new model effectively."
+    },
+    {
+      "title": "Staff consultation ",
+      "description": "We engage with staff to share what the endorsed model means in practice, gather feedback on how it will work day to day, and ensure any impacts are clearly understood and addressed."
+    },
+    {
+      "title": "Implementation planning",
+      "description": "Final implementation planning brings everything together, confirming timelines, responsibilities, and transition activities to support a smooth rollout of the new model."
+    }
+  ]
+}

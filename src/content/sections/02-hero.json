@@ -1,25 +1,9 @@
 {
   "type": "hero",
   "menuLabel": "Introduction",
-  "eyebrow": "Lorem Ipsum Dolor",
-  "headline": "Consectetur adipiscing elit\n**Sed do tempor.**",
-  "lede": "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-  "stats": [
-    {
-      "value": 85,
-      "unit": "%",
-      "label": "lorem ipsum dolor"
-    },
-    {
-      "value": 140,
-      "unit": "",
-      "label": "sit amet consectetur"
-    },
-    {
-      "value": 97,
-      "unit": "%",
-      "label": "adipiscing elit"
-    }
-  ],
+  "eyebrow": "Kia ora koutou",
+  "headline": "Club Support Model \n**Consultation Share Back**",
+  "lede": "Prepared for Staff and Club Members",
+  "stats": [],
   "ctas": []
 }

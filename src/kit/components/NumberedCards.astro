@@ -1,0 +1,31 @@
+---
+interface Card {
+  text: string;
+}
+
+interface Props {
+  sectionNumber?: string;
+  heading: string;
+  body?: string;
+  cards: Card[];
+  dark?: boolean;
+}
+
+const { sectionNumber, heading, body, cards, dark = false } = Astro.props;
+---
+
+<section class:list={['ps-section', 'ps-numcards-section', { 'ps-numcards-dark': dark }]}>
+  <div class="ps-numcards-header">
+    {sectionNumber && <div class="ps-numcards-num-badge">{sectionNumber}</div>}
+    <h2>{heading}</h2>
+  </div>
+  {body && <div class="ps-numcards-body" set:html={body} />}
+  <div class="ps-numcards-grid" data-count={cards.length}>
+    {cards.map((card, i) => (
+      <article class="ps-numcards-card">
+        <div class="ps-numcards-card-num">{String(i + 1).padStart(2, '0')}</div>
+        <p class="ps-numcards-card-text">{card.text}</p>
+      </article>
+    ))}
+  </div>
+</section>

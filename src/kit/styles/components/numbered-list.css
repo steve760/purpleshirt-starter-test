@@ -55,8 +55,23 @@
   border-bottom: 1px solid var(--line);
 }
 
-.ps-numlist-item:first-child {
-  border-top: 1px solid var(--line);
+/* ---- Two-column layout (auto-enabled for 6+ items) ----
+   Items flow down the first column, then into the second. With an
+   odd count the left column holds the extra item (ceil(n/2)). */
+.ps-numlist-twocol {
+  max-width: none;
+  display: grid;
+  grid-auto-flow: column;
+  grid-template-rows: repeat(var(--ps-numlist-rows, 1), auto);
+  column-gap: 56px;
+}
+
+@media (max-width: 760px) {
+  .ps-numlist-twocol {
+    grid-auto-flow: row;
+    grid-template-rows: none;
+    grid-template-columns: 1fr;
+  }
 }
 
 .ps-numlist-num {

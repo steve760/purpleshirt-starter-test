@@ -127,7 +127,9 @@
 }
 
 .ps-editor-add-btn,
-.ps-editor-theme-btn {
+.ps-editor-theme-btn,
+.ps-editor-login-btn,
+.ps-editor-fonts-btn {
   display: inline-flex;
   align-items: center;
   gap: 8px;
@@ -149,12 +151,16 @@
   background: rgba(0,96,160,0.05);
 }
 
-.ps-editor-theme-btn {
+.ps-editor-theme-btn,
+.ps-editor-login-btn,
+.ps-editor-fonts-btn {
   border-style: solid;
   border-color: rgba(0,0,0,0.15);
 }
 
-.ps-editor-theme-btn:hover {
+.ps-editor-theme-btn:hover,
+.ps-editor-login-btn:hover,
+.ps-editor-fonts-btn:hover {
   border-color: #e63946;
   color: #e63946;
   background: rgba(230,57,70,0.05);

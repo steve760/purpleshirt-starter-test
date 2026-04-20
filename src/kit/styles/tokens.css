@@ -39,4 +39,6 @@
   /* ---- Typography ---- */
   --font-body: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', sans-serif;
   --font-display: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-accent: var(--font-display);
+  --font-mono: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
 }

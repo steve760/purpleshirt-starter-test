@@ -30,17 +30,26 @@ import CustomerType from '../kit/components/CustomerType.astro';
 import Footer from '../kit/components/Footer.astro';
 import Skyline from '../kit/components/Skyline.astro';
 import DownloadBlock from '../kit/components/DownloadBlock.astro';
+import TextStat from '../kit/components/TextStat.astro';
+import TextFull from '../kit/components/TextFull.astro';
+import NumberedCards from '../kit/components/NumberedCards.astro';
+
+interface NavItem {
+  id: string;
+  label: string;
+}
 
 interface Props {
   section: Record<string, any>;
   file?: string;
   altIndex?: number;
+  navItems?: NavItem[];
 }
 
-const { section, file, altIndex = -1 } = Astro.props;
+const { section, file, altIndex = -1, navItems = [] } = Astro.props;
 const { type, variant, ...props } = section;
 const isDev = import.meta.env.DEV;
-const knownTypes = ['header', 'hero', 'hero-simple', 'voice-grid', 'key-insights', 'text-block', 'numbered-list', 'faq', 'pie-chart', 'bar-chart', 'data-table', 'feature-image', 'carousel', 'image-carousel', 'quote-carousel', 'flip-cards', 'quote-block', 'customer-journey', 'customer-type', 'skyline', 'download', 'footer'];
+const knownTypes = ['header', 'hero', 'hero-simple', 'voice-grid', 'key-insights', 'text-block', 'text-stat', 'text-full', 'numbered-list', 'numbered-cards', 'faq', 'pie-chart', 'bar-chart', 'data-table', 'feature-image', 'carousel', 'image-carousel', 'quote-carousel', 'flip-cards', 'quote-block', 'customer-journey', 'customer-type', 'skyline', 'download', 'footer'];
 
 // altIndex = -1 for self-styled sections (hero, voice-grid) — they manage their own bg
 // altIndex >= 0 for sections that participate in auto-alternation
@@ -74,12 +83,15 @@ const sectionId = file ? `ps-${file.replace('.json', '')}` : undefined;
       </div>
     </div>
 
-    {type === 'header' && <Header {...props} />}
+    {type === 'header' && <Header {...props} navItems={navItems} />}
     {type === 'hero' && <Hero {...props} />}
     {type === 'hero-simple' && <HeroSimple {...props} />}
     {type === 'voice-grid' && <VoiceGrid {...props} dark={isDark} />}
     {type === 'key-insights' && <KeyInsights {...props} dark={isDark} />}
     {type === 'text-block' && <TextBlock {...props} dark={isDark} />}
+    {type === 'text-stat' && <TextStat {...props} dark={isDark} />}
+    {type === 'text-full' && <TextFull {...props} dark={isDark} />}
+    {type === 'numbered-cards' && <NumberedCards {...props} dark={isDark} />}
     {type === 'numbered-list' && <NumberedList {...props} dark={isDark} />}
     {type === 'faq' && <Faq {...props} dark={isDark} />}
     {type === 'pie-chart' && <PieChart {...props} dark={isDark} />}
@@ -104,12 +116,15 @@ const sectionId = file ? `ps-${file.replace('.json', '')}` : undefined;
   </div>
 ) : (
   <div id={sectionId} class:list={[wrapperClass]}>
-    {type === 'header' && <Header {...props} />}
+    {type === 'header' && <Header {...props} navItems={navItems} />}
     {type === 'hero' && <Hero {...props} />}
     {type === 'hero-simple' && <HeroSimple {...props} />}
     {type === 'voice-grid' && <VoiceGrid {...props} dark={isDark} />}
     {type === 'key-insights' && <KeyInsights {...props} dark={isDark} />}
     {type === 'text-block' && <TextBlock {...props} dark={isDark} />}
+    {type === 'text-stat' && <TextStat {...props} dark={isDark} />}
+    {type === 'text-full' && <TextFull {...props} dark={isDark} />}
+    {type === 'numbered-cards' && <NumberedCards {...props} dark={isDark} />}
     {type === 'numbered-list' && <NumberedList {...props} dark={isDark} />}
     {type === 'faq' && <Faq {...props} dark={isDark} />}
     {type === 'pie-chart' && <PieChart {...props} dark={isDark} />}

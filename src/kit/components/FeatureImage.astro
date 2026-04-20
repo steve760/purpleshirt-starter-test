@@ -35,7 +35,7 @@ const resolvedImage = resolveImage(image);
     <div class="ps-feature-text">
       {eyebrow && <div class="ps-feature-eyebrow">{eyebrow}</div>}
       <h2>{heading}</h2>
-      <p set:html={description} />
+      <div class="ps-feature-description" set:html={description} />
     </div>
     <div class="ps-feature-image">
       <img src={resolvedImage} alt={imageAlt} loading="lazy" />

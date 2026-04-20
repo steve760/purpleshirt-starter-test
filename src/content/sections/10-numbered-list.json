@@ -1,0 +1,38 @@
+{
+  "type": "numbered-list",
+  "variant": "auto",
+  "sectionNumber": "",
+  "menuLabel": "The hybrid model",
+  "heading": "The hybrid model elements",
+  "subtitle": "What you described through your feedback is not a compromise between options. It is a model in its own right. The combination of elements you asked for appears consistently across clubs, staff, and committees.",
+  "items": [
+    {
+      "title": "Shared services",
+      "description": "Administrative, compliance, and coordination functions move from clubs to SLSNZ. Volunteers are freed from back-office burden and able to focus on what brought them to the movement."
+    },
+    {
+      "title": "Club Partner - implemented with rigour",
+      "description": "A senior, capable Club Partner provides each club with a single, trusted point of contact. They simplify engagement with SLSNZ, provide proactive support, and connect clubs to the right expertise when they need it."
+    },
+    {
+      "title": "Centrally coordinated national service lines  ",
+      "description": "Specialist support, including training coordination, qualifications, sport, lifesaving, and governance, is coordinated nationally and delivered consistently across all clubs regardless of location or regional capacity."
+    },
+    {
+      "title": "Clearer club facing roles with defined accountability ",
+      "description": "Club-facing roles have defined responsibilities, clear expectations, and explicit accountability. Clubs know who to contact, what to expect, and how decisions are made."
+    },
+    {
+      "title": "Service catalog",
+      "description": "A clear guide to every support service SLSNZ offers, including how to access it and who to contact. No more trying to work out who to call."
+    },
+    {
+      "title": "Online self-service tools",
+      "description": "Digital tools that allow clubs to find information, complete common tasks, and resolve queries independently. Reduces reliance on staff for routine matters."
+    },
+    {
+      "title": "Structured inter-club collaboration  ",
+      "description": "Facilitated opportunities for clubs to connect, share knowledge, and learn from each other. Organised around shared context so the right clubs are talking to the right people."
+    }
+  ]
+}

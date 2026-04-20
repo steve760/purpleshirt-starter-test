@@ -1,9 +1,17 @@
 ---
+import FloatingNav from '../../components/FloatingNav.astro';
+
+interface NavItem {
+  id: string;
+  label: string;
+}
+
 interface Props {
   logo: string;
   logoAlt?: string;
   downloadFile?: string;
   downloadLabel?: string;
+  navItems?: NavItem[];
 }
 
 const {
@@ -11,6 +19,7 @@ const {
   logoAlt = 'Client logo',
   downloadFile,
   downloadLabel = 'Download the report',
+  navItems = [],
 } = Astro.props;
 ---
 
@@ -19,15 +28,18 @@ const {
     <div class="ps-header-left">
       <img class="ps-header-logo" src={logo} alt={logoAlt} />
     </div>
-    {downloadFile && (
-      <a class="ps-header-download" href={downloadFile} download>
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-          <path d="M8 2v8M5 7l3 3 3-3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-          <path d="M3 13h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
-        </svg>
-        {downloadLabel}
-      </a>
-    )}
+    <div class="ps-header-right">
+      {downloadFile && (
+        <a class="ps-header-download" href={downloadFile} download>
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <path d="M8 2v8M5 7l3 3 3-3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M3 13h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+          </svg>
+          {downloadLabel}
+        </a>
+      )}
+      {navItems.length > 0 && <FloatingNav items={navItems} />}
+    </div>
   </div>
 </header>
 

@@ -1,0 +1,159 @@
+/* ==========================================================
+   NumberedCards — title + full-width para + horizontal numbered cards
+   ========================================================== */
+
+.ps-numcards-section {
+  padding: 96px max(28px, calc((100% - var(--maxw)) / 2));
+  background: var(--surface);
+}
+
+.ps-numcards-header {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-bottom: 20px;
+}
+
+.ps-numcards-num-badge {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: clamp(28px, 3.2vw, 44px);
+  line-height: 1;
+  letter-spacing: 0.02em;
+  color: var(--text-on-dark);
+  background: var(--brand-primary);
+  padding: 10px 14px 8px;
+  border-radius: 10px;
+}
+
+.ps-numcards-header h2 {
+  font-size: clamp(32px, 4vw, 56px);
+  color: var(--brand-primary);
+  margin: 0;
+}
+
+.ps-numcards-body {
+  font-size: 17px;
+  line-height: 1.6;
+  color: var(--text);
+  max-width: 80ch;
+  margin: 0 0 48px;
+}
+
+.ps-numcards-body p {
+  margin: 0 0 14px;
+}
+
+.ps-numcards-body p:last-child {
+  margin-bottom: 0;
+}
+
+/* ---- Card grid ---- */
+.ps-numcards-grid {
+  display: grid;
+  gap: 20px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.ps-numcards-card {
+  background: var(--surface-card);
+  border-radius: var(--radius);
+  padding: 28px;
+  box-shadow: var(--shadow);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.ps-numcards-card::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: var(--brand-primary);
+}
+
+.ps-numcards-card-num {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 40px;
+  line-height: 1;
+  color: var(--text-on-dark);
+  background: var(--brand-primary);
+  display: inline-block;
+  padding: 8px 16px 6px;
+  border-radius: 10px;
+  margin-bottom: 14px;
+  align-self: flex-start;
+}
+
+.ps-numcards-card:nth-child(even) .ps-numcards-card-num {
+  background: var(--surface-alt);
+  color: var(--brand-primary);
+}
+
+.ps-numcards-card-text {
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--text);
+  margin: 0;
+}
+
+/* ---- Dark variant ---- */
+.ps-numcards-dark {
+  background: linear-gradient(180deg, var(--brand-primary-deep) 0%, var(--brand-primary) 100%);
+}
+
+.ps-numcards-dark .ps-numcards-header h2 {
+  color: var(--text-on-dark);
+}
+
+.ps-numcards-dark .ps-numcards-num-badge {
+  background: var(--brand-accent-secondary);
+  color: var(--brand-primary-deep);
+}
+
+.ps-numcards-dark .ps-numcards-body {
+  color: var(--text-on-dark-muted);
+}
+
+.ps-numcards-dark .ps-numcards-card {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: none;
+}
+
+.ps-numcards-dark .ps-numcards-card::before {
+  background: var(--brand-accent-secondary);
+}
+
+.ps-numcards-dark .ps-numcards-card-num {
+  background: var(--brand-accent-secondary);
+  color: var(--brand-primary-deep);
+}
+
+.ps-numcards-dark .ps-numcards-card:nth-child(even) .ps-numcards-card-num {
+  background: rgba(255, 255, 255, 0.12);
+  color: var(--text-on-dark);
+}
+
+.ps-numcards-dark .ps-numcards-card-text {
+  color: var(--text-on-dark-muted);
+}
+
+/* ---- Responsive ---- */
+@media (max-width: 1020px) {
+  .ps-numcards-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 600px) {
+  .ps-numcards-section { padding: 64px 18px; }
+  .ps-numcards-header { flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+  .ps-numcards-header h2 { font-size: 32px; width: 100%; }
+  .ps-numcards-grid { grid-template-columns: 1fr; gap: 14px; }
+  .ps-numcards-body { margin-bottom: 32px; font-size: 16px; }
+  .ps-numcards-card-num { font-size: 34px; padding: 6px 14px 4px; }
+}

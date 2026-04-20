@@ -1,0 +1,26 @@
+{
+  "type": "key-insights",
+  "variant": "auto",
+  "sectionNumber": "",
+  "menuLabel": "",
+  "heading": "But there are things that still need to be resolved",
+  "subtitle": "",
+  "insights": [
+    {
+      "title": "Club Partner Role",
+      "text": "How the Club Partner role works in practice, including how many clubs each partner is responsible for, how they connect to national service lines, and what capability and recruitment looks like."
+    },
+    {
+      "title": "Shared Services",
+      "text": "Where the shared services boundary sits for clubs of different sizes and how a differentiated approach would work consistently across the movement."
+    },
+    {
+      "title": "National Service Lines",
+      "text": "How national service lines are coordinated and what consistent specialist support looks like regardless of location."
+    },
+    {
+      "title": "Regional Structure",
+      "text": "What the regional structure looks like under the hybrid model."
+    }
+  ]
+}

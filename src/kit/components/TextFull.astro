@@ -1,0 +1,18 @@
+---
+interface Props {
+  sectionNumber?: string;
+  heading: string;
+  body: string;
+  dark?: boolean;
+}
+
+const { sectionNumber, heading, body, dark = false } = Astro.props;
+---
+
+<section class:list={['ps-section', 'ps-textfull-section', { 'ps-textfull-dark': dark }]}>
+  <div class="ps-textfull-header">
+    {sectionNumber && <div class="ps-textfull-num">{sectionNumber}</div>}
+    <h2>{heading}</h2>
+  </div>
+  <div class="ps-textfull-body" set:html={body} />
+</section>

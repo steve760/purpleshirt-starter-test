@@ -360,6 +360,47 @@ const FORM_DEFS: Record<string, FormDef> = {
     ],
     groups: [],
   },
+  'text-stat': {
+    fields: [
+      { key: 'variant', label: 'Background (auto, light, dark)', type: 'select', options: ['auto', 'light', 'dark'] },
+      { key: 'sectionNumber', label: 'Badge number (e.g. 01 — shows beside heading)', type: 'text' },
+      { key: 'menuLabel', label: 'Menu label (optional — appears in floating nav)', type: 'text' },
+      { key: 'heading', label: 'Heading', type: 'text' },
+      { key: 'columnOne', label: 'Column one (HTML allowed)', type: 'textarea' },
+      { key: 'columnTwo', label: 'Column two (HTML allowed)', type: 'textarea' },
+      { key: 'statValue', label: 'Stat value (e.g. 76%)', type: 'text' },
+      { key: 'statLabel', label: 'Stat label (shown under the circle)', type: 'text' },
+    ],
+    groups: [],
+  },
+  'text-full': {
+    fields: [
+      { key: 'variant', label: 'Background (auto, light, dark)', type: 'select', options: ['auto', 'light', 'dark'] },
+      { key: 'sectionNumber', label: 'Badge number (e.g. 01 — shows beside heading)', type: 'text' },
+      { key: 'menuLabel', label: 'Menu label (optional — appears in floating nav)', type: 'text' },
+      { key: 'heading', label: 'Heading', type: 'text' },
+      { key: 'body', label: 'Body (HTML allowed)', type: 'textarea' },
+    ],
+    groups: [],
+  },
+  'numbered-cards': {
+    fields: [
+      { key: 'variant', label: 'Background (auto, light, dark)', type: 'select', options: ['auto', 'light', 'dark'] },
+      { key: 'sectionNumber', label: 'Badge number (e.g. 01 — shows beside heading)', type: 'text' },
+      { key: 'menuLabel', label: 'Menu label (optional — appears in floating nav)', type: 'text' },
+      { key: 'heading', label: 'Heading', type: 'text' },
+      { key: 'body', label: 'Intro paragraph (HTML allowed)', type: 'textarea' },
+    ],
+    groups: [
+      {
+        key: 'cards',
+        label: 'Cards',
+        fields: [
+          { key: 'text', label: 'Text', type: 'textarea' },
+        ],
+      },
+    ],
+  },
   'numbered-list': {
     fields: [
       { key: 'variant', label: 'Background (auto, light, dark)', type: 'select', options: ['auto', 'light', 'dark'] },
@@ -567,6 +608,56 @@ const THUMBNAILS: Record<string, string> = {
     <rect x="106" y="66" width="82" height="3.5" rx="1.5" fill="#8898aa" opacity=".4"/>
     <rect x="106" y="74" width="65" height="3.5" rx="1.5" fill="#8898aa" opacity=".35"/>
     <rect x="106" y="82" width="75" height="3.5" rx="1.5" fill="#8898aa" opacity=".3"/>
+  </svg>`,
+
+  'numbered-cards': `<svg viewBox="0 0 200 110" xmlns="http://www.w3.org/2000/svg">
+    <rect width="200" height="110" fill="#f0f2f5"/>
+    <rect x="12" y="10" width="70" height="8" rx="3" fill="#2a3a52" opacity=".8"/>
+    <rect x="12" y="24" width="170" height="3.5" rx="1.5" fill="#8898aa" opacity=".5"/>
+    <rect x="12" y="32" width="140" height="3.5" rx="1.5" fill="#8898aa" opacity=".4"/>
+    <rect x="12" y="50" width="40" height="50" rx="5" fill="#fff" stroke="#dde1e8" stroke-width="1"/>
+    <rect x="16" y="54" width="10" height="4" rx="2" fill="#e85c6a"/>
+    <rect x="16" y="64" width="32" height="3" rx="1.5" fill="#8898aa" opacity=".5"/>
+    <rect x="16" y="70" width="28" height="3" rx="1.5" fill="#8898aa" opacity=".4"/>
+    <rect x="56" y="50" width="40" height="50" rx="5" fill="#fff" stroke="#dde1e8" stroke-width="1"/>
+    <rect x="60" y="54" width="10" height="4" rx="2" fill="#e85c6a"/>
+    <rect x="60" y="64" width="32" height="3" rx="1.5" fill="#8898aa" opacity=".5"/>
+    <rect x="60" y="70" width="28" height="3" rx="1.5" fill="#8898aa" opacity=".4"/>
+    <rect x="100" y="50" width="40" height="50" rx="5" fill="#fff" stroke="#dde1e8" stroke-width="1"/>
+    <rect x="104" y="54" width="10" height="4" rx="2" fill="#e85c6a"/>
+    <rect x="104" y="64" width="32" height="3" rx="1.5" fill="#8898aa" opacity=".5"/>
+    <rect x="104" y="70" width="28" height="3" rx="1.5" fill="#8898aa" opacity=".4"/>
+    <rect x="144" y="50" width="40" height="50" rx="5" fill="#fff" stroke="#dde1e8" stroke-width="1"/>
+    <rect x="148" y="54" width="10" height="4" rx="2" fill="#e85c6a"/>
+    <rect x="148" y="64" width="32" height="3" rx="1.5" fill="#8898aa" opacity=".5"/>
+    <rect x="148" y="70" width="28" height="3" rx="1.5" fill="#8898aa" opacity=".4"/>
+  </svg>`,
+
+  'text-full': `<svg viewBox="0 0 200 110" xmlns="http://www.w3.org/2000/svg">
+    <rect width="200" height="110" fill="#f0f2f5"/>
+    <rect x="12" y="14" width="84" height="9" rx="3" fill="#2a3a52" opacity=".8"/>
+    <rect x="12" y="40" width="176" height="4" rx="2" fill="#8898aa" opacity=".5"/>
+    <rect x="12" y="50" width="176" height="4" rx="2" fill="#8898aa" opacity=".45"/>
+    <rect x="12" y="60" width="176" height="4" rx="2" fill="#8898aa" opacity=".4"/>
+    <rect x="12" y="70" width="150" height="4" rx="2" fill="#8898aa" opacity=".35"/>
+    <rect x="12" y="80" width="176" height="4" rx="2" fill="#8898aa" opacity=".3"/>
+    <rect x="12" y="90" width="120" height="4" rx="2" fill="#8898aa" opacity=".25"/>
+  </svg>`,
+
+  'text-stat': `<svg viewBox="0 0 200 110" xmlns="http://www.w3.org/2000/svg">
+    <rect width="200" height="110" fill="#f0f2f5"/>
+    <rect x="12" y="12" width="70" height="8" rx="3" fill="#2a3a52" opacity=".8"/>
+    <rect x="12" y="38" width="52" height="3.5" rx="1.5" fill="#8898aa" opacity=".5"/>
+    <rect x="12" y="46" width="52" height="3.5" rx="1.5" fill="#8898aa" opacity=".4"/>
+    <rect x="12" y="54" width="44" height="3.5" rx="1.5" fill="#8898aa" opacity=".35"/>
+    <rect x="12" y="62" width="52" height="3.5" rx="1.5" fill="#8898aa" opacity=".3"/>
+    <rect x="78" y="38" width="52" height="3.5" rx="1.5" fill="#8898aa" opacity=".5"/>
+    <rect x="78" y="46" width="52" height="3.5" rx="1.5" fill="#8898aa" opacity=".4"/>
+    <rect x="78" y="54" width="44" height="3.5" rx="1.5" fill="#8898aa" opacity=".35"/>
+    <rect x="78" y="62" width="52" height="3.5" rx="1.5" fill="#8898aa" opacity=".3"/>
+    <circle cx="168" cy="56" r="22" fill="#2a3a52" stroke="#f4a460" stroke-width="3"/>
+    <text x="168" y="61" text-anchor="middle" font-family="sans-serif" font-weight="900" font-size="12" fill="#fff">76%</text>
+    <rect x="148" y="86" width="40" height="3" rx="1.5" fill="#8898aa" opacity=".5"/>
   </svg>`,
 
   'numbered-list': `<svg viewBox="0 0 200 110" xmlns="http://www.w3.org/2000/svg">
@@ -831,6 +922,9 @@ const SECTION_TYPES = [
   { type: 'voice-grid', label: 'Voice Grid', description: 'Respondent cohort cards on dark background' },
   { type: 'key-insights', label: 'Key Insights', description: 'Numbered card grid with titles and text' },
   { type: 'text-block', label: 'Text Block', description: 'Title with two-column text layout' },
+  { type: 'text-stat', label: 'Text + Stat', description: 'Title with two text columns and a stat circle' },
+  { type: 'text-full', label: 'Text (Full Width)', description: 'Title with full-width body text' },
+  { type: 'numbered-cards', label: 'Numbered Cards', description: 'Title + paragraph with four numbered text cards in a row' },
   { type: 'numbered-list', label: 'Numbered List', description: 'Vertical numbered items with title and description' },
   { type: 'faq', label: 'FAQ', description: 'Accordion of questions and answers' },
   { type: 'pie-chart', label: 'Pie Chart', description: 'Donut chart with legend' },
@@ -1087,6 +1181,33 @@ const DEFAULTS: Record<string, any> = {
     leadText: 'An introductory sentence that sets up the two columns below.',
     columnOne: '<p>First column of body text. This supports HTML so you can use paragraphs, emphasis, and links.</p>',
     columnTwo: '<p>Second column of body text. Use this for supporting detail, context, or complementary information.</p>',
+  },
+  'text-stat': {
+    type: 'text-stat',
+    variant: 'auto',
+    heading: 'Section title',
+    columnOne: '<p>First column of body text. Supports HTML for emphasis, paragraphs and links.</p>',
+    columnTwo: '<p>Second column of body text. Use this for supporting detail or complementary context.</p>',
+    statValue: '76%',
+    statLabel: 'of respondents agreed',
+  },
+  'text-full': {
+    type: 'text-full',
+    variant: 'auto',
+    heading: 'Section title',
+    body: '<p>A full-width paragraph of body text. Supports HTML so you can use paragraphs, emphasis, and links.</p><p>Use this layout when the content needs room to breathe across the full page width.</p>',
+  },
+  'numbered-cards': {
+    type: 'numbered-cards',
+    variant: 'auto',
+    heading: 'Section title',
+    body: '<p>Short paragraph introducing the four cards below.</p>',
+    cards: [
+      { text: 'First card — a concise supporting point or idea.' },
+      { text: 'Second card — the next point in the sequence.' },
+      { text: 'Third card — another supporting point or finding.' },
+      { text: 'Fourth card — the closing point in the set.' },
+    ],
   },
 };
 
@@ -1701,8 +1822,107 @@ function initEditor() {
   // Login settings button
   document.querySelector('.ps-editor-login-btn')?.addEventListener('click', openLoginModal);
 
+  // Typography / fonts button
+  document.querySelector('.ps-editor-fonts-btn')?.addEventListener('click', openFontsModal);
+
   // Drag and drop
   initDragDrop();
+}
+
+// ─── Typography / fonts modal ─────────────────────────────
+
+interface FontEntry { name: string; file: string; }
+type FontRole = 'display' | 'body' | 'accent' | 'mono';
+type FontConfig = Record<FontRole, FontEntry>;
+
+const FONT_ROLES: Array<{ key: FontRole; label: string; hint: string }> = [
+  { key: 'display', label: 'Display font', hint: 'Headings — h1, h2, h3' },
+  { key: 'body', label: 'Body font', hint: 'Paragraphs and default text' },
+  { key: 'accent', label: 'Accent font', hint: 'Quotes, eyebrows, pull-outs' },
+  { key: 'mono', label: 'Mono font', hint: 'Numbers, code, tabular data' },
+];
+
+function emptyFontConfig(): FontConfig {
+  return {
+    display: { name: '', file: '' },
+    body: { name: '', file: '' },
+    accent: { name: '', file: '' },
+    mono: { name: '', file: '' },
+  };
+}
+
+async function openFontsModal() {
+  let config: FontConfig = emptyFontConfig();
+  try {
+    const res = await fetch('/api/fonts');
+    if (res.ok) {
+      const loaded = await res.json();
+      config = { ...config, ...loaded };
+    }
+  } catch (err) {
+    console.error('Failed to load fonts config:', err);
+  }
+
+  const overlay = el('div', { class: 'ps-editor-modal-overlay' });
+  const modal = el('div', { class: 'ps-editor-modal' });
+  modal.append(el('h2', {}, 'Typography'));
+
+  const note = el('p', { style: 'font-size: 12.5px; color: #556077; margin: 0 0 18px; line-height: 1.5;' },
+    'Upload .woff2 / .woff / .ttf / .otf files. The font-family name is what the file registers as (e.g. "Lexend"). Leave a slot blank to fall back to the default.');
+  modal.append(note);
+
+  FONT_ROLES.forEach(({ key, label, hint }) => {
+    const heading = el('h3', { style: 'font-size: 14px; font-weight: 700; margin: 18px 0 2px; color: #1a2236;' }, label);
+    const hintEl = el('div', { style: 'font-size: 11.5px; color: #8898aa; margin-bottom: 8px;' }, hint);
+    modal.append(heading, hintEl);
+
+    const fields: FormField[] = [
+      { key: 'name', label: 'Font family name', type: 'text' },
+      { key: 'file', label: 'Font file', type: 'asset', accept: '.woff2,.woff,.ttf,.otf' },
+    ];
+    const group = el('div', { 'data-font-group': key });
+    buildFormFields(group, fields, config[key] || { name: '', file: '' }, `font__${key}`, 0);
+    modal.append(group);
+  });
+
+  const actions = el('div', { class: 'ps-editor-modal-actions' });
+  const cancelBtn = el('button', { class: 'ps-editor-modal-cancel', type: 'button' }, 'Cancel');
+  const saveBtn = el('button', { class: 'ps-editor-modal-save', type: 'button' }, 'Save');
+
+  cancelBtn.addEventListener('click', () => closeModal(overlay));
+  overlay.addEventListener('click', (e) => { if (e.target === overlay) closeModal(overlay); });
+
+  saveBtn.addEventListener('click', async () => {
+    const collect = (key: FontRole): FontEntry => {
+      const group = modal.querySelector(`[data-font-group="${key}"]`);
+      if (!group) return { name: '', file: '' };
+      const name = group.querySelector<HTMLInputElement>(`[data-field="name"]`)?.value ?? '';
+      const file = group.querySelector<HTMLInputElement>(`[data-field="file"]`)?.value ?? '';
+      return { name, file };
+    };
+    const newConfig = emptyFontConfig();
+    FONT_ROLES.forEach(({ key }) => { newConfig[key] = collect(key); });
+
+    try {
+      setBlockReload();
+      const res = await fetch('/api/fonts', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(newConfig),
+      });
+      if (!res.ok) throw new Error(await res.text());
+      closeModal(overlay);
+      forceReload();
+    } catch (err) {
+      console.error('Save fonts failed:', err);
+      alert('Failed to save: ' + (err as Error).message);
+    }
+  });
+
+  actions.append(cancelBtn, saveBtn);
+  modal.append(actions);
+  overlay.append(modal);
+  openModal(overlay);
 }
 
 // ─── Login settings modal ─────────────────────────────────

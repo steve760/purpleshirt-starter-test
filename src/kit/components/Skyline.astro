@@ -225,12 +225,9 @@ function buildTrainPath(): string {
 // ─── Resolve the chosen line-drawing path ──────────────────
 
 function buildPath(b: Backdrop): string {
-  switch (b) {
-    case 'waves': return buildWavesPath();
-    case 'train': return buildTrainPath();
-    case 'city':
-    default:      return buildCityPath();
-  }
+  if (b === 'waves') return buildWavesPath();
+  if (b === 'train') return buildTrainPath();
+  return buildCityPath();
 }
 
 const pathD = buildPath(backdrop);

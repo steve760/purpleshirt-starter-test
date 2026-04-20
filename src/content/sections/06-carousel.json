@@ -1,0 +1,30 @@
+{
+  "type": "carousel",
+  "variant": "auto",
+  "sectionNumber": "",
+  "menuLabel": "Key insights",
+  "heading": "What you told us",
+  "subtitle": "",
+  "items": [
+    {
+      "title": "Administrative burden is the real problem",
+      "description": "No matter which option you were looking at, volunteer workload kept coming up. The admin, compliance, and coordination work currently sitting with clubs is not sustainable, it is burning people out and putting clubs at risk. You were clear that tinkering around the edges will not fix it. The new model needs to tackle this head on."
+    },
+    {
+      "title": "You want the best of everything",
+      "description": "No single option got majority support on its own. What came through strongly was a preference for taking the best bits from across the options. Most often that meant combining the Club Partner relationship and needs-based support from Option B, the stability of Option A, and shifting the admin load to SLSNZ from Option C."
+    },
+    {
+      "title": "You know where the line should sit",
+      "description": "There was a lot of debate about shared services versus club autonomy, but you largely agreed on where the boundary should be. Things like admin, compliance, and financial processing make sense sitting with SLSNZ. Things like member engagement, club culture, and how your club operates day to day should stay with you. That boundary came through consistently across clubs, staff, and committees."
+    },
+    {
+      "title": "The Club Partner model is supported but conditional on execution",
+      "description": "The Club Partner concept received strong support across clubs, staff, and committees. However, that support came with a clear and consistent condition, the value of the role depends entirely on the calibre of the person in it. A single generalist role will not work. The role needs to be senior, backed by specialist expertise, and held to a high bar. \nRecruitment rigour and role clarity were identified as critical to getting this right."
+    },
+    {
+      "title": "You are ready for change, but trust is  built through well planned implementation",
+      "description": "The appetite for change across the movement is consistent. What came through just as strongly is scepticism about whether SLSNZ can execute. That scepticism is grounded in past experience, people named specific examples, including Project Groundswell, of commitments that were not executed well. The doubt is not about the model itself. It is about implementation. Confidence will be built through a well planned and human centred approach."
+    }
+  ]
+}

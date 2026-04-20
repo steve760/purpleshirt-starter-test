@@ -6,15 +6,11 @@
 .ps-floatnav { display: none; }
 
 @media (min-width: 1200px) {
+  /* Inline inside the header flex row — the header's align-items:center
+     handles vertical alignment with the logo and download button. */
   .ps-floatnav {
     display: block;
-    position: fixed;
-    bottom: 24px;
-    /* Match the header title's right edge (the `--maxw` container's right gutter). */
-    right: max(24px, calc((100% - var(--maxw)) / 2));
-    z-index: 90;
-    width: 260px;
-    pointer-events: auto;
+    position: relative;
   }
 
   /* ── Collapsed pill (always rendered; the click target) ── */
@@ -23,7 +19,7 @@
     display: flex;
     align-items: center;
     gap: 10px;
-    width: 100%;
+    width: 260px;
     padding: 6px 6px 6px 16px;
     background: var(--brand-primary-deep);
     border: 1px solid rgba(255, 255, 255, 0.06);
@@ -94,9 +90,9 @@
 
   .ps-floatnav-panel {
     position: absolute;
-    bottom: calc(100% + 8px);
-    left: 0;
+    top: calc(100% + 8px);
     right: 0;
+    width: 260px;
     max-height: calc(100vh - 120px);
     overflow: auto;
     background: color-mix(in srgb, var(--surface-card, #fff) 96%, transparent);

@@ -13,6 +13,8 @@ interface Props {
 }
 
 const { sectionNumber, heading, subtitle, items, dark = false } = Astro.props;
+const twoCol = items.length >= 6;
+const rows = Math.ceil(items.length / 2);
 ---
 
 <section class:list={['ps-section', 'ps-numlist-section', { 'ps-numlist-dark': dark }]}>
@@ -22,7 +24,10 @@ const { sectionNumber, heading, subtitle, items, dark = false } = Astro.props;
   </div>
   {subtitle && <p class="ps-numlist-subtitle">{subtitle}</p>}
 
-  <ol class="ps-numlist">
+  <ol
+    class:list={['ps-numlist', { 'ps-numlist-twocol': twoCol }]}
+    style={twoCol ? `--ps-numlist-rows: ${rows};` : undefined}
+  >
     {items.map((item, i) => (
       <li class="ps-numlist-item">
         <div class="ps-numlist-num">{String(i + 1).padStart(2, '0')}</div>

@@ -9,8 +9,7 @@
   /* subtle cool-blue tint — matches hand-drawn illustration paper */
   background-image: linear-gradient(180deg, color-mix(in srgb, var(--brand-primary) 4%, var(--surface)) 0%, var(--surface) 100%);
   min-height: 320px;
-  padding-top: 56px;
-  padding-bottom: 56px;
+  padding: 56px max(28px, calc((100% - var(--maxw)) / 2));
   display: flex;
   align-items: center;
 }
@@ -19,7 +18,7 @@
   position: relative;
   z-index: 2;
   width: 100%;
-  max-width: 880px;
+  max-width: var(--maxw);
   margin: 0 auto;
   text-align: center;
 }
@@ -75,12 +74,10 @@
   position: relative;
   margin: 0;
   font-family: var(--font-display);
-  font-weight: 700;
+  font-weight: 400;
   font-size: clamp(22px, 2.6vw, 32px);
   line-height: 1.3;
   color: var(--text);
-  max-width: 28ch;
-  margin-inline: auto;
 }
 
 .ps-qblock-mark {
@@ -156,5 +153,5 @@
 
 @media (max-width: 720px) {
   .ps-qblock-section { min-height: 280px; padding-top: 48px; padding-bottom: 48px; }
-  .ps-qblock-quote { font-size: clamp(22px, 6vw, 28px); max-width: 22ch; }
+  .ps-qblock-quote { font-size: clamp(22px, 6vw, 28px); }
 }
